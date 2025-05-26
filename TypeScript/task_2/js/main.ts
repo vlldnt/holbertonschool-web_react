@@ -41,3 +41,5 @@ function createEmployee(salary: number | string) {
     return new Director();
   }
 }
+console.log(createEmployee(499));
+console.log(createEmployee(500))
