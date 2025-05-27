@@ -11,7 +11,8 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["ES2020", "DOM"],
-    "strict": true
+    "strict": true,
+    "outFile": "./dist/main.js"
   },
   "include": ["js/**/*.ts"]
 }
