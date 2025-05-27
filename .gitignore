@@ -3,6 +3,4 @@ package-lock.json
 package.json
 tsconfig.jsonwebpack.config.json
 .eslintrc.js
-tsconfig.json
-webpack.config.js
 dist/
