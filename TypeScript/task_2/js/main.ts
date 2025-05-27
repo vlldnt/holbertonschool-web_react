@@ -54,8 +54,20 @@ function executeWork(employee: Teacher | Director) {
   }
 }
 
+type Subject = "Math" | "History";
+
+function teachClass(todayClass: Subject) {
+  if (todayClass === "Math") {
+    return "Teaching Math";
+  } else {
+    return "Teaching History"
+  }
+}
+
 console.log(createEmployee(499));
 console.log(createEmployee(500));
 console.log(createEmployee("$499"));
 console.log(executeWork(createEmployee(499)));
 console.log(executeWork(createEmployee(500)));
+console.log(teachClass("Math"));
+console.log(teachClass("History"));
