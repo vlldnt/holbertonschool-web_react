@@ -1,9 +1,5 @@
-const $ = require( "jquery" );
+import $ from "jquery";
 
-if (typeof window !== "undefined") {
-  window.$ = window.jQuery = $;
-}
-
-$('body').append('<p>Holberton Dashboard</p>');
-$('body').append('<p>Dashboard <strong>data for</strong> the students</p>');
-$('body').append('<p>Copyright - Holberton School</p>');
+$("body").append("<p>Holberton Dashboard</p>");
+$("body").append("<p>Dashboard data for the students</p>");
+$("body").append("<p>Copyright - Holberton School</p>");
