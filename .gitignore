@@ -1,6 +1,3 @@
 node_modules/
-package-lock.json
-package.json
-tsconfig.jsonwebpack.config.json
-.eslintrc.js
-dist/
+main.js
+main.js*.txt
