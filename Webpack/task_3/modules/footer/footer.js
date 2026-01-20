@@ -2,5 +2,5 @@ import './footer.css';
 import $ from 'jquery';
 
 $(function () {
-  $('body').append('<p class="footer">Copyright - Holberton School</p>');
+  $('body').append('<p>Copyright - Holberton School</p>');
 });
