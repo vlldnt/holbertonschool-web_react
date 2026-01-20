@@ -1,6 +1,5 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { get } = require('jquery');
 const path = require('path');
 
 module.exports = {
