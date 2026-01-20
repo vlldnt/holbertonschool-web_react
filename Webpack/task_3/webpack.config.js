@@ -1,4 +1,6 @@
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { get } = require('jquery');
 const path = require('path');
 
 module.exports = {
@@ -34,6 +36,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new CleanWebpackPlugin,
     new HtmlWebpackPlugin({
       hash: true,
       filename: 'index.html'
