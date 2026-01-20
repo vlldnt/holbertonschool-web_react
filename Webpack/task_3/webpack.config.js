@@ -24,6 +24,7 @@ module.exports = {
       directory: path.resolve(__dirname, 'public'),
     },
     port: 8564,
+    open: true,
   },
   module: {
     rules: [
