@@ -1,12 +1,23 @@
 const path = require('path');
 
 module.exports = {
-  entry: './js/dashboard_main.js',
+  entry: {
+    header: './modules/header/header.js',
+    body: './modules/body/body.js',
+    footer: './modules/footer/footer.js',
+  },
+    
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'public'),
   },
   mode: 'development',
+  devServer: {
+    static: {
+      directory: path.resolve(__dirname, 'public'),
+    },
+    port: 8564,
+  },
   module: {
     rules: [
       {
