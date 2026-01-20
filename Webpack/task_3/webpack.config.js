@@ -37,8 +37,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin,
     new HtmlWebpackPlugin({
-      hash: true,
-      filename: 'index.html'
+      title: 'Holberton Webpack'
     })
   ]
 };
