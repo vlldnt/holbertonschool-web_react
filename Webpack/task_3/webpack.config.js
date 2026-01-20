@@ -7,12 +7,18 @@ module.exports = {
     header: './modules/header/header.js',
     body: './modules/body/body.js',
     footer: './modules/footer/footer.js',
-  }, 
+  },
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'public'),
   },
   mode: 'development',
+  devtool: 'inline-source-map',
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   devServer: {
     static: {
       directory: path.resolve(__dirname, 'public'),
@@ -35,9 +41,9 @@ module.exports = {
     ],
   },
   plugins: [
-    new CleanWebpackPlugin,
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Holberton Webpack'
-    })
-  ]
+      title: 'Holberton Webpack',
+    }),
+  ],
 };
