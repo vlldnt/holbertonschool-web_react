@@ -29,14 +29,20 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
-        use: ['file-loader'],
       },
     ],
   },
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: './public',
+    static: {
+      directory: path.resolve(__dirname, 'public'),
+    },
     port: 8564,
   },
   mode: 'development',
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
 };
