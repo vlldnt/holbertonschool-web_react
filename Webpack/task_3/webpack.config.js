@@ -4,13 +4,15 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    header: './modules/header/header.js',
-    body: './modules/body/body.js',
-    footer: './modules/footer/footer.js',
+    all: [
+      './modules/header/header.js',
+      './modules/body/body.js',
+      './modules/footer/footer.js',
+    ],
   },
   output: {
-    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'public'),
+    filename: '[name].bundle.js',
   },
   mode: 'development',
   devtool: 'inline-source-map',
@@ -24,7 +26,6 @@ module.exports = {
       directory: path.resolve(__dirname, 'public'),
     },
     port: 8564,
-    open: true,
   },
   module: {
     rules: [
