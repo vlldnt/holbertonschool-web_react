@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import App from './App.jsx';
 
 test('"School Dashboard" written in a h1', () => {
   render(<App />);
@@ -25,8 +25,8 @@ test('text content within the 2 p elements', () => {
 test('Is an image rendered', () => {
   render(<App />);
   const image = screen.getAllByRole('img');
-  expect(image.length).toBe(1);
-  const alt = image[0].getAttribute('alt') || '';
+  expect(image.length).toBe(2);
+  const alt = image[1].getAttribute('alt') || '';
   expect(alt.toLowerCase()).toBe('holberton logo');
 });
 
