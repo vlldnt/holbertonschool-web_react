@@ -1,12 +1,11 @@
+:root {
+    font-family: sans-serif
+}
+
 .root-notifications {
     border: 3px red dotted;
     padding: 0 1rem;
 }
-
-.notification-items {
-    font-family: sans-serif
-}
-
 
 ul li {
     color: red
@@ -17,7 +16,7 @@ ul li:first-child {
 }
 
 button {
-    font-weight: bold;
+    font-weight: 400;
 }
 
 [aria-label="Close"] {
