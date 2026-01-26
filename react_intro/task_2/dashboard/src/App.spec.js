@@ -41,8 +41,8 @@ test('renders 2 input elements', () => {
 
 test('renders 2 label elements with text Email and Password', () => {
   render(<App />);
-  const emailLabel = screen.getByText(/email/i);
-  const passwordLabel = screen.getByText(/password/i);
+  const emailLabel = screen.getByLabelText(/email/i);
+  const passwordLabel = screen.getByLabelText(/password/i);
 
   expect(emailLabel).toBeInTheDocument();
   expect(passwordLabel).toBeInTheDocument();
