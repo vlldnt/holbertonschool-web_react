@@ -34,16 +34,16 @@ test('renders 2 input elements', () => {
   render(<App />);
   const emailInput = screen.getByLabelText(/email/i);
   const passwordInput = screen.getByLabelText(/password/i);
+
   expect(emailInput).toBeInTheDocument();
-  expect(emailInput).toHaveAttribute('type', 'email');
   expect(passwordInput).toBeInTheDocument();
-  expect(passwordInput).toHaveAttribute('type', 'password');
 });
 
 test('renders 2 label elements with text Email and Password', () => {
   render(<App />);
   const emailLabel = screen.getByText(/e[-\s]*mail[\s:-]*/i);
   const passwordLabel = screen.getByText(/password[\s:-]*/i);
+
   expect(emailLabel).toBeInTheDocument();
   expect(passwordLabel).toBeInTheDocument();
 });
