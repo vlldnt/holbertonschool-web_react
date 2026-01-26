@@ -16,7 +16,7 @@ ul li:first-child {
 }
 
 button {
-    font-weight: 400;
+    font-weight:bold;
 }
 
 [aria-label="Close"] {
