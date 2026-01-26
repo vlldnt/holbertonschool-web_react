@@ -32,15 +32,24 @@ test('Is an image rendered', () => {
 
 test('renders 2 input elements', () => {
   render(<App />);
-  const emailRegex = /e[-\s]*mail[\s:-]*/i;
-  const emailInput = screen.getByLabelText(emailRegex);
-
-  const passwordRegex = /password[\s:-]*/i;
-  const passwordInput = screen.getByLabelText(passwordRegex);
-
+  const emailInput = screen.getByLabelText(/email/i);
+  const passwordInput = screen.getByLabelText(/password/i);
   expect(emailInput).toBeInTheDocument();
   expect(emailInput).toHaveAttribute('type', 'email');
-
   expect(passwordInput).toBeInTheDocument();
   expect(passwordInput).toHaveAttribute('type', 'password');
+});
+
+test('renders 2 label elements with text Email and Password', () => {
+  render(<App />);
+  const emailLabel = screen.getByText(/e[-\s]*mail[\s:-]*/i);
+  const passwordLabel = screen.getByText(/password[\s:-]*/i);
+  expect(emailLabel).toBeInTheDocument();
+  expect(passwordLabel).toBeInTheDocument();
+});
+
+test('renders one button', () => {
+  render(<App />);
+  const button = screen.getByRole('button', { name: 'OK' });
+  expect(button).toBeInTheDocument();
 });
