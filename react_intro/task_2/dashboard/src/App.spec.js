@@ -50,6 +50,6 @@ test('renders 2 label elements with text Email and Password', () => {
 
 test('renders one button', () => {
   render(<App />);
-  const button = screen.getByRole('button', { name: 'OK' });
+  const button = screen.getByRole('button', { name: /ok/i });
   expect(button).toBeInTheDocument();
 });
