@@ -1,0 +1,8 @@
+.root-notifications {
+    border: 3px red dotted;
+    padding: 0 1rem;
+}
+
+.notification-items {
+    font-family: sans-serif
+}
