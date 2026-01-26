@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import App from './src/App';
+import App from './App';
 
 test('"School Dashboard" written in a h1', async () => {
   render(<App />);
@@ -20,5 +20,6 @@ test('Is an image rendered', () => {
   render(<App />);
   const image = screen.getAllByRole('img');
   expect(image.length).toBe(1);
-  expect(image[0]).toHaveProperty('alt', 'holberton logo');
+  const alt = image[0].getAttribute('alt') || '';
+  expect(alt.toLowerCase()).toBe('holberton logo');
 });
