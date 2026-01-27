@@ -24,14 +24,16 @@ test('text content within the 2 p elements', () => {
 
 test('Is an image rendered', () => {
   render(<App />);
-  const image = screen.getByAltText(/holberton logo/i);
-  expect(image).toBeInTheDocument();
+  const image = screen.getAllByRole('img');
+  expect(image.length).toBe(1);
+  const alt = image[0].getAttribute('alt') || '';
+  expect(alt.toLowerCase()).toBe('holberton logo');
 });
 
 test('renders 2 input elements', () => {
-  const { container } = render(<App />);
-  const emailInput = container.querySelector('input[type="email"]');
-  const passwordInput = container.querySelector('input[type="password"]');
+  render(<App />);
+  const emailInput = screen.getByLabelText(/email/i);
+  const passwordInput = screen.getByLabelText(/password/i);
 
   expect(emailInput).toBeInTheDocument();
   expect(passwordInput).toBeInTheDocument();
@@ -39,8 +41,8 @@ test('renders 2 input elements', () => {
 
 test('renders 2 label elements with text Email and Password', () => {
   render(<App />);
-  const emailLabel = screen.getByText(/email/i);
-  const passwordLabel = screen.getByText(/password/i);
+  const emailLabel = screen.getByLabelText(/email/i);
+  const passwordLabel = screen.getByLabelText(/password/i);
 
   expect(emailLabel).toBeInTheDocument();
   expect(passwordLabel).toBeInTheDocument();
