@@ -7,12 +7,12 @@
     padding: 0 1rem;
 }
 
-ul li {
-    color: red
+[data-priority="default"] {
+  color: blue;
 }
 
-ul li:first-child {
-    color: blue;
+[data-priority="urgent"] {
+  color: red;
 }
 
 button {

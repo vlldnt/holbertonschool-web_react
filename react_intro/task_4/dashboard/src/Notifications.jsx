@@ -10,10 +10,10 @@ function Notifications() {
     <div className="notifications-items">
       <p>Here is the list of notifications</p>
       <ul>
-        <li data-priority="1">New course available</li>
-        <li data-priority="2">New resume available</li>
+        <li data-priority="default">New course available</li>
+        <li data-priority="urgent">New resume available</li>
         <li
-          data-priority="3"
+          data-priority="urgent"
           dangerouslySetInnerHTML={{ __html: getLatestNotifications() }}
         ></li>
       </ul>
