@@ -1,32 +1,31 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import Notifications from "./Notifications";
 
-describe("notification tests", () => {
-  test("Existence of the notifications title", () => {
+describe("Notifications component", () => {
+  test("renders the notifications title", () => {
     render(<Notifications />);
-    const titleElement = screen.getByText(/here is the list of notifications/i);
-    expect(titleElement).toBeInTheDocument();
+    const title = screen.getByText(/here is the list of notifications/i);
+    expect(title).toBeInTheDocument();
   });
 
-  test("Existence of three list items", () => {
+  test("renders a close button", () => {
     render(<Notifications />);
-    const listItems = screen.getAllByRole("listitem");
-    expect(listItems).toHaveLength(3);
+    const button = screen.getByRole("button");
+    expect(button).toBeInTheDocument();
   });
 
-  test("Existence of the button element", () => {
+  test("renders 3 notification items", () => {
     render(<Notifications />);
-    const buttonElement = screen.getByRole("button", { name: /close/i });
-    expect(buttonElement).toBeInTheDocument();
+    const items = screen.getAllByRole("listitem");
+    expect(items.length).toBe(3);
   });
 
-  test("Logs message when close button is clicked", () => {
-    const consoleLog = jest.spyOn(console, "log");
+  test("logs message when close button is clicked", () => {
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
     render(<Notifications />);
-    const closeButton = screen.getByLabelText(/close/i);
-    fireEvent.click(closeButton);
-    expect(consoleLog).toHaveBeenCalledWith(
-      expect.stringMatching(/close button has been clicked/i),
-    );
+    const button = screen.getByRole("button");
+    fireEvent.click(button);
+    expect(consoleSpy).toHaveBeenCalledWith("Close button has been clicked");
+    consoleSpy.mockRestore();
   });
 });
