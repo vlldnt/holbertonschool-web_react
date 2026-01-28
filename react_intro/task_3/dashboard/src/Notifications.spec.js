@@ -27,6 +27,8 @@ describe('Notifications tests', () => {
     render(<Notifications />);
     const button = screen.getByRole('button', { name: /Close/i });
     fireEvent.click(button);
-    expect(consoleSpy).toHaveBeenCalledWith(expect.stringMatching(/Close button has been clicked/i));
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringMatching(/Close button has been clicked/i),
+    );
   });
 });
