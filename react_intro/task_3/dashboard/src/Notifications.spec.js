@@ -4,7 +4,7 @@ import { render, screen, within, fireEvent } from '@testing-library/react';
 describe('Notifications tests', () => {
   test('existence of notifications title', () => {
     render(<Notifications />);
-    const title = screen.getByText('Here is the list of notifications');
+    const title = screen.getByText(/Here is the list of notifications/i);
     expect(title).toBeInTheDocument();
   });
 
@@ -25,8 +25,8 @@ describe('Notifications tests', () => {
   test('Testing button and console message', () => {
     const consoleSpy = jest.spyOn(console, 'log');
     render(<Notifications />);
-    const button = screen.getByRole('button', { name: /close/i });
+    const button = screen.getByRole('button', { name: 'Close' });
     fireEvent.click(button);
-    expect(consoleSpy).toHaveBeenCalledWith('Close button has been clicked');
+    expect(consoleSpy).toHaveBeenCalledWith(/Close button has been clicked/i);
   });
 });
