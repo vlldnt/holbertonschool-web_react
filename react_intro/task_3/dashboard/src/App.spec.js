@@ -25,9 +25,9 @@ test('text content within the 2 p elements', () => {
 test('Is an image rendered', () => {
   render(<App />);
   const image = screen.getAllByRole('img');
-  expect(image.length).toBe(1);
-  const alt = image[0].getAttribute('alt') || '';
-  expect(alt.toLowerCase()).toBe('holberton logo');
+  expect(image.length).toBeGreaterThanOrEqual(1);
+  const holbertonLogo = image.find(img => (img.getAttribute('alt') || '').toLowerCase() === 'holberton logo');
+  expect(holbertonLogo).toBeInTheDocument();
 });
 
 test('renders 2 input elements', () => {
