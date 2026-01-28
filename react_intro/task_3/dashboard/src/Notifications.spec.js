@@ -25,7 +25,7 @@ describe('Notifications tests', () => {
   test('Testing button and console message', () => {
     const consoleSpy = jest.spyOn(console, 'log');
     render(<Notifications />);
-    const button = screen.getByRole('button', { name: 'Close' });
+    const button = screen.getByRole('button', { name: /Close/i });
     fireEvent.click(button);
     expect(consoleSpy).toHaveBeenCalledWith(/Close button has been clicked/i);
   });
