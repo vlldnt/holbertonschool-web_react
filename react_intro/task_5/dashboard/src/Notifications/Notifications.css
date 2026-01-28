@@ -8,15 +8,15 @@
 }
 
 [data-priority="default"] {
-  color: blue;
+    color: blue;
 }
 
 [data-priority="urgent"] {
-  color: red;
+    color: red;
 }
 
 button {
-    font-weight:bold;
+    font-weight: bold;
 }
 
 [aria-label="Close"] {

@@ -25,6 +25,8 @@ describe('notification tests', () => {
     render(<Notifications />);
     const closeButton = screen.getByLabelText(/close/i);
     fireEvent.click(closeButton);
-    expect(consoleLog).toHaveBeenCalledWith(expect.stringMatching(/close button has been clicked/i));
+    expect(consoleLog).toHaveBeenCalledWith(
+      expect.stringMatching(/close button has been clicked/i),
+    );
   });
 });
