@@ -19,7 +19,7 @@ test('text content within the 2 p elements', () => {
   expect(appBodyP.textContent).toBe(/Login to access the full dashboard/i);
 
   expect(appFooterP).toBeInTheDocument();
-  expect(appFooterP.textContent).toMatch(/Copyright \d{4}/);
+  expect(appFooterP.textContent).toMatch(/Copyright \d{4}/i);
 });
 
 test('Is an image rendered', () => {
