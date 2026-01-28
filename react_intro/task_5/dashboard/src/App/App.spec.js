@@ -24,8 +24,10 @@ test('text content within the 2 p elements', () => {
 
 test('Is an image rendered', () => {
   render(<App />);
-  const image = screen.getByAltText(/holberton logo/i);
-  expect(image).toBeInTheDocument();
+  const image = screen.getAllByRole('img');
+  expect(image.length).toBe(2);
+  const alt = image[1].getAttribute('alt') || '';
+  expect(alt.toLowerCase()).toBe('holberton logo');
 });
 
 test('renders 2 input elements', () => {

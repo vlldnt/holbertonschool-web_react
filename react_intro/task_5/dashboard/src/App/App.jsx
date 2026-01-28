@@ -2,7 +2,7 @@ import './App.css';
 import '../Notifications/Notifications.css';
 import Notifications from '../Notifications/Notifications.jsx';
 import logo from '../assets/holberton-logo.jpg';
-import { getFooterCopy } from '../utils/utils';
+import { getFooterCopy } from '../utils/utils.js';
 
 function App() {
   const currentYear = new Date().getFullYear();
