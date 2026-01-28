@@ -14,6 +14,12 @@ describe("notification tests", () => {
     expect(listItems).toHaveLength(3);
   });
 
+  test("Existence of the button element", () => {
+    render(<Notifications />);
+    const buttonElement = screen.getByRole("button", { name: /close/i });
+    expect(buttonElement).toBeInTheDocument();
+  });
+
   test("Logs message when close button is clicked", () => {
     const consoleLog = jest.spyOn(console, "log");
     render(<Notifications />);
