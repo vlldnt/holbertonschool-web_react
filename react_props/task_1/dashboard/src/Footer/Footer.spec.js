@@ -16,7 +16,9 @@ test('Tests if Footer rendering', () => {
 test('Footer p element renders correct copyright text when isIndex is true', () => {
   render(<Footer />);
   const currentYear = getCurrentYear();
-  const paragraph = screen.getByText(`Copyright ${currentYear} Holberton School`);
+  const paragraph = screen.getByText(
+    `Copyright ${currentYear} Holberton School`,
+  );
   expect(paragraph).toBeInTheDocument();
   expect(paragraph.tagName).toBe('P');
 });
