@@ -2,10 +2,9 @@ import './App.css';
 import '../Notifications/Notifications.css';
 import Notifications from '../Notifications/Notifications.jsx';
 import logo from '../assets/holberton-logo.jpg';
-import { getFooterCopy } from '../utils/utils.js';
+import { getCurrentYear, getFooterCopy } from '../utils/utils.js';
 
 function App() {
-  const currentYear = new Date().getFullYear();
 
   return (
     <div>
@@ -29,7 +28,7 @@ function App() {
       </div>
       <div className="App-footer">
         <p>
-          Copyright {currentYear} {getFooterCopy()}
+          Copyright {getCurrentYear} {getFooterCopy()}
         </p>
       </div>
     </div>
