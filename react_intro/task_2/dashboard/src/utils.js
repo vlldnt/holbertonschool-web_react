@@ -1,5 +1,5 @@
 export function getCurrentYear() {
-  return Date().getFullYear();
+  return new Date().getFullYear();
 }
 
 export function getFooterCopy(isIndex) {
