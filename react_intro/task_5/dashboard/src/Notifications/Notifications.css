@@ -1,0 +1,37 @@
+:root {
+    font-family: sans-serif
+}
+
+.root-notifications {
+    border: 3px red dotted;
+    padding: 0 1rem;
+}
+
+[data-priority="default"] {
+  color: blue;
+}
+
+[data-priority="urgent"] {
+  color: red;
+}
+
+button {
+    font-weight:bold;
+}
+
+[aria-label="Close"] {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: white;
+    border: none;
+}
+
+
+label {
+    margin-right: 0.75rem;
+}
+
+input {
+    margin-right: 0.75rem;
+}
