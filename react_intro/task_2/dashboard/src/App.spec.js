@@ -16,7 +16,7 @@ test('text content within the 2 p elements', () => {
   const appFooterP = container.querySelector('.App-footer p');
 
   expect(appBodyP).toBeInTheDocument();
-  expect(appBodyP.textContent).toBe(/Login to access the full dashboard/i);
+  expect(appBodyP.textContent).toMatch(/Login to access the full dashboard/i);
 
   expect(appFooterP).toBeInTheDocument();
   expect(appFooterP.textContent).toMatch(/Copyright \d{4}/i);
