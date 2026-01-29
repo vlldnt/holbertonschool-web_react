@@ -1,37 +1,17 @@
-:root {
-    font-family: sans-serif
+.notification-items {
+  border: 2px dotted #e1003c;
+  padding-left: 10px;
 }
 
-.root-notifications {
-    border: 3px red dotted;
-    padding: 0 1rem;
+button img {
+  width: 8px;
+  height: 8px;
 }
 
 [data-priority="default"] {
-    color: blue;
+  color: blue;
 }
 
 [data-priority="urgent"] {
-    color: red;
-}
-
-button {
-    font-weight: bold;
-}
-
-[aria-label="Close"] {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background-color: white;
-    border: none;
-}
-
-
-label {
-    margin-right: 0.75rem;
-}
-
-input {
-    margin-right: 0.75rem;
+  color: #e1003c;
 }
