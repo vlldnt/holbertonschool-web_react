@@ -1,4 +1,5 @@
 .App-footer {
-  text-align: center;
-  font-style: italic;
+  display: flex;
+  justify-content: center;
+  border-top: 2px solid #e1003c;
 }
