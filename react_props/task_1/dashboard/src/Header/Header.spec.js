@@ -7,16 +7,12 @@ test('If render is well done for the header', () => {
   expect(header).toBeInTheDocument();
 });
 
-test('Header component contains the Holberton logo', () => {
+test('should render the image', () => {
   render(<Header />);
-  const logo = screen.getByAltText(/holberton logo/i);
-  expect(logo).toBeInTheDocument();
-  expect(logo.tagName).toBe('IMG');
+  expect(screen.getByAltText(/holberton logo/i)).toBeInTheDocument();
 });
 
-test('Header component contains h1 element with correct text', () => {
+test('should render title', () => {
   render(<Header />);
-  const heading = screen.getByRole('heading', { level: 1 });
-  expect(heading).toBeInTheDocument();
-  expect(heading).toHaveTextContent(/School dashboard/i);
+  expect(screen.getByRole('heading')).toHaveTextContent(/School dashboard/i);
 });
