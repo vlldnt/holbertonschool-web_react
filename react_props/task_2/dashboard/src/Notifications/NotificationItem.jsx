@@ -3,13 +3,19 @@ function NotificationItem({ type, html, value }) {
     color: type === 'urgent' ? 'red' : 'blue',
   };
 
+  if (html) {
+    return (
+      <li
+        data-notification-type={type}
+        style={style}
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    );
+  }
+
   return (
     <li data-notification-type={type} style={style}>
-      {html ? (
-        <span dangerouslySetInnerHTML={{ __html: html }} />
-      ) : (
-        value
-      )}
+      {value}
     </li>
   );
 }
