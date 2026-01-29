@@ -1,11 +1,8 @@
 import closeButton from '../assets/close-button.png';
 import './Notifications.css';
-import { getLatestNotification } from '../utils/utils.js';
 import NotificationItem from './NotificationItem.jsx';
 
 function Notifications({ notifications = [] }) {
-  const markup = { __html: getLatestNotification() };
-
   return (
     <div className="root-notifications">
       <div className="notification-items">
@@ -13,6 +10,7 @@ function Notifications({ notifications = [] }) {
         <ul>
           {notifications.map((notif) => (
             <NotificationItem
+              key={notif.id}
               type={notif.type}
               value={notif.value}
               html={notif.html}
