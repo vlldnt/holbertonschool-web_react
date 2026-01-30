@@ -1,13 +1,15 @@
-import "./Login.css";
+import './Login.css';
 
 function Login() {
   return (
     <div className="App-body">
       <p>Login to access the full dashboard</p>
-      <label htmlFor="email">Email:</label>
-      <input type="email" id="email" />
-      <label htmlFor="password">Password:</label>
-      <input type="password" id="password" />
+      <form>
+        <label htmlFor="email">Email:</label>
+        <input type="email" id="email" autoComplete="email" />
+        <label htmlFor="password">Password:</label>
+        <input type="password" id="password" autoComplete="current-password" />
+      </form>
       <button>OK</button>
     </div>
   );
