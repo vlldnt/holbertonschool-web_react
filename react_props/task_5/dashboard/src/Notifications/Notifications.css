@@ -1,0 +1,32 @@
+.root-notifications {
+  width: 30%;
+  min-width: 25rem;
+  right: 0;
+  position: absolute;
+  margin-right: 0.4rem;
+}
+
+.notification-items {
+  border: 2px dotted #e1003c;
+  padding-left: 10px;
+}
+
+.close-button {
+  width: 8px;
+  height: 8px;
+  border: 0;
+  background: none;
+  position: absolute;
+  top: 2.4rem;
+  right: 1.2rem;
+}
+
+.close-button img {
+  width: 8px;
+  height: 8px;
+}
+
+.notifications-title p {
+  margin: 0 0 0.4rem 0;
+  text-align: right;
+}
