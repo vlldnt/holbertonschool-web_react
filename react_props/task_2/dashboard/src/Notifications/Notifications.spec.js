@@ -13,6 +13,13 @@ test('should render title', () => {
   expect(screen.getByText(/Here is the list of notifications/i));
 });
 
+test('should render without crashing when no notifications prop is passed', () => {
+  render(<Notifications />);
+  expect(screen.getByText(/Here is the list of notifications/i)).toBeInTheDocument();
+  expect(screen.getByLabelText(/close/i)).toBeInTheDocument();
+  expect(screen.queryAllByRole('listitem')).toHaveLength(0);
+});
+
 test('should render button in notifications', () => {
   render(<Notifications notifications={notificationsList} />);
   expect(screen.getByLabelText(/close/i));
