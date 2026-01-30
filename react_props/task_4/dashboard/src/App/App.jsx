@@ -6,7 +6,7 @@ import Login from '../Login/Login.jsx';
 import Footer from '../Footer/Footer.jsx';
 import CourseList from '../CourseList/CourseList.jsx';
 
-function App() {
+function App({ isLoggedIn = false }) {
   const notificationsList = [
     { id: 1, type: 'default', value: 'New course available' },
     { id: 2, type: 'urgent', value: 'New resume available' },
@@ -19,13 +19,11 @@ function App() {
     { id: 3, name: 'React', credit: 40 },
   ];
 
-  const isLogged = false;
-
   return (
     <>
       <Notifications notifications={notificationsList} />
       <Header />
-      {isLogged ? <CourseList courses={coursesList} /> : <Login />}
+      {isLoggedIn ? <CourseList courses={coursesList} /> : <Login />}
       <Footer />
     </>
   );
