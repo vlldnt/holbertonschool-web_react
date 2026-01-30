@@ -21,10 +21,24 @@ test('should render button in notifications', () => {
 test('should render 3 notification items with appropriate text', () => {
   render(<Notifications notifications={notificationsList} />);
   const items = screen.getAllByRole('listitem');
-  expect(items.length).toBe(3);
-  expect(screen.getByText('New course available')).toBeInTheDocument();
-  expect(screen.getByText('New resume available')).toBeInTheDocument();
-  expect(screen.getByText('Urgent requirement')).toBeInTheDocument();
+
+  expect(items).toHaveLength(3);
+
+  expect(items[0]).toHaveTextContent('New course available');
+  expect(items[0]).toHaveAttribute('data-notification-type', 'default');
+  expect(items[0]).toHaveStyle({ color: 'blue' });
+
+  expect(items[1]).toHaveTextContent('New resume available');
+  expect(items[1]).toHaveAttribute('data-notification-type', 'urgent');
+  expect(items[1]).toHaveStyle({ color: 'red' });
+
+  expect(items[2]).toHaveTextContent('Urgent requirement - complete by EOD');
+  expect(items[2]).toHaveAttribute('data-notification-type', 'urgent');
+  expect(items[2]).toHaveStyle({ color: 'red' });
+
+  const strongElement = items[2].querySelector('strong');
+  expect(strongElement).toBeInTheDocument();
+  expect(strongElement).toHaveTextContent('Urgent requirement');
 });
 
 test('should log message when close button is clicked', () => {
