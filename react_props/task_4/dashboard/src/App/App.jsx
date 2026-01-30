@@ -1,9 +1,10 @@
 import './App.css';
+import { getLatestNotification } from '../utils/utils.js';
 import Notifications from '../Notifications/Notifications.jsx';
 import Header from '../Header/Header.jsx';
 import Login from '../Login/Login.jsx';
 import Footer from '../Footer/Footer.jsx';
-import { getLatestNotification } from '../utils/utils.js';
+import CourseList from '../CourseList/CourseList.jsx';
 
 function App() {
   const notificationsList = [
@@ -12,11 +13,19 @@ function App() {
     { id: 3, type: 'urgent', html: getLatestNotification() },
   ];
 
+  const coursesList = [
+    { id: 1, name: 'ES6', credit: 60 },
+    { id: 2, name: 'Webpack', credit: 20 },
+    { id: 3, name: 'React', credit: 40 },
+  ];
+
+  const isLogged = false;
+
   return (
     <>
       <Notifications notifications={notificationsList} />
       <Header />
-      <Login />
+      {isLogged ? <CourseList courses={coursesList} /> : <Login />}
       <Footer />
     </>
   );
