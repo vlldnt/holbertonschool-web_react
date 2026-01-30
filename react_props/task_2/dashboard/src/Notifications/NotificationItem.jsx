@@ -8,7 +8,7 @@ function NotificationItem({ type, html, value }) {
       <li
         data-notification-type={type}
         style={style}
-        dangerouslySetInnerHTML={{ __html: html }}
+        dangerouslySetInnerHTML={typeof html === 'object' ? html : { __html: html }}
       />
     );
   }
