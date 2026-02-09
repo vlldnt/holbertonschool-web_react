@@ -8,6 +8,27 @@ import Footer from '../Footer/Footer.jsx';
 import CourseList from '../CourseList/CourseList.jsx';
 
 class App extends React.Component {
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleKeyDown = (event) => {
+    if (event.ctrlKey && event.key === 'h') {
+      alert('Logging you out');
+      this.logout();
+    }
+  };
+
+  logout() {
+    console.log('User logged out');
+
+    return;
+  }
+
   render() {
     const { isLoggedIn = false } = this.props;
     const notificationsList = [
