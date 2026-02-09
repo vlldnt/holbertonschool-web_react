@@ -4,7 +4,9 @@ import App from './App.jsx';
 
 test('should render title', () => {
   render(<App />);
-  expect(screen.getByRole('heading')).toHaveTextContent(/School dashboard/i);
+  expect(
+    screen.getByRole('heading', { name: /School dashboard/i }),
+  ).toBeInTheDocument();
 });
 
 test('should render two paragraphs', () => {
@@ -76,4 +78,14 @@ test('test logout with ctrl + h : alert called', () => {
   document.dispatchEvent(event);
   expect(alertMock).toHaveBeenCalledWith('Logging you out');
   alertMock.mockRestore();
+});
+
+test('should display News section title and default paragraph', () => {
+  render(<App />);
+  expect(
+    screen.getByRole('heading', { name: /News from the School/i }),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByText(/Holberton School News goes here/i),
+  ).toBeInTheDocument();
 });
