@@ -8,6 +8,10 @@ import Footer from '../Footer/Footer.jsx';
 import CourseList from '../CourseList/CourseList.jsx';
 
 class App extends React.Component {
+  static defaultProps = {
+    logOut: () => {},
+  };
+
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown);
   }
@@ -24,9 +28,7 @@ class App extends React.Component {
   };
 
   logout() {
-    console.log('User logged out');
-
-    return;
+    this.props.logOut();
   }
 
   render() {

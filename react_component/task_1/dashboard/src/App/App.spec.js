@@ -1,4 +1,4 @@
-import { expect, test } from '@jest/globals';
+import { expect, jest, test } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import App from './App.jsx';
 
@@ -52,4 +52,28 @@ test('should render a CourseList table when isLoggedIn is true', () => {
   expect(
     screen.queryByText(/Login to access the full dashboard/i),
   ).not.toBeInTheDocument();
+});
+
+test('test logout with ctrl + h : logOut() called', () => {
+  const logOutMock = jest.fn();
+  jest.spyOn(window, 'alert').mockImplementation(() => {});
+  render(<App logOut={logOutMock} />);
+  const event = new KeyboardEvent('keydown', {
+    key: 'h',
+    ctrlKey: true,
+  });
+  document.dispatchEvent(event);
+  expect(logOutMock).toHaveBeenCalledTimes(1);
+});
+
+test('test logout with ctrl + h : alert called', () => {
+  const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
+  render(<App />);
+  const event = new KeyboardEvent('keydown', {
+    key: 'h',
+    ctrlKey: true,
+  });
+  document.dispatchEvent(event);
+  expect(alertMock).toHaveBeenCalledWith('Logging you out');
+  alertMock.mockRestore();
 });
