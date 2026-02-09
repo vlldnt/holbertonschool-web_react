@@ -1,5 +1,5 @@
 import NotificationItem from './NotificationItem';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 
 describe('NotificationItem', () => {
   test('li has blue color and data-notification-type is default when type is default', () => {
@@ -14,5 +14,39 @@ describe('NotificationItem', () => {
     const item = screen.getByRole('listitem');
     expect(item).toHaveStyle({ color: 'red' });
     expect(item).toHaveAttribute('data-notification-type', 'urgent');
+  });
+
+  test('markAsRead is called with the right ID when notification item is clicked', () => {
+    const markAsReadMock = jest.fn();
+    const testId = 123;
+    render(
+      <NotificationItem
+        type="default"
+        value="Test notification"
+        id={testId}
+        markAsRead={markAsReadMock}
+      />,
+    );
+    const item = screen.getByRole('listitem');
+    fireEvent.click(item);
+
+    expect(markAsReadMock).toHaveBeenCalledTimes(1);
+    expect(markAsReadMock).toHaveBeenCalledWith(testId);
+  });
+
+  test('logs correct message to console when notification item is clicked', () => {
+    const consoleLogSpy = jest
+      .spyOn(console, 'log')
+      .mockImplementation(() => {});
+    render(
+      <NotificationItem type="default" value="Test notification" id="1" />,
+    );
+    const item = screen.getByRole('listitem');
+    fireEvent.click(item);
+    expect(consoleLogSpy).toHaveBeenCalledTimes(1);
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      'Notification 1 has been marked as read',
+    );
+    consoleLogSpy.mockRestore();
   });
 });
