@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
 import React from 'react';
 import WithLogging from './WithLogging';
 
@@ -7,6 +7,8 @@ class MockApp extends React.Component {
     return <h1>Hello from Mock App Component</h1>;
   }
 }
+
+afterEach(cleanup);
 
 test('test the WithLogging HOC render', () => {
   const MockAppWithLogging = WithLogging(MockApp);
