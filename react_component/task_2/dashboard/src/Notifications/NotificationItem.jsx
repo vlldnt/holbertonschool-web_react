@@ -3,7 +3,9 @@ import React from 'react';
 class NotificationItem extends React.Component {
   handleClick = () => {
     const { id, markAsRead } = this.props;
-    console.log(`Notification ${id} has been marked as read`);
+    if (id !== undefined) {
+      console.log(`Notification ${id} has been marked as read`);
+    }
     if (markAsRead) {
       markAsRead(id);
     }
