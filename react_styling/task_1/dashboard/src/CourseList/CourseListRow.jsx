@@ -7,7 +7,7 @@ function CourseListRow({
     if (textSecondCell === null) {
       return (
         <tr>
-          <th className="bg-table-header/66 border border-gray-400" colSpan={2}>
+          <th className="bg-[var(--color-table-header)]/66 border border-gray-400" colSpan={2}>
             {textFirstCell}
           </th>
         </tr>
@@ -15,10 +15,10 @@ function CourseListRow({
     }
     return (
       <tr>
-        <th className="bg-table-header/66 border border-gray-400">
+        <th className="bg-[var(--color-table-header)]/66 border border-gray-400">
           {textFirstCell}
         </th>
-        <th className="bg-table-header/66 border border-gray-400">
+        <th className="bg-[var(--color-table-header)]/66 border border-gray-400">
           {textSecondCell}
         </th>
       </tr>
@@ -26,10 +26,10 @@ function CourseListRow({
   }
   return (
     <tr>
-      <td className="bg-table-rows/45 border border-gray-400 pl-2">
+      <td className="bg-[var(--color-table-rows)]/45 border border-gray-400 pl-2">
         {textFirstCell}
       </td>
-      <td className="bg-table-rows/45 border border-gray-400 pl-2">
+      <td className="bg-[var(--color-table-rows)]/45 border border-gray-400 pl-2">
         {textSecondCell}
       </td>
     </tr>
