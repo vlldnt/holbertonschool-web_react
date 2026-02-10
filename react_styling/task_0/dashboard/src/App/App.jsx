@@ -10,6 +10,7 @@ import BodySectionWithMargin from '../BodySection/BodySectionWithMarginBottom.js
 import BodySection from '../BodySection/BodySection.jsx';
 import WithLogging from '../HOC/WithLogging.jsx';
 
+
 const LoginWithLogging = WithLogging(Login);
 const CourseListWithLogging = WithLogging(CourseList);
 
