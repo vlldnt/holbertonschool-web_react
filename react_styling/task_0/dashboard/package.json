@@ -11,8 +11,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "@fontsource/roboto": "^5.2.9",
+    "@tailwindcss/vite": "^4.1.18",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@babel/core": "^7.24.8",
