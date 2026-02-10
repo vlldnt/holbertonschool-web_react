@@ -18,6 +18,10 @@ class App extends React.Component {
     logOut: () => {},
   };
 
+  state = {
+    isLoggedIn: true,
+  };
+
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown);
   }
@@ -38,7 +42,6 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLoggedIn = false } = this.props;
     const notificationsList = [
       { id: 1, type: 'default', value: 'New course available' },
       { id: 2, type: 'urgent', value: 'New resume available' },
@@ -55,7 +58,7 @@ class App extends React.Component {
       <>
         <Notifications notifications={notificationsList} />
         <Header />
-        {isLoggedIn ? (
+        {this.state.isLoggedIn ? (
           <BodySectionWithMargin title="Course list">
             <CourseListWithLogging courses={coursesList} />
           </BodySectionWithMargin>
