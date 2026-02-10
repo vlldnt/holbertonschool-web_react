@@ -7,7 +7,7 @@ function CourseListRow({
     if (textSecondCell === null) {
       return (
         <tr>
-          <th className="bg-table-header/66 border border-gray-400" colSpan={1}>
+          <th className="bg-table-header/66 border border-gray-400" colSpan={2}>
             {textFirstCell}
           </th>
         </tr>
