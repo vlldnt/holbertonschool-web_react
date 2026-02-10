@@ -10,9 +10,9 @@ test('should render title', () => {
 });
 
 test('should render two paragraphs', () => {
-  render(<App />);
-  expect(screen.getByText(/Login to access the full dashboard/i));
-  expect(screen.getByText(/Copyright 2026 - holberton School/i));
+  render(<App isLoggedIn={false} />);
+  expect(screen.getByText(/Login to access the full dashboard/i)).toBeInTheDocument();
+  expect(screen.getByText(/Copyright 2026 - holberton School/i)).toBeInTheDocument();
 });
 
 test('should render the image', () => {
@@ -21,22 +21,22 @@ test('should render the image', () => {
 });
 
 test('should render two inputs for login', () => {
-  render(<App />);
+  render(<App isLoggedIn={false} />);
   const inputs = screen.getAllByRole('textbox');
   const password = screen.getByLabelText(/password/i);
-  expect(password);
+  expect(password).toBeInTheDocument();
   expect(inputs.length + 1).toBe(2);
 });
 
 test('should render two label elements', () => {
-  render(<App />);
+  render(<App isLoggedIn={false} />);
   const labels = screen.getAllByText(/email|password/i);
   expect(labels).toHaveLength(2);
 });
 
 test('should render one button', () => {
-  render(<App />);
-  expect(screen.getByText(/ok/i));
+  render(<App isLoggedIn={false} />);
+  expect(screen.getByText(/ok/i)).toBeInTheDocument();
 });
 
 test('should render the Login form when isLoggedIn is false', () => {

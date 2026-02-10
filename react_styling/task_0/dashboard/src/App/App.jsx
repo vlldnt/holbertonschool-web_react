@@ -17,9 +17,6 @@ const CourseListWithLogging = WithLogging(CourseList);
 class App extends React.Component {
   static defaultProps = {
     logOut: () => {},
-  };
-
-  state = {
     isLoggedIn: true,
   };
 
@@ -59,7 +56,7 @@ class App extends React.Component {
       <>
         <Notifications notifications={notificationsList} />
         <Header />
-        {this.state.isLoggedIn ? (
+        {this.props.isLoggedIn ? (
           <BodySectionWithMargin title="Course list">
             <CourseListWithLogging courses={coursesList} />
           </BodySectionWithMargin>
