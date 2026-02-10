@@ -60,7 +60,7 @@ class App extends React.Component {
         <Header />
         {this.props.isLoggedIn ? (
           <BodySectionWithMargin title="Course list">
-            <CourseListWithLogging courses={emptyList} />
+            <CourseListWithLogging courses={coursesList} />
           </BodySectionWithMargin>
         ) : (
           <BodySectionWithMargin title="Log in to continue">
