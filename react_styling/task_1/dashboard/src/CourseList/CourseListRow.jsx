@@ -6,30 +6,30 @@ function CourseListRow({
   if (isHeader) {
     if (textSecondCell === null) {
       return (
-        <tr  className="bg-table-header/66 border border-gray-400" >
-          <th colSpan={2}>
+        <tr className="bg-table-header/66">
+          <th className="border border-gray-400" colSpan={2}>
             {textFirstCell}
           </th>
         </tr>
       );
     }
     return (
-      <tr className="bg-table-header/66 border border-gray-400">
-        <th>
+      <tr className="bg-table-header/66">
+        <th className= "border border-gray-400">
           {textFirstCell}
         </th>
-        <th >
+        <th className="border border-gray-400">
           {textSecondCell}
         </th>
       </tr>
     );
   }
   return (
-    <tr className="bg-table-rows/45 border border-gray-400 pl-2">
-      <td>
+    <tr className="bg-table-rows/45">
+      <td className="border border-gray-400 pl-2">
         {textFirstCell}
       </td>
-      <td>
+      <td className="border border-gray-400 pl-2">
         {textSecondCell}
       </td>
     </tr>
