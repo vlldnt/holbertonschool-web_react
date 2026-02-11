@@ -6,7 +6,7 @@ describe('course list row tests', () => {
     render(<CourseListRow isHeader={true} textSecondCell={null} />);
     const header = screen.getByRole('columnheader');
     expect(header).toBeInTheDocument();
-    expect(header).toHaveAttribute('colspan', '1');
+    expect(header).toHaveAttribute('colspan', '2');
   });
 
   test('when isHeader is true and textSecondCell not null, redner twh th', () => {
