@@ -6,12 +6,12 @@ function CourseList({ courses = [] }) {
     <div className="courses-container w-4/5 mx-auto">
       <table id="coursesTable" className="w-full border-collapse">
         {courses.length === 0 ? (
-          <tbody>
+          <thead>
             <CourseListRow
               textFirstCell="No course available yet"
               isHeader={true}
             />
-          </tbody>
+          </thead>
         ) : (
           <>
             <thead>
