@@ -1,4 +1,5 @@
 import React from 'react';
+import '../main.css';
 
 class NotificationItem extends React.PureComponent {
   handleClick = () => {
@@ -12,7 +13,10 @@ class NotificationItem extends React.PureComponent {
   render() {
     const { type = null, html = null, value = null } = this.props;
     const style = {
-      color: type === 'urgent' ? 'red' : 'blue',
+      color:
+        type === 'urgent'
+          ? 'var(--urgent-notification-item)'
+          : 'var(--default-notification-item)',
     };
 
     if (html) {
@@ -29,7 +33,10 @@ class NotificationItem extends React.PureComponent {
     }
 
     return (
-      <li onClick={this.handleClick} data-notification-type={type} style={style}
+      <li
+        onClick={this.handleClick}
+        data-notification-type={type}
+        style={style}
       >
         {value}
       </li>

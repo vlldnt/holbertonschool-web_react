@@ -1,6 +1,5 @@
 import React from 'react';
 import closeButton from '../assets/close-button.png';
-import './Notifications.css';
 import NotificationItem from './NotificationItem.jsx';
 
 class Notifications extends React.Component {
@@ -23,13 +22,13 @@ class Notifications extends React.Component {
 
   render() {
     return (
-      <div className="root-notifications">
+      <div className="root-notifications w-[25%] min-w-100 absolute p-2.25 right-0 mr-[0.4rem]">
         <div className="notifications-title">
-          <p>Your notifications</p>
+          <p className="m-0 mb-[0.4rem] text-right">Your notifications</p>
         </div>
         {this.props.displayDrawer && (
           <>
-            <div className="notification-items">
+            <div className="notification-items border-2 border-dashed border-[var(--main-color)] pl-2.5">
               {this.props.notifications.length === 0 ? (
                 <p>No new notification for now</p>
               ) : (
@@ -51,11 +50,11 @@ class Notifications extends React.Component {
               )}
             </div>
             <button
-              className="close-button"
+              className="close-button w-2 h-2 border-0 bg-transparent absolute top-12 right-[1.2rem]"
               aria-label="Close"
               onClick={() => console.log('Close button has been clicked')}
             >
-              <img src={closeButton} alt="close-button" />
+              <img className="w-2 h-2" src={closeButton} alt="close-button" />
             </button>
           </>
         )}
