@@ -69,11 +69,11 @@ class App extends React.Component {
             <LoginWithLogging />
           </BodySectionWithMargin>
         )}
-        <Footer />
         <BodySectionWithMargin />
         <BodySection title="News from the School">
           <p>Holberton School News goes here</p>
         </BodySection>
+        <Footer />
       </>
     );
   }
