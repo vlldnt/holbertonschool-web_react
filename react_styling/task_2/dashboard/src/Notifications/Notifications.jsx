@@ -23,7 +23,7 @@ class Notifications extends React.Component {
   render() {
     return (
       <div className="root-notifications w-full absolute flex flex-col items-end p-1.5">
-        <div className="notifications-title">
+        <div className="notification-title">
           <h2 className="m-0 mb-1.5 text-right">Your notifications</h2>
         </div>
         {this.props.displayDrawer && (
