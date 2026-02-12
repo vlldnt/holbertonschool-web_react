@@ -3,7 +3,13 @@ import { render, screen } from '@testing-library/react';
 
 describe('course list row tests', () => {
   test('when isHeader is true and textSecondCell is null, renders one th with colspan=1', () => {
-    render(<CourseListRow isHeader={true} textSecondCell={null} />);
+    render(
+      <table>
+        <tbody>
+          <CourseListRow isHeader={true} textSecondCell={null} />
+        </tbody>
+      </table>
+    );
     const header = screen.getByRole('columnheader');
     expect(header).toBeInTheDocument();
     expect(header).toHaveAttribute('colspan', '2');
