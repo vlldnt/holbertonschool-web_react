@@ -2,7 +2,7 @@ import CourseListRow from './CourseListRow';
 import { render, screen } from '@testing-library/react';
 
 describe('course list row tests', () => {
-  test('when isHeader is true and textSecondCell is null, renders one th with colspan=1', () => {
+  test('when isHeader is true and textSecondCell is null, renders one th with colspan=2', () => {
     render(
       <table>
         <tbody>
