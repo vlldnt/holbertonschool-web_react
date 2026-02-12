@@ -10,7 +10,6 @@ import BodySectionWithMargin from '../BodySection/BodySectionWithMarginBottom.js
 import BodySection from '../BodySection/BodySection.jsx';
 import WithLogging from '../HOC/WithLogging.jsx';
 
-
 const LoginWithLogging = WithLogging(Login);
 const CourseListWithLogging = WithLogging(CourseList);
 
@@ -46,7 +45,7 @@ class App extends React.Component {
       { id: 3, type: 'urgent', html: getLatestNotification() },
     ];
 
-    const emptyNotif = []
+    const emptyNotif = [];
 
     const coursesList = [
       { id: 1, name: 'ES6', credit: 60 },
@@ -54,7 +53,7 @@ class App extends React.Component {
       { id: 3, name: 'React', credit: 40 },
     ];
 
-    const emptyList = []
+    const emptyList = [];
 
     return (
       <>
@@ -69,10 +68,12 @@ class App extends React.Component {
             <LoginWithLogging />
           </BodySectionWithMargin>
         )}
-        <BodySectionWithMargin />
-        <BodySection title="News from the School">
-          <p>Holberton School News goes here</p>
-        </BodySection>
+        <BodySectionWithMargin>
+          <BodySection title="News from the School">
+            <p>Holberton School News goes here</p>
+          </BodySection>
+        </BodySectionWithMargin>
+
         <Footer />
       </>
     );

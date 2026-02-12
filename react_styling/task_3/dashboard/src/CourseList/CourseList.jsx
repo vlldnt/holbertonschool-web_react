@@ -1,9 +1,9 @@
-import CourseListRow from "./CourseListRow";
-import WithLogging from "../HOC/WithLogging.jsx";
+import CourseListRow from './CourseListRow';
+import WithLogging from '../HOC/WithLogging.jsx';
 
 function CourseList({ courses = [] }) {
   return (
-    <div className="courses-container w-4/5 mx-auto">
+    <div className="courses-container w-4/5 mx-auto mt-30">
       <table id="coursesTable" className="w-full border-collapse">
         {courses.length === 0 ? (
           <thead>
