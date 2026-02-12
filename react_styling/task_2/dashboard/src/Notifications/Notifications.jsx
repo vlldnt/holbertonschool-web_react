@@ -22,7 +22,7 @@ class Notifications extends React.Component {
 
   render() {
     return (
-      <div className="root-notifications flex flex-col items-end">
+      <div className="root-notifications flex flex-col items-end p-1.5">
         <div className="notifications-title">
           <p className="m-0 mb-[0.4rem] text-right">Your notifications</p>
         </div>
