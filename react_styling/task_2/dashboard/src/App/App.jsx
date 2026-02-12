@@ -46,6 +46,8 @@ class App extends React.Component {
       { id: 3, type: 'urgent', html: getLatestNotification() },
     ];
 
+    const emptyNotif = []
+
     const coursesList = [
       { id: 1, name: 'ES6', credit: 60 },
       { id: 2, name: 'Webpack', credit: 20 },

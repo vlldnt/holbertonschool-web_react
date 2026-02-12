@@ -34,7 +34,7 @@ class Notifications extends React.Component {
               ) : (
                 <>
                   <p>Here is the list of notifications</p>
-                  <ul>
+                  <ul className="list-disc pl-5">
                     {this.props.notifications.map((notif) => (
                       <NotificationItem
                         key={notif.id}
