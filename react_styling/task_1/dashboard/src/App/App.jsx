@@ -17,7 +17,7 @@ const CourseListWithLogging = WithLogging(CourseList);
 class App extends React.Component {
   static defaultProps = {
     logOut: () => {},
-    isLoggedIn: false,
+    isLoggedIn: true,
   };
 
   componentDidMount() {
