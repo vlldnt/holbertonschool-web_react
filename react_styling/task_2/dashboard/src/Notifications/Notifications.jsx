@@ -24,7 +24,7 @@ class Notifications extends React.Component {
     return (
       <div className="root-notifications w-full absolute flex flex-col items-end p-1.5">
         <div className="notifications-title">
-          <p className="m-0 mb-1.5 text-right">Your notifications</p>
+          <h2 className="m-0 mb-1.5 text-right">Your notifications</h2>
         </div>
         {this.props.displayDrawer && (
           <>
@@ -33,7 +33,7 @@ class Notifications extends React.Component {
                 <p>no new notification for now</p>
               ) : (
                 <>
-                  <h2>Here is the list of notifications</h2>
+                  <p>Here is the list of notifications</p>
                   <ul className="list-disc pl-4">
                     {this.props.notifications.map((notif) => (
                       <NotificationItem
