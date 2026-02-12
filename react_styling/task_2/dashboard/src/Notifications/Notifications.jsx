@@ -30,7 +30,7 @@ class Notifications extends React.Component {
           <>
             <div className="notification-items w-1/4 border-2 border-dashed border-(--main-color) p-1.5">
               {this.props.notifications.length === 0 ? (
-                <p>No new notification for now</p>
+                <p>no new notification for now</p>
               ) : (
                 <>
                   <p>Here is the list of notifications</p>
