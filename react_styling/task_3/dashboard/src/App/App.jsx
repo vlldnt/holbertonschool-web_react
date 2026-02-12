@@ -1,4 +1,3 @@
-import './App.css';
 import React from 'react';
 import { getLatestNotification } from '../utils/utils.js';
 import Notifications from '../Notifications/Notifications.jsx';
@@ -56,26 +55,27 @@ class App extends React.Component {
     const emptyList = [];
 
     return (
-      <>
+      <div className="flex flex-col min-h-screen">
         <Notifications notifications={notificationsList} />
         <Header />
-        {this.props.isLoggedIn ? (
-          <BodySectionWithMargin title="Course list">
-            <CourseListWithLogging courses={coursesList} />
+        <main className="flex-grow">
+          {this.props.isLoggedIn ? (
+            <BodySectionWithMargin title="Course list">
+              <CourseListWithLogging courses={coursesList} />
+            </BodySectionWithMargin>
+          ) : (
+            <BodySectionWithMargin title="Log in to continue">
+              <LoginWithLogging />
+            </BodySectionWithMargin>
+          )}
+          <BodySectionWithMargin>
+            <BodySection title="News from the School">
+              <p>Holberton School News goes here</p>
+            </BodySection>
           </BodySectionWithMargin>
-        ) : (
-          <BodySectionWithMargin title="Log in to continue">
-            <LoginWithLogging />
-          </BodySectionWithMargin>
-        )}
-        <BodySectionWithMargin>
-          <BodySection title="News from the School">
-            <p>Holberton School News goes here</p>
-          </BodySection>
-        </BodySectionWithMargin>
-
+        </main>
         <Footer />
-      </>
+      </div>
     );
   }
 }

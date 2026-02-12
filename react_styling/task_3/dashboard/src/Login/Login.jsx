@@ -7,7 +7,7 @@ function Login() {
         <input className=' w-57 border border-black ml-1.5 rounded p-1.5' type="email" id="email" autoComplete="email" />
         <label className="ml-1.5" htmlFor="password">Password</label>
         <input className=' w-57 border border-black ml-1.5 rounded p-1' type="password" id="password" autoComplete="current-password" />
-        <button className='ml-1.5 cursor-pointer border border-black rounded r p-1'>OK</button>
+        <button className='ml-1.5 cursor-pointer border border-black rounded p-1'>OK</button>
       </form>
     </div>
   );
