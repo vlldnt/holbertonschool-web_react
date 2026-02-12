@@ -22,13 +22,13 @@ class Notifications extends React.Component {
 
   render() {
     return (
-      <div className="root-notifications w-1/4 min-w-100 absolute p-2.25 right-0 mr-[0.4rem]">
+      <div className="root-notifications flex flex-col items-end">
         <div className="notifications-title">
           <p className="m-0 mb-[0.4rem] text-right">Your notifications</p>
         </div>
         {this.props.displayDrawer && (
           <>
-            <div className="notification-items border-2 border-dashed border-(--main-color) pl-2.5">
+            <div className="notification-items w-1/4 border-2 border-dashed border-(--main-color) p-1.5">
               {this.props.notifications.length === 0 ? (
                 <p>No new notification for now</p>
               ) : (

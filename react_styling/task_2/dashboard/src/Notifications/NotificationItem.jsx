@@ -11,34 +11,21 @@ class NotificationItem extends React.PureComponent {
   };
 
   render() {
-    const { type = null, html = null, value = null } = this.props;
-    const style = {
-      color:
-        type === 'urgent'
-          ? 'var(--urgent-notification-item)'
-          : 'var(--default-notification-item)',
-    };
+    const { type = 'default', html = null, value = null } = this.props;
+    const hasHTML = html && (typeof html === 'object' || typeof html === 'string');
 
-    if (html) {
-      return (
-        <li
-          onClick={this.handleClick}
-          data-notification-type={type}
-          style={style}
-          dangerouslySetInnerHTML={
-            typeof html === 'object' ? html : { __html: html }
-          }
-        />
-      );
-    }
+    const colorClass = type === 'default'
+      ? 'text-[var(--default-notification-item)]'
+      : 'text-[var(--urgent-notification-item)]';
 
     return (
       <li
         onClick={this.handleClick}
         data-notification-type={type}
-        style={style}
+        className={colorClass}
+        {...(hasHTML ? { dangerouslySetInnerHTML: typeof html === 'object' ? html : { __html: html } } : {})}
       >
-        {value}
+        {!hasHTML ? value : null}
       </li>
     );
   }
