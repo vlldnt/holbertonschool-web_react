@@ -1,5 +1,4 @@
 import React from 'react';
-import '../main.css';
 
 class NotificationItem extends React.PureComponent {
   handleClick = () => {
