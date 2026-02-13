@@ -34,7 +34,7 @@ class Notifications extends React.Component {
       <>
         <div className="root-notifications absolute left-0 right-0 flex flex-col items-end z-50 pt-2 pr-4">
           <div
-            className="notifications-title cursor-pointer tablet:cursor-default tablet:pointer-events-none"
+            className="notifications-title cursor-pointer"
             onClick={handleDisplayDrawer}
           >
             <p
@@ -44,27 +44,40 @@ class Notifications extends React.Component {
             </p>
           </div>
 
-          <div className="hidden tablet:block tablet:w-1/4 border-2 border-dashed border-(--main-color) p-1.5">
-            {notifications.length === 0 ? (
-              <p>No new notification for now</p>
-            ) : (
-              <>
-                <p>Here is the list of notifications</p>
-                <ul className="list-disc pl-4">
-                  {notifications.map((notif) => (
-                    <NotificationItem
-                      key={notif.id}
-                      id={notif.id}
-                      type={notif.type}
-                      value={notif.value}
-                      html={notif.html}
-                      markAsRead={this.markAsRead}
-                    />
-                  ))}
-                </ul>
-              </>
-            )}
-          </div>
+          {displayDrawer && (
+            <div className="hidden tablet:block tablet:w-1/4 border-2 border-dashed border-(--main-color) p-1.5">
+              {notifications.length === 0 ? (
+                <p>No new notification for now</p>
+              ) : (
+                <>
+                  <p>Here is the list of notifications</p>
+                  <ul className="list-disc pl-4">
+                    {notifications.map((notif) => (
+                      <NotificationItem
+                        key={notif.id}
+                        id={notif.id}
+                        type={notif.type}
+                        value={notif.value}
+                        html={notif.html}
+                        markAsRead={this.markAsRead}
+                      />
+                    ))}
+                  </ul>
+                </>
+              )}
+              <button
+                className="close-button fixed top-12 right-7 w-4 h-4 border-0 bg-transparent cursor-pointer z-[1000]"
+                aria-label="Close"
+                onClick={handleHideDrawer}
+              >
+                <img
+                  className="w-full h-full"
+                  src={closeButton}
+                  alt="close-button"
+                />
+              </button>
+            </div>
+          )}
         </div>
 
         {displayDrawer && (
