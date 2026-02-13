@@ -58,28 +58,20 @@ class App extends React.Component {
       <div className="flex flex-col min-h-screen relative">
         <Notifications notifications={notificationsList} />
         <Header />
-        <main className="flex-grow px-8">
-          {this.props.isLoggedIn ? (
-            <div className="mt-20">
-              <BodySectionWithMargin title="Course list">
-                <CourseListWithLogging courses={coursesList} />
-              </BodySectionWithMargin>
-            </div>
-          ) : (
-            <div className="mt-20">
-              <BodySectionWithMargin title="Log in to continue">
-                <LoginWithLogging />
-              </BodySectionWithMargin>
-            </div>
-          )}
-          <div className="mb-[100px]">
-            <BodySectionWithMargin>
-              <BodySection title="News from the School">
-                <p>Holberton School news goes here</p>
-              </BodySection>
-            </BodySectionWithMargin>
-          </div>
-        </main>
+        {this.props.isLoggedIn ? (
+          <BodySectionWithMargin title="Course list">
+            <CourseListWithLogging courses={coursesList} />
+          </BodySectionWithMargin>
+        ) : (
+          <BodySectionWithMargin title="Log in to continue">
+            <LoginWithLogging />
+          </BodySectionWithMargin>
+        )}
+        <BodySectionWithMargin>
+          <BodySection title="News from the School">
+            <p>Holberton School news goes here</p>
+          </BodySection>
+        </BodySectionWithMargin>
         <Footer />
       </div>
     );
