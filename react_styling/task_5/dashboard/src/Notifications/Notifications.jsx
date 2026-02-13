@@ -32,23 +32,19 @@ class Notifications extends React.Component {
 
     return (
       <>
-        <div className="root-notifications w-full absolute flex flex-col items-end z-50">
+        <div className="root-notifications absolute left-0 right-0 flex flex-col items-end z-50 pt-2 pr-4">
           <div
-            className="notifications-title cursor-pointer tablet:cursor-default mr-4"
+            className="notifications-title cursor-pointer tablet:cursor-default tablet:pointer-events-none"
             onClick={handleDisplayDrawer}
           >
-            {notifications.length > 0 ? (
-              <p className="mb-1.5 text-right text-xs tablet:text-base animate-bounce">
-                Your notifications
-              </p>
-            ) : (
-              <p className="mb-1.5 text-right text-xs tablet:text-base">
-                Your notifications
-              </p>
-            )}
+            <p
+              className={`mb-1.5 text-right text-xs tablet:text-base ${notifications.length > 0 && !displayDrawer ? 'animate-bounce' : ''}`}
+            >
+              Your notifications
+            </p>
           </div>
 
-          <div className="hidden tablet:block tablet:w-1/4 border-2 border-dashed border-(--main-color) p-1.5 mr-4">
+          <div className="hidden tablet:block tablet:w-1/4 border-2 border-dashed border-(--main-color) p-1.5">
             {notifications.length === 0 ? (
               <p>No new notification for now</p>
             ) : (

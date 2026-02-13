@@ -68,7 +68,7 @@ class App extends React.Component {
     const emptyList = [];
 
     return (
-      <div className="flex flex-col min-h-screen relative p-3 tablet:p-4">
+      <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
         <Notifications
           notifications={notificationsList}
           displayDrawer={this.state.displayDrawer}
