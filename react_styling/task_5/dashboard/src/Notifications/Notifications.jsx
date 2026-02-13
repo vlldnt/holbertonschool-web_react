@@ -34,10 +34,18 @@ class Notifications extends React.Component {
       <>
         <div className="root-notifications w-full absolute flex flex-col items-end z-50">
           <div
-            className="notifications-title cursor-pointer tablet:cursor-default"
+            className="notifications-title cursor-pointer tablet:cursor-default mr-4"
             onClick={handleDisplayDrawer}
           >
-            <p className="mb-1.5 mr-4 text-right text-xs">Your notifications</p>
+            {notifications.length > 0 ? (
+              <p className="mb-1.5 text-right text-xs tablet:text-base animate-bounce">
+                Your notifications
+              </p>
+            ) : (
+              <p className="mb-1.5 text-right text-xs tablet:text-base">
+                Your notifications
+              </p>
+            )}
           </div>
 
           <div className="hidden tablet:block tablet:w-1/4 border-2 border-dashed border-(--main-color) p-1.5 mr-4">
@@ -67,7 +75,9 @@ class Notifications extends React.Component {
           <div className="fixed inset-0 z-50 bg-white tablet:hidden">
             <div className="w-full h-full border-2 border-dashed border-(--main-color) p-4 overflow-auto">
               {notifications.length === 0 ? (
-                <p className="tablet:text-lg tablet:font-bold mb-4">No new notification for now</p>
+                <p className="tablet:text-lg tablet:font-bold mb-4">
+                  No new notification for now
+                </p>
               ) : (
                 <>
                   <p className="tablet:text-lg tablet:font-bold mb-4">
