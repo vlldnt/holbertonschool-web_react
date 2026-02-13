@@ -70,28 +70,32 @@ class App extends React.Component {
     const emptyList = [];
 
     return (
-      <div className="flex flex-col min-h-screen relative lg p-0 p-3">
+      <div className="flex flex-col min-h-screen relative p-3 tablet:p-4">
         <Notifications
-          notifications={emptyList}
+          notifications={notificationsList}
           displayDrawer={this.state.displayDrawer}
           handleDisplayDrawer={this.handleDisplayDrawer}
           handleHideDrawer={this.handleHideDrawer}
         />
         <Header />
-        {this.props.isLoggedIn ? (
-          <BodySectionWithMargin title="Course list">
-            <CourseListWithLogging courses={coursesList} />
+        <main className="flex-1 flex flex-col">
+          <div className="flex-1 flex flex-col">
+            {this.props.isLoggedIn ? (
+              <BodySectionWithMargin title="Course list">
+                <CourseListWithLogging courses={coursesList} />
+              </BodySectionWithMargin>
+            ) : (
+              <BodySectionWithMargin title="Log in to continue">
+                <LoginWithLogging />
+              </BodySectionWithMargin>
+            )}
+          </div>
+          <BodySectionWithMargin>
+            <BodySection title="News from the School">
+              <p className='text-xs tablet:text-sm desktop:text-base'>ipsum Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, asperiores architecto blanditiis fuga doloribus sit illum aliquid ea distinctio minus accusantium, impedit quo voluptatibus ut magni dicta. Recusandae, quia dicta?</p>
+            </BodySection>
           </BodySectionWithMargin>
-        ) : (
-          <BodySectionWithMargin title="Log in to continue">
-            <LoginWithLogging />
-          </BodySectionWithMargin>
-        )}
-        <BodySectionWithMargin>
-          <BodySection title="News from the School">
-            <p className='text-xs tablet:text-base'>ipsum Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, asperiores architecto blanditiis fuga doloribus sit illum aliquid ea distinctio minus accusantium, impedit quo voluptatibus ut magni dicta. Recusandae, quia dicta?</p>
-          </BodySection>
-        </BodySectionWithMargin>
+        </main>
         <Footer isIndex={false}/>
       </div>
     );
