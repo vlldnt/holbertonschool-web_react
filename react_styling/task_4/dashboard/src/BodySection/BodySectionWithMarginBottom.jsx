@@ -2,7 +2,7 @@ import BodySection from './BodySection';
 
 function BodySectionWithMarginBottom({ title, children }) {
   return (
-    <div className="bodySectionWithMargin mb-10">
+    <div className="bodySectionWithMargin tablet:mb-10">
       <BodySection title={title}>{children}</BodySection>
     </div>
   );

@@ -2,7 +2,7 @@ import { getCurrentYear, getFooterCopy } from '../utils/utils.js';
 
 function Footer() {
   return (
-    <footer className="App-footer flex justify-center border-t-[2px] border-[var(--main-color)]">
+    <footer className="App-footer flex justify-center border-t-3 border-(--main-color)">
       <p className="italic mt-3">
         Copyright {getCurrentYear()} - {getFooterCopy(true)}
       </p>

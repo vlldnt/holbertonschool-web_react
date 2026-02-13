@@ -7,6 +7,8 @@
   --main-color: #e1003c;
   --default-notification-item: blue;
   --urgent-notification-item: red;
+  --breakpoint-tablet: 912px;
+  --breakpoint-mobile: 520px;
 }
 
 :root {
