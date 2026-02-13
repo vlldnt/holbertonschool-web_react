@@ -40,7 +40,7 @@ class Notifications extends React.Component {
             <p className="mb-1.5 mr-4 text-right text-xs">Your notifications</p>
           </div>
 
-          <div className="hidden tablet:block tablet:w-1/4 border-2 border-dashed border-(--main-color) p-1.5">
+          <div className="hidden tablet:block tablet:w-1/4 border-2 border-dashed border-(--main-color) p-1.5 mr-4">
             {notifications.length === 0 ? (
               <p>No new notification for now</p>
             ) : (
