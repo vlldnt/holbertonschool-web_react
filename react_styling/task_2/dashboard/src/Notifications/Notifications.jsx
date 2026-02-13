@@ -5,7 +5,7 @@ import NotificationItem from './NotificationItem.jsx';
 class Notifications extends React.Component {
   static defaultProps = {
     notifications: [],
-    displayDrawer: true,
+    displayDrawer: false,
     markAsRead: () => {},
   };
 
