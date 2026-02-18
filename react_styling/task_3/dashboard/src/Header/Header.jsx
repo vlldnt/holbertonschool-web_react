@@ -9,7 +9,7 @@ function Header() {
         alt="holberton logo"
       />
       <h1 className="text-[var(--main-color)] text-5xl font-bold">
-        School dashboard
+        School Dashboard
       </h1>
     </header>
   );
