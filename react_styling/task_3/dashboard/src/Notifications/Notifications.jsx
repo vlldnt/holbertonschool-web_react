@@ -28,7 +28,7 @@ class Notifications extends React.Component {
         </div>
         {this.props.displayDrawer && (
           <>
-            <div className="notification-items w-1/4 border-2 border-dashed border-(--main-color) p-1.5 mr-4">
+            <div className="notification-items w-98 border-2 border-dashed border-(--main-color) p-1.5 mr-4">
               {this.props.notifications.length === 0 ? (
                 <p>No new notification for now</p>
               ) : (
