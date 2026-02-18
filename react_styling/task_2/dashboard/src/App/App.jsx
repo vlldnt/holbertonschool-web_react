@@ -52,11 +52,9 @@ class App extends React.Component {
       { id: 3, name: 'React', credit: 40 },
     ];
 
-    const emptyList = []
-
     return (
       <>
-        <Notifications notifications={notificationsList} displayDrawer={true} />
+        <Notifications notifications={notificationsList} />
         <Header />
         {this.props.isLoggedIn ? (
           <BodySectionWithMargin title="Available courses">

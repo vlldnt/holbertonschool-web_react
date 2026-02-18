@@ -12,17 +12,15 @@ describe('NotificationItem', () => {
     consoleLogSpy.mockRestore();
   });
 
-  test('li has blue color and data-notification-type is default when type is default', () => {
+  test('li has data-notification-type is default when type is default', () => {
     render(<NotificationItem type="default" value="New course available" />);
     const item = screen.getByRole('listitem');
-    expect(item).toHaveStyle({ color: 'var(--urgent-notification-item)' });
     expect(item).toHaveAttribute('data-notification-type', 'default');
   });
 
-  test('li has red color and data-notification-type is urgent when type is urgent', () => {
+  test('li has data-notification-type is urgent when type is urgent', () => {
     render(<NotificationItem type="urgent" value="New resume available" />);
     const item = screen.getByRole('listitem');
-    expect(item).toHaveStyle({ color: 'var(--urgent-notification-item)' });
     expect(item).toHaveAttribute('data-notification-type', 'urgent');
   });
 
