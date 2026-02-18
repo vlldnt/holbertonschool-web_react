@@ -12,7 +12,7 @@ import WithLogging from '../HOC/WithLogging.jsx';
 
 
 const LoginWithLogging = WithLogging(Login);
-const CourseListWithLogging = WithLogging(CourseList);
+const CourseListWithLogging = CourseList;
 
 class App extends React.Component {
   static defaultProps = {
@@ -46,8 +46,6 @@ class App extends React.Component {
       { id: 3, type: 'urgent', html: getLatestNotification() },
     ];
 
-    const emptyNotif = []
-
     const coursesList = [
       { id: 1, name: 'ES6', credit: 60 },
       { id: 2, name: 'Webpack', credit: 20 },
@@ -58,10 +56,10 @@ class App extends React.Component {
 
     return (
       <>
-        <Notifications notifications={notificationsList} displayDrawer={false} />
+        <Notifications notifications={notificationsList} displayDrawer={true} />
         <Header />
         {this.props.isLoggedIn ? (
-          <BodySectionWithMargin title="Course list">
+          <BodySectionWithMargin title="Available courses">
             <CourseListWithLogging courses={coursesList} />
           </BodySectionWithMargin>
         ) : (
@@ -69,11 +67,11 @@ class App extends React.Component {
             <LoginWithLogging />
           </BodySectionWithMargin>
         )}
+        <Footer />
         <BodySectionWithMargin />
         <BodySection title="News from the School">
           <p>Holberton School News goes here</p>
         </BodySection>
-        <Footer />
       </>
     );
   }

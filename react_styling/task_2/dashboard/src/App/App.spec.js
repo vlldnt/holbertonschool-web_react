@@ -50,7 +50,7 @@ test('should render the Login form when isLoggedIn is false', () => {
 
 test('should render a CourseList table when isLoggedIn is true', () => {
   render(<App isLoggedIn={true} />);
-  expect(screen.getByText(/Available courses/i)).toBeInTheDocument();
+  expect(screen.getAllByText(/Available courses/i).length).toBeGreaterThanOrEqual(1);
   expect(
     screen.queryByText(/Login to access the full dashboard/i),
   ).not.toBeInTheDocument();

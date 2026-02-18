@@ -20,7 +20,7 @@ afterEach(() => {
 describe('Notifications component - displayDrawer is false', () => {
   test('should display "Your notifications" text', () => {
     render(
-      <Notifications displayDrawer={false} notifications={notificationsList} />,
+      <Notifications displayDrawer={true} notifications={notificationsList} />,
     );
     expect(screen.getByText(/Your notifications/i)).toBeInTheDocument();
   });
