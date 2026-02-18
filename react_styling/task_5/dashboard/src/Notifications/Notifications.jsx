@@ -34,12 +34,10 @@ class Notifications extends React.Component {
       <>
         <div className="root-notifications absolute left-0 right-0 flex flex-col items-end z-50 pt-2 pr-4">
           <div
-            className="notifications-title cursor-pointer"
+            className={`notification-title cursor-pointer ${notifications.length > 0 && !displayDrawer ? 'animate-bounce' : ''}`}
             onClick={handleDisplayDrawer}
           >
-            <p
-              className={`mb-1.5 text-right text-xs tablet:text-base ${notifications.length > 0 && !displayDrawer ? 'animate-bounce' : ''}`}
-            >
+            <p className="mb-1.5 text-right text-xs tablet:text-base">
               Your notifications
             </p>
           </div>
