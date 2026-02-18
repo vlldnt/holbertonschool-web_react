@@ -47,6 +47,8 @@ class App extends React.Component {
       { id: 3, type: 'urgent', html: getLatestNotification() },
     ];
 
+    const empty = []
+
     const coursesList = [
       { id: 1, name: 'ES6', credit: 60 },
       { id: 2, name: 'Webpack', credit: 20 },
@@ -55,7 +57,7 @@ class App extends React.Component {
 
     return (
       <>
-        <Notifications notifications={notificationsList} displayDrawer={this.props.displayDrawer} />
+        <Notifications notifications={empty} displayDrawer={this.props.displayDrawer} />
         <Header />
         {this.props.isLoggedIn ? (
           <BodySectionWithMargin title="Available courses">
