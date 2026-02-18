@@ -18,6 +18,7 @@ class App extends React.Component {
   static defaultProps = {
     logOut: () => {},
     isLoggedIn: true,
+    displayDrawer: true,
   };
 
   componentDidMount() {
@@ -54,7 +55,7 @@ class App extends React.Component {
 
     return (
       <>
-        <Notifications notifications={notificationsList} />
+        <Notifications notifications={notificationsList} displayDrawer={this.props.displayDrawer} />
         <Header />
         {this.props.isLoggedIn ? (
           <BodySectionWithMargin title="Available courses">
