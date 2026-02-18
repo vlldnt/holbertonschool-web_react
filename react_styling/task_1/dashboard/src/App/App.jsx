@@ -59,7 +59,7 @@ class App extends React.Component {
         <Notifications notifications={notificationsList} />
         <Header />
         {this.props.isLoggedIn ? (
-          <BodySectionWithMargin title="Course list">
+          <BodySectionWithMargin title="Available courses">
             <CourseListWithLogging courses={coursesList} />
           </BodySectionWithMargin>
         ) : (
