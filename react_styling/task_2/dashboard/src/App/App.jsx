@@ -57,7 +57,7 @@ class App extends React.Component {
 
     return (
       <>
-        <Notifications notifications={empty} displayDrawer={this.props.displayDrawer} />
+        <Notifications notifications={notificationsList} displayDrawer={this.props.displayDrawer} />
         <Header />
         {this.props.isLoggedIn ? (
           <BodySectionWithMargin title="Available courses">

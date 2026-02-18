@@ -10,7 +10,7 @@ import BodySection from '../BodySection/BodySection.jsx';
 import WithLogging from '../HOC/WithLogging.jsx';
 
 const LoginWithLogging = WithLogging(Login);
-const CourseListWithLogging = WithLogging(CourseList);
+const CourseListWithLogging = CourseList;
 
 class App extends React.Component {
   static defaultProps = {
