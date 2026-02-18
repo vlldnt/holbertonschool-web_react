@@ -50,11 +50,11 @@ class Notifications extends React.Component {
               )}
             </div>
             <button
-              className="close-button w-2 h-2 border-0 bg-transparent absolute top-12 right-[1.2rem]"
+              className="close-button w-3 h-3 mr-4 border-0 bg-transparent absolute top-12 right-[1.2rem]"
               aria-label="Close"
               onClick={() => console.log('Close button has been clicked')}
             >
-              <img className="w-2 h-2" src={closeButton} alt="close-button" />
+              <img className="w-full h-full" src={closeButton} alt="close-button" />
             </button>
           </>
         )}
