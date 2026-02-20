@@ -6,7 +6,7 @@ import Login from '../Login/Login.jsx';
 import Footer from '../Footer/Footer.jsx';
 import CourseList from '../CourseList/CourseList.jsx';
 import BodySectionWithMargin from '../BodySection/BodySectionWithMarginBottom.jsx';
-
+import BodySection from '../BodySection/BodySection.jsx';
 import WithLogging from '../HOC/WithLogging.jsx';
 
 const LoginWithLogging = WithLogging(Login);
@@ -68,7 +68,7 @@ class App extends React.Component {
     const emptyList = [];
 
     return (
-      <div className="flex flex-col min-h-screen relative p-3 tablet:p-4">
+      <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
         <Notifications
           notifications={notificationsList}
           displayDrawer={this.state.displayDrawer}
@@ -88,11 +88,13 @@ class App extends React.Component {
               </BodySectionWithMargin>
             )}
           </div>
-          <BodySectionWithMargin title="News from the School">
-            <p className='text-xs tablet:text-sm desktop:text-base'>ipsum Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, asperiores architecto blanditiis fuga doloribus sit illum aliquid ea distinctio minus accusantium, impedit quo voluptatibus ut magni dicta. Recusandae, quia dicta?</p>
+          <BodySectionWithMargin>
+            <BodySection title="News from the School">
+              <p className='text-xs tablet:text-sm desktop:text-base'>ipsum Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, asperiores architecto blanditiis fuga doloribus sit illum aliquid ea distinctio minus accusantium, impedit quo voluptatibus ut magni dicta. Recusandae, quia dicta?</p>
+            </BodySection>
           </BodySectionWithMargin>
         </main>
-        <Footer isIndex={true}/>
+        <Footer isIndex={false}/>
       </div>
     );
   }

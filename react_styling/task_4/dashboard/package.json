@@ -46,6 +46,5 @@
     "setupFilesAfterEnv": [
       "<rootDir>/setupTests.js"
     ]
-  },
-  "playwright": "1.52"
+  }
 }
