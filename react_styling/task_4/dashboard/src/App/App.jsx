@@ -70,7 +70,7 @@ class App extends React.Component {
     return (
       <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
         <Notifications
-          notifications={notificationsList}
+          notifications={[]}
           displayDrawer={this.state.displayDrawer}
           handleDisplayDrawer={this.handleDisplayDrawer}
           handleHideDrawer={this.handleHideDrawer}
@@ -90,11 +90,16 @@ class App extends React.Component {
           </div>
           <BodySectionWithMargin>
             <BodySection title="News from the School">
-              <p className='text-xs tablet:text-sm desktop:text-base'>ipsum Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, asperiores architecto blanditiis fuga doloribus sit illum aliquid ea distinctio minus accusantium, impedit quo voluptatibus ut magni dicta. Recusandae, quia dicta?</p>
+              <p className="text-xs tablet:text-sm desktop:text-base">
+                ipsum Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Similique, asperiores architecto blanditiis fuga doloribus sit
+                illum aliquid ea distinctio minus accusantium, impedit quo
+                voluptatibus ut magni dicta. Recusandae, quia dicta?
+              </p>
             </BodySection>
           </BodySectionWithMargin>
         </main>
-        <Footer isIndex={false}/>
+        <Footer isIndex={false} />
       </div>
     );
   }
