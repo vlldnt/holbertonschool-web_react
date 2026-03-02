@@ -2,7 +2,7 @@ import React from 'react';
 import closeButton from '../assets/close-button.png';
 import NotificationItem from './NotificationItem.jsx';
 
-class Notifications extends React.Component {
+class Notifications extends React.PureComponent {
   static defaultProps = {
     notifications: [],
     displayDrawer: false,
@@ -11,16 +11,9 @@ class Notifications extends React.Component {
     handleHideDrawer: () => {},
   };
 
-  markAsRead(id) {
-    console.log(`Notification ${id} has been marked as read`);
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return (
-      this.props.notifications !== nextProps.notifications ||
-      this.props.displayDrawer !== nextProps.displayDrawer
-    );
-  }
+  markNotificationAsRead = (id) => {
+    this.props.markAsRead(id);
+  };
 
   render() {
     const {
@@ -62,7 +55,7 @@ class Notifications extends React.Component {
                           type={notif.type}
                           value={notif.value}
                           html={notif.html}
-                          markAsRead={this.markAsRead}
+                          markAsRead={this.markNotificationAsRead}
                         />
                       ))}
                     </ul>

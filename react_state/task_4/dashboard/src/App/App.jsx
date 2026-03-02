@@ -24,6 +24,16 @@ class App extends React.Component {
         isLoggedIn: false,
       },
       logOut: this.logOut,
+      notifications: [
+        { id: 1, type: 'default', value: 'New course available' },
+        { id: 2, type: 'urgent', value: 'New resume available' },
+        { id: 3, type: 'urgent', html: getLatestNotification() },
+      ],
+      courses: [
+        { id: 1, name: 'ES6', credit: 60 },
+        { id: 2, name: 'Webpack', credit: 20 },
+        { id: 3, name: 'React', credit: 40 },
+      ],
     };
   }
 
@@ -70,26 +80,22 @@ class App extends React.Component {
     this.setState({ displayDrawer: false });
   };
 
+  markNotificationAsRead = (id) => {
+    console.log(`Notification ${id} has been marked as read`);
+    this.setState({
+      notifications: this.state.notifications.filter(notif => notif.id !== id)
+    });
+  };
+
   render() {
-    const notificationsList = [
-      { id: 1, type: 'default', value: 'New course available' },
-      { id: 2, type: 'urgent', value: 'New resume available' },
-      { id: 3, type: 'urgent', html: getLatestNotification() },
-    ];
-
-    const coursesList = [
-      { id: 1, name: 'ES6', credit: 60 },
-      { id: 2, name: 'Webpack', credit: 20 },
-      { id: 3, name: 'React', credit: 40 },
-    ];
-
     return (
       <newContext.Provider
         value={{ user: this.state.user, logOut: this.state.logOut }}
       >
         <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
           <Notifications
-            notifications={notificationsList}
+            notifications={this.state.notifications}
+            markAsRead={this.markNotificationAsRead}
             displayDrawer={this.state.displayDrawer}
             handleDisplayDrawer={this.handleDisplayDrawer}
             handleHideDrawer={this.handleHideDrawer}
@@ -99,7 +105,7 @@ class App extends React.Component {
             <div className="flex-1 flex flex-col">
               {this.state.user.isLoggedIn ? (
                 <BodySectionWithMargin title="Course list">
-                  <CourseListWithLogging courses={coursesList} />
+                  <CourseListWithLogging courses={this.state.courses} />
                 </BodySectionWithMargin>
               ) : (
                 <BodySectionWithMargin title="Log in to continue">
