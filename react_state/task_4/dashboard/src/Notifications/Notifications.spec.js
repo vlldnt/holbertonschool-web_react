@@ -124,6 +124,22 @@ describe('Notifications component - displayDrawer is true', () => {
     expect(handleHideDrawer).toHaveBeenCalled();
   });
 
+  test('should call markAsRead prop when notification item is clicked', () => {
+    const mockMarkAsRead = jest.fn();
+    render(
+      <Notifications
+        displayDrawer={true}
+        notifications={notificationsList}
+        markAsRead={mockMarkAsRead}
+      />,
+    );
+
+    const items = screen.getAllByRole('listitem');
+    fireEvent.click(items[0]);
+
+    expect(mockMarkAsRead).toHaveBeenCalledWith(1);
+  });
+
   test('should log correct message when notification item is clicked', () => {
     const consoleLogSpy = jest
       .spyOn(console, 'log')
@@ -168,23 +184,37 @@ describe('Notifications component - displayDrawer is true and notifications is e
     expect(screen.queryAllByRole('listitem')).toHaveLength(0);
   });
 
-  test("component doesn't re-render if the length of the notifications prop remains the same", () => {
+  test('PureComponent: does not re-render if props remain the same', () => {
     const { rerender } = render(
       <Notifications displayDrawer={true} notifications={notificationsList} />,
     );
+    // Verify initial render shows 3 items
+    expect(screen.getAllByRole('listitem')).toHaveLength(3);
+
+    // Set up spy before rerender to track if render is called
     const renderSpy = jest.spyOn(Notifications.prototype, 'render');
+
+    // Rerender with the exact same props
     rerender(
       <Notifications displayDrawer={true} notifications={notificationsList} />,
     );
+
+    // PureComponent should not call render again because props are identical
     expect(renderSpy).not.toHaveBeenCalled();
     renderSpy.mockRestore();
   });
 
-  test('component re-renders whenever the length of the notifications prop changes', () => {
+  test('PureComponent: re-renders when props change', () => {
     const { rerender } = render(
       <Notifications displayDrawer={true} notifications={notificationsList} />,
     );
+    // Verify initial render shows 3 items
+    expect(screen.getAllByRole('listitem')).toHaveLength(3);
+
+    // Set up spy before rerender to track if render is called
     const renderSpy = jest.spyOn(Notifications.prototype, 'render');
+
+    // Rerender with different notifications array
     const newNotificationsList = [
       { id: 1, type: 'default', value: 'New course available' },
     ];
@@ -194,7 +224,13 @@ describe('Notifications component - displayDrawer is true and notifications is e
         notifications={newNotificationsList}
       />,
     );
+
+    // PureComponent should call render because notifications prop changed
     expect(renderSpy).toHaveBeenCalled();
+
+    // Verify the UI updated to show only 1 item
+    expect(screen.getAllByRole('listitem')).toHaveLength(1);
+
     renderSpy.mockRestore();
   });
 });
