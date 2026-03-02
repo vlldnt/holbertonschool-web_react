@@ -31,6 +31,7 @@ This repository contains all projects from the **React Web Development** special
 | [**React Props**](./react_props) | Component communication - passing data with props, PropTypes validation, and component composition patterns | React, PropTypes, Jest |
 | [**React Component**](./react_component) | Advanced components - state management, lifecycle methods, HOC (Higher Order Components), and Pure Components | React, Enzyme, Jest |
 | [**React Styling**](./react_styling) | Styling in React - CSS Modules, inline styles, CSS-in-JS, Aphrodite, and responsive design | React, Aphrodite, CSS |
+| [**React State**](./react_state) | Managing component state and lifecycle, using hooks, controlled forms, and passing data via context | React, Hooks, Forms |
 
 ---
 
