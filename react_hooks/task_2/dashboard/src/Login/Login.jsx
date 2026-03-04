@@ -1,14 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 
 function Login(props) {
-  const [enableSubmit, setEnableSubmit] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
 
-  useEffect(() => {
+  const enableSubmit = useMemo(() => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const emailValid = formData.email.length > 0 && regex.test(formData.email);
     const passwordValid = formData.password.length >= 8;
-    setEnableSubmit(emailValid && passwordValid);
+    return emailValid && passwordValid;
   }, [formData]);
 
   function handleChangeEmail(e) {

@@ -1,4 +1,4 @@
-import { expect, jest, test } from '@jest/globals';
+import { expect, test } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import BodySection from './BodySection';

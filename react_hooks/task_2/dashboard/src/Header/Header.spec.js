@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import Header from './Header';
+// eslint-disable-next-line no-unused-vars
 import newContext from '../Context/context';
 
 describe('Header component', () => {
