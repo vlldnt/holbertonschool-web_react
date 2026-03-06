@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { getLatestNotification } from '../utils/utils.js';
 import Notifications from '../Notifications/Notifications.jsx';
 import Header from '../Header/Header.jsx';
@@ -37,7 +37,7 @@ function App() {
   const [user, setUser] = useState(defaultUser);
   const [notifications, setNotifications] = useState(notificationsList);
 
-  const logIn = React.useCallback((email, password) => {
+  const logIn = useCallback((email, password) => {
     setUser({
       email,
       password,
@@ -45,7 +45,7 @@ function App() {
     });
   }, []);
 
-  const logOut = React.useCallback(() => {
+  const logOut = useCallback(() => {
     setUser({
       email: '',
       password: '',
@@ -53,15 +53,15 @@ function App() {
     });
   }, []);
 
-  const handleDisplayDrawer = React.useCallback(() => {
+  const handleDisplayDrawer = useCallback(() => {
     setDisplayDrawer(true);
   }, []);
 
-  const handleHideDrawer = React.useCallback(() => {
+  const handleHideDrawer = useCallback(() => {
     setDisplayDrawer(false);
   }, []);
 
-  const markNotificationAsRead = React.useCallback((id) => {
+  const markNotificationAsRead = useCallback((id) => {
     console.log(`Notification ${id} has been marked as read`);
     setNotifications((prevNotifications) =>
       prevNotifications.filter((notif) => notif.id !== id),
@@ -109,4 +109,4 @@ function App() {
   );
 }
 
-export default React.memo(App);
+export default memo(App);
