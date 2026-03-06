@@ -26,15 +26,13 @@ const coursesList = [
   { id: 3, name: 'React', credit: 40 },
 ];
 
-const defaultUser = {
-  email: '',
-  password: '',
-  isLoggedIn: false,
-};
-
-function App() {
+function App({ isLoggedIn = false }) {
   const [displayDrawer, setDisplayDrawer] = useState(true);
-  const [user, setUser] = useState(defaultUser);
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+    isLoggedIn,
+  });
   const [notifications, setNotifications] = useState(notificationsList);
 
   const logIn = useCallback((email, password) => {
