@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import axios from 'axios';
 import { getLatestNotification } from '../utils/utils.js';
 import Notifications from '../Notifications/Notifications.jsx';
 import Header from '../Header/Header.jsx';
@@ -8,30 +9,16 @@ import CourseList from '../CourseList/CourseList.jsx';
 import BodySectionWithMargin from '../BodySection/BodySectionWithMarginBottom.jsx';
 import BodySection from '../BodySection/BodySection.jsx';
 import WithLogging from '../HOC/WithLogging.jsx';
-import newContext from '../Context/context.js';
+import { newContext, defaultUser } from '../Context/context.js';
 
 const LoginWithLogging = WithLogging(Login);
 const CourseListWithLogging = WithLogging(CourseList);
 
-const notificationsList = [
-  { id: 1, type: 'default', value: 'New course available' },
-  { id: 2, type: 'urgent', value: 'New resume available' },
-  { id: 3, type: 'urgent', html: getLatestNotification() },
-];
-
 const App = () => {
   const [displayDrawer, setDisplayDrawer] = useState(true);
-  const [user, setUser] = useState({
-    email: '',
-    password: '',
-    isLoggedIn: false,
-  });
-  const [notifications, setNotifications] = useState(notificationsList);
-  const [courses] = useState([
-    { id: 1, name: 'ES6', credit: 60 },
-    { id: 2, name: 'Webpack', credit: 20 },
-    { id: 3, name: 'React', credit: 40 },
-  ]);
+  const [user, setUser] = useState({ ...defaultUser });
+  const [notifications, setNotifications] = useState([]);
+  const [courses] = useState([]);
 
   const logIn = useCallback((email, password) => {
     setUser({
@@ -61,6 +48,17 @@ const App = () => {
     setNotifications((prevNotifications) =>
       prevNotifications.filter((notif) => notif.id !== id),
     );
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get('/notifications.json')
+      .then((res) => {
+        setNotifications(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
 
   return (
