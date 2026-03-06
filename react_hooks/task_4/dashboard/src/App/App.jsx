@@ -59,15 +59,16 @@ const App = () => {
     setDisplayDrawer(false);
   }, []);
 
-  const markNotificationAsRead = useCallback((id) => {
-    console.log(`Notification ${id} has been marked as read`);
-    setNotifications(notifications.filter(notif => notif.id !== id));
-  }, [notifications]);
+  const markNotificationAsRead = useCallback(
+    (id) => {
+      console.log(`Notification ${id} has been marked as read`);
+      setNotifications(notifications.filter((notif) => notif.id !== id));
+    },
+    [notifications],
+  );
 
   return (
-    <newContext.Provider
-      value={{ user, logOut }}
-    >
+    <newContext.Provider value={{ user, logOut }}>
       <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
         <Notifications
           notifications={notifications}
