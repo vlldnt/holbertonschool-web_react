@@ -27,7 +27,7 @@ function App() {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get('http://localhost:5173/notifications.json');
+        const response = await axios.get('localhost:5173/notifications.json');
         const data = response.data.map((notif) => {
           if (notif.html) {
             return { ...notif, html: getLatestNotification() };
@@ -45,7 +45,7 @@ function App() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('http://localhost:5173/courses.json');
+        const response = await axios.get('localhost:5173/courses.json');
         setCourses(response.data);
       } catch (error) {
         console.error('Error fetching courses:', error);

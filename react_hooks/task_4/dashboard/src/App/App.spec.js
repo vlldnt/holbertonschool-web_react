@@ -24,11 +24,11 @@ afterEach(() => {
 });
 
 function resolveAxiosCalls() {
-  const notifCall = mockAxios.getReqByUrl('http://localhost:5173/notifications.json');
+  const notifCall = mockAxios.getReqByUrl('localhost:5173/notifications.json');
   if (notifCall) {
     mockAxios.mockResponse({ data: notificationsData }, notifCall);
   }
-  const coursesCall = mockAxios.getReqByUrl('http://localhost:5173/courses.json');
+  const coursesCall = mockAxios.getReqByUrl('localhost:5173/courses.json');
   if (coursesCall) {
     mockAxios.mockResponse({ data: coursesData }, coursesCall);
   }
@@ -47,12 +47,12 @@ async function renderApp() {
 
 test('should fetch notifications data on initial render', async () => {
   await renderApp();
-  expect(mockAxios.get).toHaveBeenCalledWith('http://localhost:5173/notifications.json');
+  expect(mockAxios.get).toHaveBeenCalledWith('localhost:5173/notifications.json');
 });
 
 test('should fetch courses data when user state changes', async () => {
   await renderApp();
-  expect(mockAxios.get).toHaveBeenCalledWith('http://localhost:5173/courses.json');
+  expect(mockAxios.get).toHaveBeenCalledWith('localhost:5173/courses.json');
 });
 
 test('should render title', async () => {
@@ -133,7 +133,7 @@ test('should display CourseList after logging in via the login form', async () =
   });
 
   await act(async () => {
-    const coursesCall = mockAxios.getReqByUrl('http://localhost:5173/courses.json');
+    const coursesCall = mockAxios.getReqByUrl('localhost:5173/courses.json');
     if (coursesCall) {
       mockAxios.mockResponse({ data: coursesData }, coursesCall);
     }
@@ -151,7 +151,7 @@ test('should fetch courses data when user logs in', async () => {
   await renderApp();
 
   const callCountBefore = mockAxios.get.mock.calls.filter(
-    (call) => call[0] === 'http://localhost:5173/courses.json',
+    (call) => call[0] === 'localhost:5173/courses.json',
   ).length;
 
   await act(async () => {
@@ -163,7 +163,7 @@ test('should fetch courses data when user logs in', async () => {
   });
 
   const callCountAfter = mockAxios.get.mock.calls.filter(
-    (call) => call[0] === 'http://localhost:5173/courses.json',
+    (call) => call[0] === 'localhost:5173/courses.json',
   ).length;
 
   expect(callCountAfter).toBeGreaterThan(callCountBefore);
@@ -229,7 +229,7 @@ test('logIn updates user state with email, password, and isLoggedIn', async () =
   });
 
   await act(async () => {
-    const coursesCall = mockAxios.getReqByUrl('http://localhost:5173/courses.json');
+    const coursesCall = mockAxios.getReqByUrl('localhost:5173/courses.json');
     if (coursesCall) {
       mockAxios.mockResponse({ data: coursesData }, coursesCall);
     }
@@ -252,7 +252,7 @@ test('logOut resets user state: isLoggedIn false, email and password cleared', a
   });
 
   await act(async () => {
-    const coursesCall = mockAxios.getReqByUrl('http://localhost:5173/courses.json');
+    const coursesCall = mockAxios.getReqByUrl('localhost:5173/courses.json');
     if (coursesCall) {
       mockAxios.mockResponse({ data: coursesData }, coursesCall);
     }
@@ -265,7 +265,7 @@ test('logOut resets user state: isLoggedIn false, email and password cleared', a
   });
 
   await act(async () => {
-    const coursesCall = mockAxios.getReqByUrl('http://localhost:5173/courses.json');
+    const coursesCall = mockAxios.getReqByUrl('localhost:5173/courses.json');
     if (coursesCall) {
       mockAxios.mockResponse({ data: coursesData }, coursesCall);
     }
@@ -295,7 +295,7 @@ describe('callback reference stability', () => {
     useEffect(() => {
       const fetchNotifications = async () => {
         try {
-          const response = await axios.get('http://localhost:5173/notifications.json');
+          const response = await axios.get('localhost:5173/notifications.json');
           const data = response.data.map((notif) => {
             if (notif.html) return { ...notif, html: getLatestNotification() };
             return notif;
@@ -308,7 +308,7 @@ describe('callback reference stability', () => {
 
     useEffect(() => {
       const fetchCourses = async () => {
-        try { await axios.get('http://localhost:5173/courses.json'); } catch { /* noop */ }
+        try { await axios.get('localhost:5173/courses.json'); } catch { /* noop */ }
       };
       fetchCourses();
     }, [user]);
