@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { getLatestNotification } from '../utils/utils.js';
 import Notifications from '../Notifications/Notifications.jsx';
 import Header from '../Header/Header.jsx';
@@ -109,4 +109,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default React.memo(App);
