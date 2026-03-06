@@ -1,16 +1,21 @@
 import React from 'react';
 
 class NotificationItem extends React.PureComponent {
+  static defaultProps = {
+    markAsRead: () => {},
+    type: "default",
+    html: "",
+    value: "",
+    id: 1,
+  };
+
   handleClick = () => {
     const { id, markAsRead } = this.props;
-    console.log(`Notification ${id} has been marked as read`);
-    if (markAsRead) {
-      markAsRead(id);
-    }
+    markAsRead(id);
   };
 
   render() {
-    const { type = 'default', html = null, value = null } = this.props;
+    const { type , html , value } = this.props;
     const hasHTML =
       html && (typeof html === 'object' || typeof html === 'string');
 
