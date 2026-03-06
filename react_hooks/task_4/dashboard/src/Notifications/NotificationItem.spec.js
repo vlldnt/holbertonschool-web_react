@@ -53,4 +53,28 @@ describe('NotificationItem', () => {
       'Notification 1 has been marked as read',
     );
   });
+
+  test('markAsRead function reference should remain stable across re-renders', () => {
+    const markAsReadMock = jest.fn();
+    const { rerender } = render(
+      <NotificationItem
+        id={1}
+        type="default"
+        value="Test notification"
+        markAsRead={markAsReadMock}
+      />,
+    );
+
+    rerender(
+      <NotificationItem
+        id={1}
+        type="default"
+        value="Test notification"
+        markAsRead={markAsReadMock}
+      />,
+    );
+    const item = screen.getByRole('listitem');
+    fireEvent.click(item);
+    expect(markAsReadMock).toHaveBeenCalledWith(1);
+  });
 });

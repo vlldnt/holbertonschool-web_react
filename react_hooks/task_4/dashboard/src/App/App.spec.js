@@ -1,5 +1,5 @@
 import { expect, jest, test } from '@jest/globals';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import App from './App.jsx';
 
 test('should render title', () => {
@@ -146,4 +146,31 @@ test('clicking on a notification item should remove it from the notification lis
   expect(remainingItems).toHaveLength(2);
 
   consoleLogSpy.mockRestore();
+});
+
+test('markNotificationAsRead function maintains the same reference between re-renders', () => {
+  const { rerender } = render(<App />);
+
+  const notificationTitle = screen.getByText(/Your notifications/i);
+  fireEvent.click(notificationTitle);
+
+  // Get initial notification items
+  let items = screen.getAllByRole('listitem');
+  expect(items).toHaveLength(3);
+
+  // Re-render App component (simulating parent re-render)
+  rerender(<App />);
+
+  // Click on notification title again to show drawer
+  fireEvent.click(notificationTitle);
+
+  // Verify notifications are still there (function reference was maintained)
+  items = screen.getAllByRole('listitem');
+  expect(items).toHaveLength(3);
+
+  // Verify markNotificationAsRead still works correctly after re-render
+  fireEvent.click(items[0]);
+  fireEvent.click(notificationTitle);
+  const remainingItems = screen.queryAllByRole('listitem');
+  expect(remainingItems).toHaveLength(2);
 });

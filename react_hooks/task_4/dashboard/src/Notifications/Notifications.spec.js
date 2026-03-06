@@ -188,15 +188,12 @@ describe('Notifications component - displayDrawer is true and notifications is e
     const { rerender } = render(
       <Notifications displayDrawer={true} notifications={notificationsList} />,
     );
-    // Verify initial render shows 3 items
     expect(screen.getAllByRole('listitem')).toHaveLength(3);
 
-    // Rerender with the exact same props - should remain 3 items
     rerender(
       <Notifications displayDrawer={true} notifications={notificationsList} />,
     );
 
-    // React.memo should not re-render because props are identical
     expect(screen.getAllByRole('listitem')).toHaveLength(3);
   });
 
@@ -204,10 +201,8 @@ describe('Notifications component - displayDrawer is true and notifications is e
     const { rerender } = render(
       <Notifications displayDrawer={true} notifications={notificationsList} />,
     );
-    // Verify initial render shows 3 items
     expect(screen.getAllByRole('listitem')).toHaveLength(3);
 
-    // Rerender with different notifications array
     const newNotificationsList = [
       { id: 1, type: 'default', value: 'New course available' },
     ];
@@ -218,8 +213,69 @@ describe('Notifications component - displayDrawer is true and notifications is e
       />,
     );
 
-    // React.memo should re-render because notifications prop changed
-    // Verify the UI updated to show only 1 item
     expect(screen.getAllByRole('listitem')).toHaveLength(1);
+  });
+
+  test('showing and hiding the notification list with marking items as read works as expected', () => {
+    const mockMarkAsRead = jest.fn();
+    const mockHandleDisplayDrawer = jest.fn();
+    const mockHandleHideDrawer = jest.fn();
+
+    const { rerender } = render(
+      <Notifications
+        displayDrawer={false}
+        notifications={notificationsList}
+        markAsRead={mockMarkAsRead}
+        handleDisplayDrawer={mockHandleDisplayDrawer}
+        handleHideDrawer={mockHandleHideDrawer}
+      />,
+    );
+
+    expect(screen.queryAllByRole('listitem')).toHaveLength(0);
+    expect(screen.queryByText(/Here is the list of notifications/i)).not.toBeInTheDocument();
+
+    rerender(
+      <Notifications
+        displayDrawer={true}
+        notifications={notificationsList}
+        markAsRead={mockMarkAsRead}
+        handleDisplayDrawer={mockHandleDisplayDrawer}
+        handleHideDrawer={mockHandleHideDrawer}
+      />,
+    );
+
+    expect(screen.getByText(/Here is the list of notifications/i)).toBeInTheDocument();
+    let items = screen.getAllByRole('listitem');
+    expect(items).toHaveLength(3);
+
+    fireEvent.click(items[0]);
+    expect(mockMarkAsRead).toHaveBeenCalledWith(1);
+
+    const updatedNotifications = notificationsList.filter((n) => n.id !== 1);
+    rerender(
+      <Notifications
+        displayDrawer={true}
+        notifications={updatedNotifications}
+        markAsRead={mockMarkAsRead}
+        handleDisplayDrawer={mockHandleDisplayDrawer}
+        handleHideDrawer={mockHandleHideDrawer}
+      />,
+    );
+
+    items = screen.getAllByRole('listitem');
+    expect(items).toHaveLength(2);
+
+    rerender(
+      <Notifications
+        displayDrawer={false}
+        notifications={updatedNotifications}
+        markAsRead={mockMarkAsRead}
+        handleDisplayDrawer={mockHandleDisplayDrawer}
+        handleHideDrawer={mockHandleHideDrawer}
+      />,
+    );
+
+    expect(screen.queryAllByRole('listitem')).toHaveLength(0);
+    expect(screen.queryByText(/Here is the list of notifications/i)).not.toBeInTheDocument();
   });
 });
