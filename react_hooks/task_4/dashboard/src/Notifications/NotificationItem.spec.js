@@ -26,21 +26,21 @@ describe('NotificationItem', () => {
     expect(item).toHaveAttribute('data-notification-type', 'urgent');
   });
 
-  test('markAsRead is called with the right ID when notification item is clicked', () => {
-    const markAsReadMock = jest.fn();
+  test('markNotificationAsRead is called with the right ID when notification item is clicked', () => {
+    const markNotificationAsReadMock = jest.fn();
     const testId = 123;
     render(
       <NotificationItem
         type="default"
         value="Test notification"
         id={testId}
-        markAsRead={markAsReadMock}
+        markNotificationAsRead={markNotificationAsReadMock}
       />,
     );
     const item = screen.getByRole('listitem');
     fireEvent.click(item);
-    expect(markAsReadMock).toHaveBeenCalledTimes(1);
-    expect(markAsReadMock).toHaveBeenCalledWith(testId);
+    expect(markNotificationAsReadMock).toHaveBeenCalledTimes(1);
+    expect(markNotificationAsReadMock).toHaveBeenCalledWith(testId);
   });
 
   test('logs correct message to console when notification item is clicked', () => {
@@ -54,14 +54,14 @@ describe('NotificationItem', () => {
     );
   });
 
-  test('markAsRead function reference should remain stable across re-renders', () => {
-    const markAsReadMock = jest.fn();
+  test('markNotificationAsRead function reference should remain stable across re-renders', () => {
+    const markNotificationAsReadMock = jest.fn();
     const { rerender } = render(
       <NotificationItem
         id={1}
         type="default"
         value="Test notification"
-        markAsRead={markAsReadMock}
+        markNotificationAsRead={markNotificationAsReadMock}
       />,
     );
 
@@ -70,11 +70,11 @@ describe('NotificationItem', () => {
         id={1}
         type="default"
         value="Test notification"
-        markAsRead={markAsReadMock}
+        markNotificationAsRead={markNotificationAsReadMock}
       />,
     );
     const item = screen.getByRole('listitem');
     fireEvent.click(item);
-    expect(markAsReadMock).toHaveBeenCalledWith(1);
+    expect(markNotificationAsReadMock).toHaveBeenCalledWith(1);
   });
 });

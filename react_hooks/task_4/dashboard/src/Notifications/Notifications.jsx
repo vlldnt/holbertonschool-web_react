@@ -5,7 +5,7 @@ import NotificationItem from './NotificationItem.jsx';
 function Notifications({
   notifications = [],
   displayDrawer = false,
-  markAsRead,
+  markNotificationAsRead,
   handleDisplayDrawer,
   handleHideDrawer,
 }) {
@@ -39,7 +39,7 @@ function Notifications({
                         type={notif.type}
                         value={notif.value}
                         html={notif.html}
-                        markAsRead={markAsRead}
+                        markNotificationAsRead={markNotificationAsRead}
                       />
                     ))}
                   </ul>

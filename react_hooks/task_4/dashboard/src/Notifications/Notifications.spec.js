@@ -124,13 +124,13 @@ describe('Notifications component - displayDrawer is true', () => {
     expect(handleHideDrawer).toHaveBeenCalled();
   });
 
-  test('should call markAsRead prop when notification item is clicked', () => {
+  test('should call markNotificationAsRead prop when notification item is clicked', () => {
     const mockMarkAsRead = jest.fn();
     render(
       <Notifications
         displayDrawer={true}
         notifications={notificationsList}
-        markAsRead={mockMarkAsRead}
+        markNotificationAsRead={mockMarkAsRead}
       />,
     );
 
@@ -225,7 +225,7 @@ describe('Notifications component - displayDrawer is true and notifications is e
       <Notifications
         displayDrawer={false}
         notifications={notificationsList}
-        markAsRead={mockMarkAsRead}
+        markNotificationAsRead={mockMarkAsRead}
         handleDisplayDrawer={mockHandleDisplayDrawer}
         handleHideDrawer={mockHandleHideDrawer}
       />,
@@ -238,7 +238,7 @@ describe('Notifications component - displayDrawer is true and notifications is e
       <Notifications
         displayDrawer={true}
         notifications={notificationsList}
-        markAsRead={mockMarkAsRead}
+        markNotificationAsRead={mockMarkAsRead}
         handleDisplayDrawer={mockHandleDisplayDrawer}
         handleHideDrawer={mockHandleHideDrawer}
       />,
@@ -256,7 +256,7 @@ describe('Notifications component - displayDrawer is true and notifications is e
       <Notifications
         displayDrawer={true}
         notifications={updatedNotifications}
-        markAsRead={mockMarkAsRead}
+        markNotificationAsRead={mockMarkAsRead}
         handleDisplayDrawer={mockHandleDisplayDrawer}
         handleHideDrawer={mockHandleHideDrawer}
       />,
@@ -269,7 +269,7 @@ describe('Notifications component - displayDrawer is true and notifications is e
       <Notifications
         displayDrawer={false}
         notifications={updatedNotifications}
-        markAsRead={mockMarkAsRead}
+        markNotificationAsRead={mockMarkAsRead}
         handleDisplayDrawer={mockHandleDisplayDrawer}
         handleHideDrawer={mockHandleHideDrawer}
       />,

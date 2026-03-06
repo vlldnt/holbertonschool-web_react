@@ -73,7 +73,7 @@ const App = () => {
       <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
         <Notifications
           notifications={notifications}
-          markAsRead={markNotificationAsRead}
+          markNotificationAsRead={markNotificationAsRead}
           displayDrawer={displayDrawer}
           handleDisplayDrawer={handleDisplayDrawer}
           handleHideDrawer={handleHideDrawer}
