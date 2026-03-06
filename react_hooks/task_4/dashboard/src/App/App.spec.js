@@ -275,6 +275,54 @@ test('logOut resets user state: isLoggedIn false, email and password cleared', a
   expect(screen.queryByRole('heading', { name: /Course list/i })).not.toBeInTheDocument();
 });
 
+test('The Notifications component state should remain unchanged through login / logout', async () => {
+  await renderApp();
+
+  // Open drawer and check initial notifications
+  fireEvent.click(screen.getByText(/Your notifications/i));
+  const initialItems = screen.getAllByRole('listitem');
+  expect(initialItems).toHaveLength(3);
+
+  // Log in
+  const emailInput = screen.getByLabelText(/email/i);
+  const passwordInput = screen.getByLabelText(/password/i);
+
+  await act(async () => {
+    fireEvent.change(emailInput, { target: { value: 'test@test.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.click(screen.getByText(/ok/i));
+  });
+
+  await act(async () => {
+    const coursesCall = mockAxios.getReqByUrl('http://localhost:5173/courses.json');
+    if (coursesCall) {
+      mockAxios.mockResponse({ data: coursesData }, coursesCall);
+    }
+  });
+
+  // After login, notifications should still be the same
+  fireEvent.click(screen.getByText(/Your notifications/i));
+  const itemsAfterLogin = screen.getAllByRole('listitem');
+  expect(itemsAfterLogin).toHaveLength(3);
+
+  // Log out
+  await act(async () => {
+    fireEvent.click(screen.getByText(/\(logout\)/i));
+  });
+
+  await act(async () => {
+    const coursesCall = mockAxios.getReqByUrl('http://localhost:5173/courses.json');
+    if (coursesCall) {
+      mockAxios.mockResponse({ data: coursesData }, coursesCall);
+    }
+  });
+
+  // After logout, notifications should still be the same
+  fireEvent.click(screen.getByText(/Your notifications/i));
+  const itemsAfterLogout = screen.getAllByRole('listitem');
+  expect(itemsAfterLogout).toHaveLength(3);
+});
+
 describe('callback reference stability', () => {
   let capturedProps;
 
