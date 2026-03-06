@@ -198,7 +198,7 @@ test('markNotificationAsRead function maintains the same reference between re-re
 test('should fetch and display notifications data on initial load', () => {
   render(<App />);
 
-  expect(mockAxios.get).toHaveBeenCalledWith('localhost:5173/notifications.json');
+  expect(mockAxios.get).toHaveBeenCalledWith('http://localhost:5173/notifications.json');
 
   act(() => {
     mockAxios.mockResponse({ data: mockNotifications });
@@ -213,7 +213,7 @@ test('should fetch and display notifications data on initial load', () => {
 test('should fetch courses data when user state changes', () => {
   render(<App />);
 
-  expect(mockAxios.get).toHaveBeenCalledWith('localhost:5173/notifications.json/');
+  expect(mockAxios.get).toHaveBeenCalledWith('http://localhost:5173/notifications.json');
 
   act(() => {
     mockAxios.mockResponse({ data: mockNotifications });

@@ -52,7 +52,7 @@ const App = () => {
 
   useEffect(() => {
     axios
-      .get('localhost:5173/notifications.json')
+      .get('http://localhost:5173/notifications.json')
       .then((res) => {
         const data = res.data.map((notif, index) => {
           if (index === res.data.length - 1) {
@@ -69,7 +69,7 @@ const App = () => {
 
   useEffect(() => {
     axios
-      .get('localhost:5173/notifications.json/')
+      .get('http://localhost:5173/notifications.json/')
       .then((res) => {
         setCourses(res.data);
       })
