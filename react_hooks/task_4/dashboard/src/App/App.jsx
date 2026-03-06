@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { getLatestNotification } from '../utils/utils.js';
 import Notifications from '../Notifications/Notifications.jsx';
@@ -9,28 +9,28 @@ import CourseList from '../CourseList/CourseList.jsx';
 import BodySectionWithMargin from '../BodySection/BodySectionWithMarginBottom.jsx';
 import BodySection from '../BodySection/BodySection.jsx';
 import WithLogging from '../HOC/WithLogging.jsx';
-import NewContext from '../Context/context.js';
+import { newContext, defaultUser } from '../Context/context.js';
 
 const LoginWithLogging = WithLogging(Login);
 const CourseListWithLogging = WithLogging(CourseList);
 
 function App() {
   const [displayDrawer, setDisplayDrawer] = useState(true);
-  const [user, setUser] = useState({
-    email: '',
-    password: '',
-    isLoggedIn: false,
-  });
+  const [user, setUser] = useState({ ...defaultUser });
   const [notifications, setNotifications] = useState([]);
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get('localhost:5173/notifications.json');
-        const data = response.data.map((notif) => {
-          if (notif.html) {
-            return { ...notif, html: getLatestNotification() };
+        const response = await axios.get('http://localhost:5173/notifications.json');
+        const rawData = response.data.notifications || response.data;
+        const data = rawData.map((notif) => {
+          if (notif.type === 'urgent' && !notif.value && !notif.html) {
+            return { ...notif, html: { __html: getLatestNotification() } };
+          }
+          if (notif.id === 3) {
+            return { ...notif, html: { __html: getLatestNotification() } };
           }
           return notif;
         });
@@ -45,14 +45,15 @@ function App() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('localhost:5173/courses.json');
-        setCourses(response.data);
+        const response = await axios.get('http://localhost:5173/courses.json');
+        const coursesData = response.data.courses || response.data;
+        setCourses(coursesData);
       } catch (error) {
         console.error('Error fetching courses:', error);
       }
     };
     fetchCourses();
-  }, [user]);
+  }, [user.isLoggedIn]);
 
   const logIn = useCallback((email, password) => {
     setUser({
@@ -63,11 +64,7 @@ function App() {
   }, []);
 
   const logOut = useCallback(() => {
-    setUser({
-      email: '',
-      password: '',
-      isLoggedIn: false,
-    });
+    setUser({ ...defaultUser });
   }, []);
 
   const handleDisplayDrawer = useCallback(() => {
@@ -83,8 +80,27 @@ function App() {
     setNotifications((prev) => prev.filter((notif) => notif.id !== id));
   }, []);
 
+  const handleKeyDown = useCallback((event) => {
+    if (event.ctrlKey && event.key === 'h') {
+      alert('Logging you out');
+      logOut();
+    }
+  }, [logOut]);
+
+  const contextValue = useMemo(() => ({
+    user,
+    logOut
+  }), [user, logOut]);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown]);
+
   return (
-    <NewContext.Provider value={{ user, logOut }}>
+    <newContext.Provider value={contextValue}>
       <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
         <Notifications
           notifications={notifications}
@@ -120,7 +136,7 @@ function App() {
         </main>
         <Footer isIndex={false} />
       </div>
-    </NewContext.Provider>
+    </newContext.Provider>
   );
 }
 
