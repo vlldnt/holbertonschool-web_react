@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getLatestNotification } from '../utils/utils.js';
 import Notifications from '../Notifications/Notifications.jsx';
 import Header from '../Header/Header.jsx';
@@ -36,6 +36,7 @@ function App() {
   const [displayDrawer, setDisplayDrawer] = useState(true);
   const [user, setUser] = useState(defaultUser);
   const [notifications, setNotifications] = useState(notificationsList);
+  const [courses, setCourses] = useState(courseList);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -55,7 +56,7 @@ function App() {
     };
   }, []);
 
-  const logIn = useCallback((email, password) => {
+  const logIn = React.useCallback((email, password) => {
     setUser({
       email,
       password,
@@ -63,7 +64,7 @@ function App() {
     });
   }, []);
 
-  const logOut = useCallback(() => {
+  const logOut = React.useCallback(() => {
     setUser({
       email: '',
       password: '',
@@ -71,15 +72,14 @@ function App() {
     });
   }, []);
 
-  const handleDisplayDrawer = useCallback(() => {
+  const handleDisplayDrawer = React.useCallback(() => {
     setDisplayDrawer(true);
   }, []);
-
-  const handleHideDrawer = useCallback(() => {
+  const handleHideDrawer = React.useCallback(() => {
     setDisplayDrawer(false);
   }, []);
 
-  const markNotificationAsRead = useCallback((id) => {
+  const markNotificationAsRead = React.useCallback((id) => {
     console.log(`Notification ${id} has been marked as read`);
     setNotifications((prevNotifications) =>
       prevNotifications.filter((notif) => notif.id !== id),
@@ -101,7 +101,7 @@ function App() {
           <div className="flex-1 flex flex-col">
             {user.isLoggedIn ? (
               <BodySectionWithMargin title="Course list">
-                <CourseListWithLogging courses={courseList} />
+                <CourseListWithLogging courses={courses} />
               </BodySectionWithMargin>
             ) : (
               <BodySectionWithMargin title="Log in to continue">
