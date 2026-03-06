@@ -1,8 +1,11 @@
 import { expect, jest, test, describe } from '@jest/globals';
+import { useState, useCallback, useEffect } from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import mockAxios from 'jest-mock-axios';
+import axios from 'axios';
 import App from './App.jsx';
 import { getLatestNotification } from '../utils/utils.js';
+import NewContext from '../Context/context.js';
 
 const notificationsData = [
   { id: 1, type: 'default', value: 'New course available' },
@@ -284,56 +287,52 @@ describe('callback reference stability', () => {
     return null;
   }
 
+  function TestApp() {
+    const [displayDrawer, setDisplayDrawer] = useState(true);
+    const [user] = useState({ email: '', password: '', isLoggedIn: false });
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+      const fetchNotifications = async () => {
+        try {
+          const response = await axios.get('http://localhost:5173/notifications.json');
+          const data = response.data.map((notif) => {
+            if (notif.html) return { ...notif, html: getLatestNotification() };
+            return notif;
+          });
+          setNotifications(data);
+        } catch { /* noop */ }
+      };
+      fetchNotifications();
+    }, []);
+
+    useEffect(() => {
+      const fetchCourses = async () => {
+        try { await axios.get('http://localhost:5173/courses.json'); } catch { /* noop */ }
+      };
+      fetchCourses();
+    }, [user]);
+
+    const handleDisplayDrawer = useCallback(() => { setDisplayDrawer(true); }, []);
+    const handleHideDrawer = useCallback(() => { setDisplayDrawer(false); }, []);
+    const markNotificationAsRead = useCallback((id) => {
+      setNotifications((prev) => prev.filter((n) => n.id !== id));
+    }, []);
+
+    return (
+      <NewContext.Provider value={{ user, logOut: () => {} }}>
+        <PropsCapture
+          handleDisplayDrawer={handleDisplayDrawer}
+          handleHideDrawer={handleHideDrawer}
+          markAsRead={markNotificationAsRead}
+          displayDrawer={displayDrawer}
+          notifications={notifications}
+        />
+      </NewContext.Provider>
+    );
+  }
+
   test('handleDisplayDrawer and handleHideDrawer keep the same reference between re-renders', async () => {
-    const { useState, useCallback, useEffect } = require('react');
-    const axios = require('axios');
-    const { getLatestNotification: getNotif } = require('../utils/utils.js');
-    const newContext = require('../Context/context.js').default;
-
-    function TestApp() {
-      const [displayDrawer, setDisplayDrawer] = useState(true);
-      const [user, setUser] = useState({ email: '', password: '', isLoggedIn: false });
-      const [notifications, setNotifications] = useState([]);
-
-      useEffect(() => {
-        const fetchNotifications = async () => {
-          try {
-            const response = await axios.get('http://localhost:5173/notifications.json');
-            const data = response.data.map((notif) => {
-              if (notif.html) return { ...notif, html: getNotif() };
-              return notif;
-            });
-            setNotifications(data);
-          } catch (e) { /* noop */ }
-        };
-        fetchNotifications();
-      }, []);
-
-      useEffect(() => {
-        const fetchCourses = async () => {
-          try { await axios.get('http://localhost:5173/courses.json'); } catch (e) { /* noop */ }
-        };
-        fetchCourses();
-      }, [user]);
-
-      const handleDisplayDrawer = useCallback(() => { setDisplayDrawer(true); }, []);
-      const handleHideDrawer = useCallback(() => { setDisplayDrawer(false); }, []);
-      const markNotificationAsRead = useCallback((id) => {
-        setNotifications((prev) => prev.filter((n) => n.id !== id));
-      }, []);
-
-      return (
-        <newContext.Provider value={{ user, logOut: () => {} }}>
-          <PropsCapture
-            handleDisplayDrawer={handleDisplayDrawer}
-            handleHideDrawer={handleHideDrawer}
-            markAsRead={markNotificationAsRead}
-            displayDrawer={displayDrawer}
-          />
-        </newContext.Provider>
-      );
-    }
-
     await act(async () => { render(<TestApp />); });
     await act(async () => { resolveAxiosCalls(); });
 
@@ -348,55 +347,6 @@ describe('callback reference stability', () => {
   });
 
   test('markNotificationAsRead keeps the same reference between re-renders', async () => {
-    const { useState, useCallback, useEffect } = require('react');
-    const axios = require('axios');
-    const { getLatestNotification: getNotif } = require('../utils/utils.js');
-    const newContext = require('../Context/context.js').default;
-
-    function TestApp() {
-      const [displayDrawer, setDisplayDrawer] = useState(true);
-      const [user, setUser] = useState({ email: '', password: '', isLoggedIn: false });
-      const [notifications, setNotifications] = useState([]);
-
-      useEffect(() => {
-        const fetchNotifications = async () => {
-          try {
-            const response = await axios.get('http://localhost:5173/notifications.json');
-            const data = response.data.map((notif) => {
-              if (notif.html) return { ...notif, html: getNotif() };
-              return notif;
-            });
-            setNotifications(data);
-          } catch (e) { /* noop */ }
-        };
-        fetchNotifications();
-      }, []);
-
-      useEffect(() => {
-        const fetchCourses = async () => {
-          try { await axios.get('http://localhost:5173/courses.json'); } catch (e) { /* noop */ }
-        };
-        fetchCourses();
-      }, [user]);
-
-      const handleDisplayDrawer = useCallback(() => { setDisplayDrawer(true); }, []);
-      const handleHideDrawer = useCallback(() => { setDisplayDrawer(false); }, []);
-      const markNotificationAsRead = useCallback((id) => {
-        setNotifications((prev) => prev.filter((n) => n.id !== id));
-      }, []);
-
-      return (
-        <newContext.Provider value={{ user, logOut: () => {} }}>
-          <PropsCapture
-            handleDisplayDrawer={handleDisplayDrawer}
-            handleHideDrawer={handleHideDrawer}
-            markAsRead={markNotificationAsRead}
-            displayDrawer={displayDrawer}
-          />
-        </newContext.Provider>
-      );
-    }
-
     await act(async () => { render(<TestApp />); });
     await act(async () => { resolveAxiosCalls(); });
 

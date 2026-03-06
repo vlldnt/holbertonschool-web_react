@@ -9,7 +9,7 @@ import CourseList from '../CourseList/CourseList.jsx';
 import BodySectionWithMargin from '../BodySection/BodySectionWithMarginBottom.jsx';
 import BodySection from '../BodySection/BodySection.jsx';
 import WithLogging from '../HOC/WithLogging.jsx';
-import newContext from '../Context/context.js';
+import NewContext from '../Context/context.js';
 
 const LoginWithLogging = WithLogging(Login);
 const CourseListWithLogging = WithLogging(CourseList);
@@ -84,7 +84,7 @@ function App() {
   }, []);
 
   return (
-    <newContext.Provider value={{ user, logOut }}>
+    <NewContext.Provider value={{ user, logOut }}>
       <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
         <Notifications
           notifications={notifications}
@@ -120,7 +120,7 @@ function App() {
         </main>
         <Footer isIndex={false} />
       </div>
-    </newContext.Provider>
+    </NewContext.Provider>
   );
 }
 
