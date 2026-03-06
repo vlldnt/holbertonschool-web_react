@@ -59,14 +59,11 @@ const App = () => {
     setDisplayDrawer(false);
   }, []);
 
-  const markNotificationAsRead = useCallback(
-    (id) => {
-      setNotifications((prevNotifications) =>
-        prevNotifications.filter((notif) => notif.id !== id)
-      );
-    },
-    [],
-  );
+  const markNotificationAsRead = useCallback((id) => {
+    setNotifications((prevNotifications) =>
+      prevNotifications.filter((notif) => notif.id !== id),
+    );
+  }, []);
 
   return (
     <newContext.Provider value={{ user, logOut }}>
