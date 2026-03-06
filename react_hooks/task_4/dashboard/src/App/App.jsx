@@ -1,5 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useCallback } from 'react';
 import { getLatestNotification } from '../utils/utils.js';
 import Notifications from '../Notifications/Notifications.jsx';
 import Header from '../Header/Header.jsx';
@@ -9,16 +8,31 @@ import CourseList from '../CourseList/CourseList.jsx';
 import BodySectionWithMargin from '../BodySection/BodySectionWithMarginBottom.jsx';
 import BodySection from '../BodySection/BodySection.jsx';
 import WithLogging from '../HOC/WithLogging.jsx';
-import { newContext, defaultUser } from '../Context/context.js';
+import newContext from '../Context/context.js';
 
 const LoginWithLogging = WithLogging(Login);
 const CourseListWithLogging = WithLogging(CourseList);
 
-const App = () => {
+const notificationsList = [
+  { id: 1, type: 'default', value: 'New course available' },
+  { id: 2, type: 'urgent', value: 'New resume available' },
+  { id: 3, type: 'urgent', html: getLatestNotification() },
+];
+
+const coursesList = [
+  { id: 1, name: 'ES6', credit: 60 },
+  { id: 2, name: 'Webpack', credit: 20 },
+  { id: 3, name: 'React', credit: 40 },
+];
+
+function App() {
   const [displayDrawer, setDisplayDrawer] = useState(true);
-  const [user, setUser] = useState({ ...defaultUser });
-  const [notifications, setNotifications] = useState([]);
-  const [courses, setCourses] = useState([]);
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+    isLoggedIn: false,
+  });
+  const [notifications, setNotifications] = useState(notificationsList);
 
   const logIn = useCallback((email, password) => {
     setUser({
@@ -45,45 +59,16 @@ const App = () => {
   }, []);
 
   const markNotificationAsRead = useCallback((id) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.filter((notif) => notif.id !== id),
-    );
+    console.log(`Notification ${id} has been marked as read`);
+    setNotifications((prev) => prev.filter((notif) => notif.id !== id));
   }, []);
-
-  useEffect(() => {
-    axios
-      .get('http://localhost:5173/notifications.json')
-      .then((res) => {
-        const data = res.data.map((notif, index) => {
-          if (index === res.data.length - 1) {
-            return { ...notif, html: { __html: getLatestNotification() } };
-          }
-          return notif;
-        });
-        setNotifications(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get('http://localhost:5173/notifications.json/')
-      .then((res) => {
-        setCourses(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  });
 
   return (
     <newContext.Provider value={{ user, logOut }}>
       <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
         <Notifications
           notifications={notifications}
-          markNotificationAsRead={markNotificationAsRead}
+          markAsRead={markNotificationAsRead}
           displayDrawer={displayDrawer}
           handleDisplayDrawer={handleDisplayDrawer}
           handleHideDrawer={handleHideDrawer}
@@ -93,7 +78,7 @@ const App = () => {
           <div className="flex-1 flex flex-col">
             {user.isLoggedIn ? (
               <BodySectionWithMargin title="Course list">
-                <CourseListWithLogging courses={courses} />
+                <CourseListWithLogging courses={coursesList} />
               </BodySectionWithMargin>
             ) : (
               <BodySectionWithMargin title="Log in to continue">
@@ -117,6 +102,6 @@ const App = () => {
       </div>
     </newContext.Provider>
   );
-};
+}
 
 export default App;

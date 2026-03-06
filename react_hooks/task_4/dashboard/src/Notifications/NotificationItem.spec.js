@@ -26,21 +26,21 @@ describe('NotificationItem', () => {
     expect(item).toHaveAttribute('data-notification-type', 'urgent');
   });
 
-  test('markNotificationAsRead is called with the right ID when notification item is clicked', () => {
-    const markNotificationAsReadMock = jest.fn();
+  test('markAsRead is called with the right ID when notification item is clicked', () => {
+    const markAsReadMock = jest.fn();
     const testId = 123;
     render(
       <NotificationItem
         type="default"
         value="Test notification"
         id={testId}
-        markNotificationAsRead={markNotificationAsReadMock}
+        markAsRead={markAsReadMock}
       />,
     );
     const item = screen.getByRole('listitem');
     fireEvent.click(item);
-    expect(markNotificationAsReadMock).toHaveBeenCalledTimes(1);
-    expect(markNotificationAsReadMock).toHaveBeenCalledWith(testId);
+    expect(markAsReadMock).toHaveBeenCalledTimes(1);
+    expect(markAsReadMock).toHaveBeenCalledWith(testId);
   });
 
   test('logs correct message to console when notification item is clicked', () => {
@@ -52,29 +52,5 @@ describe('NotificationItem', () => {
     expect(consoleLogSpy).toHaveBeenCalledWith(
       'Notification 1 has been marked as read',
     );
-  });
-
-  test('markNotificationAsRead function reference should remain stable across re-renders', () => {
-    const markNotificationAsReadMock = jest.fn();
-    const { rerender } = render(
-      <NotificationItem
-        id={1}
-        type="default"
-        value="Test notification"
-        markNotificationAsRead={markNotificationAsReadMock}
-      />,
-    );
-
-    rerender(
-      <NotificationItem
-        id={1}
-        type="default"
-        value="Test notification"
-        markNotificationAsRead={markNotificationAsReadMock}
-      />,
-    );
-    const item = screen.getByRole('listitem');
-    fireEvent.click(item);
-    expect(markNotificationAsReadMock).toHaveBeenCalledWith(1);
   });
 });

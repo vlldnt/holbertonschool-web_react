@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import Footer from './Footer';
 // eslint-disable-next-line no-unused-vars
-import { newContext } from '../Context/context';
+import newContext from '../Context/context';
 
 describe('Footer component', () => {
   test('should render Copyright with current year and Holberton School', () => {

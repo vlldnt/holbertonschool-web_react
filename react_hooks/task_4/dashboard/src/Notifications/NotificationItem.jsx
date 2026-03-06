@@ -5,12 +5,12 @@ function NotificationItem({
   type = 'default',
   html = null,
   value = null,
-  markNotificationAsRead,
+  markAsRead,
 }) {
   const handleClick = () => {
     console.log(`Notification ${id} has been marked as read`);
-    if (markNotificationAsRead) {
-      markNotificationAsRead(id);
+    if (markAsRead) {
+      markAsRead(id);
     }
   };
 

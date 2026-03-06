@@ -5,7 +5,7 @@ import NotificationItem from './NotificationItem.jsx';
 function Notifications({
   notifications = [],
   displayDrawer = false,
-  markNotificationAsRead,
+  markAsRead,
   handleDisplayDrawer,
   handleHideDrawer,
 }) {
@@ -39,7 +39,7 @@ function Notifications({
                         type={notif.type}
                         value={notif.value}
                         html={notif.html}
-                        markNotificationAsRead={markNotificationAsRead}
+                        markAsRead={markAsRead}
                       />
                     ))}
                   </ul>
@@ -47,7 +47,7 @@ function Notifications({
               )}
             </div>
             <button
-              className="close-button fixed top-4 right-4 w-3 h-3 tablet:w-4 tablet:h-4 tablet:top-12 tablet:right-7 border-0 bg-transparent cursor-pointer z-1000"
+              className="close-button fixed top-4 right-4 w-3 h-3 tablet:w-4 tablet:h-4 tablet:top-12 tablet:right-7 border-0 bg-transparent cursor-pointer z-[1000]"
               aria-label="Close"
               onClick={handleHideDrawer}
             >
