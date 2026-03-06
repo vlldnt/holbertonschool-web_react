@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import axios from 'axios';
 import { getLatestNotification } from '../utils/utils.js';
 import Notifications from '../Notifications/Notifications.jsx';
 import Header from '../Header/Header.jsx';
@@ -13,18 +14,6 @@ import newContext from '../Context/context.js';
 const LoginWithLogging = WithLogging(Login);
 const CourseListWithLogging = WithLogging(CourseList);
 
-const notificationsList = [
-  { id: 1, type: 'default', value: 'New course available' },
-  { id: 2, type: 'urgent', value: 'New resume available' },
-  { id: 3, type: 'urgent', html: getLatestNotification() },
-];
-
-const coursesList = [
-  { id: 1, name: 'ES6', credit: 60 },
-  { id: 2, name: 'Webpack', credit: 20 },
-  { id: 3, name: 'React', credit: 40 },
-];
-
 function App() {
   const [displayDrawer, setDisplayDrawer] = useState(true);
   const [user, setUser] = useState({
@@ -32,7 +21,40 @@ function App() {
     password: '',
     isLoggedIn: false,
   });
-  const [notifications, setNotifications] = useState(notificationsList);
+  const [notifications, setNotifications] = useState([]);
+  const [courses, setCourses] = useState([]);
+
+  // Fetch notifications on initial render
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.get('/notifications.json');
+        const data = response.data.map((notif) => {
+          if (notif.html) {
+            return { ...notif, html: getLatestNotification() };
+          }
+          return notif;
+        });
+        setNotifications(data);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+    fetchNotifications();
+  }, []);
+
+  // Fetch courses when user state changes
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get('/courses.json');
+        setCourses(response.data);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      }
+    };
+    fetchCourses();
+  }, [user]);
 
   const logIn = useCallback((email, password) => {
     setUser({
@@ -78,7 +100,7 @@ function App() {
           <div className="flex-1 flex flex-col">
             {user.isLoggedIn ? (
               <BodySectionWithMargin title="Course list">
-                <CourseListWithLogging courses={coursesList} />
+                <CourseListWithLogging courses={courses} />
               </BodySectionWithMargin>
             ) : (
               <BodySectionWithMargin title="Log in to continue">
