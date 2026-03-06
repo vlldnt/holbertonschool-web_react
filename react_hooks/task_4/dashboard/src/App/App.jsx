@@ -26,12 +26,12 @@ const coursesList = [
   { id: 3, name: 'React', credit: 40 },
 ];
 
-function App({ isLoggedIn = false }) {
+function App() {
   const [displayDrawer, setDisplayDrawer] = useState(true);
   const [user, setUser] = useState({
     email: '',
     password: '',
-    isLoggedIn,
+    isLoggedIn: false,
   });
   const [notifications, setNotifications] = useState(notificationsList);
 
