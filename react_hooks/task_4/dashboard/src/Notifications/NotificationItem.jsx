@@ -8,6 +8,7 @@ function NotificationItem({
   markAsRead,
 }) {
   const handleClick = () => {
+    console.log(`Notification ${id} has been marked as read`);
     if (markAsRead) {
       markAsRead(id);
     }

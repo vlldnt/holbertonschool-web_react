@@ -61,10 +61,11 @@ const App = () => {
 
   const markNotificationAsRead = useCallback(
     (id) => {
-      console.log(`Notification ${id} has been marked as read`);
-      setNotifications(notifications.filter((notif) => notif.id !== id));
+      setNotifications((prevNotifications) =>
+        prevNotifications.filter((notif) => notif.id !== id)
+      );
     },
-    [notifications],
+    [],
   );
 
   return (

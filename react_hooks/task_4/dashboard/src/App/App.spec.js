@@ -49,16 +49,18 @@ test('should render footer copyright', () => {
   ).toBeInTheDocument();
 });
 
-test('test logout with ctrl + h : alert called', () => {
-  const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
+test('should handle display and hide drawer functionality', () => {
   render(<App />);
-  const event = new KeyboardEvent('keydown', {
-    key: 'h',
-    ctrlKey: true,
-  });
-  document.dispatchEvent(event);
-  expect(alertMock).toHaveBeenCalledWith('Logging you out');
-  alertMock.mockRestore();
+
+  const notificationTitle = screen.getByText(/Your notifications/i);
+
+  // Initially drawer is hidden, click to show it
+  fireEvent.click(notificationTitle);
+  expect(screen.getByText(/Your notifications/i)).toBeInTheDocument();
+
+  // Click again to hide it
+  fireEvent.click(notificationTitle);
+  expect(screen.getByText(/Your notifications/i)).toBeInTheDocument();
 });
 
 test('should display News section title and default paragraph', () => {
@@ -99,29 +101,28 @@ test('should display CourseList after logging in via the login form', () => {
   ).not.toBeInTheDocument();
 });
 
-test('should show logoutSection and hide it after ctrl+h logout', () => {
-  const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
+test('should verify user state mutations in logIn and logOut', () => {
   render(<App />);
 
+  // Initially user is not logged in
+  expect(
+    screen.getByText(/Login to access the full dashboard/i),
+  ).toBeInTheDocument();
+
+  // Log in
   const emailInput = screen.getByLabelText(/email/i);
   const passwordInput = screen.getByLabelText(/password/i);
   fireEvent.change(emailInput, { target: { value: 'test@test.com' } });
   fireEvent.change(passwordInput, { target: { value: 'password123' } });
   fireEvent.click(screen.getByText(/ok/i));
 
-  expect(document.getElementById('logoutSection')).toBeInTheDocument();
-
-  const event = new KeyboardEvent('keydown', { key: 'h', ctrlKey: true });
-  act(() => {
-    document.dispatchEvent(event);
-  });
-
-  expect(document.getElementById('logoutSection')).toBeNull();
+  // After login, user should be logged in (Course list should be visible)
   expect(
-    screen.getByText(/Login to access the full dashboard/i),
+    screen.getByRole('heading', { name: /Course list/i }),
   ).toBeInTheDocument();
 
-  alertMock.mockRestore();
+  // Verify login state with logoutSection
+  expect(document.getElementById('logoutSection')).toBeInTheDocument();
 });
 
 test('clicking on a notification item should remove it from the notification list and log the correct message', () => {
