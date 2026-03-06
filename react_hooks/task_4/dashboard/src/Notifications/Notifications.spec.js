@@ -188,12 +188,15 @@ describe('Notifications component - displayDrawer is true and notifications is e
     const { rerender } = render(
       <Notifications displayDrawer={true} notifications={notificationsList} />,
     );
+    // Verify initial render shows 3 items
     expect(screen.getAllByRole('listitem')).toHaveLength(3);
 
+    // Rerender with the exact same props - should remain 3 items
     rerender(
       <Notifications displayDrawer={true} notifications={notificationsList} />,
     );
 
+    // React.memo should not re-render because props are identical
     expect(screen.getAllByRole('listitem')).toHaveLength(3);
   });
 
@@ -201,8 +204,10 @@ describe('Notifications component - displayDrawer is true and notifications is e
     const { rerender } = render(
       <Notifications displayDrawer={true} notifications={notificationsList} />,
     );
+    // Verify initial render shows 3 items
     expect(screen.getAllByRole('listitem')).toHaveLength(3);
 
+    // Rerender with different notifications array
     const newNotificationsList = [
       { id: 1, type: 'default', value: 'New course available' },
     ];
@@ -213,6 +218,8 @@ describe('Notifications component - displayDrawer is true and notifications is e
       />,
     );
 
+    // React.memo should re-render because notifications prop changed
+    // Verify the UI updated to show only 1 item
     expect(screen.getAllByRole('listitem')).toHaveLength(1);
   });
 });

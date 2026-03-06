@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react';
+import { useState, useCallback } from 'react';
 import { getLatestNotification } from '../utils/utils.js';
 import Notifications from '../Notifications/Notifications.jsx';
 import Header from '../Header/Header.jsx';
@@ -8,11 +8,16 @@ import CourseList from '../CourseList/CourseList.jsx';
 import BodySectionWithMargin from '../BodySection/BodySectionWithMarginBottom.jsx';
 import BodySection from '../BodySection/BodySection.jsx';
 import WithLogging from '../HOC/WithLogging.jsx';
-// eslint-disable-next-line no-unused-vars
 import newContext from '../Context/context.js';
 
 const LoginWithLogging = WithLogging(Login);
 const CourseListWithLogging = WithLogging(CourseList);
+
+const defaultUser = {
+  email: '',
+  password: '',
+  isLoggedIn: false,
+};
 
 const notificationsList = [
   { id: 1, type: 'default', value: 'New course available' },
@@ -20,20 +25,15 @@ const notificationsList = [
   { id: 3, type: 'urgent', html: getLatestNotification() },
 ];
 
-const coursesList = [
-  { id: 1, name: 'ES6', credit: 60 },
-  { id: 2, name: 'Webpack', credit: 20 },
-  { id: 3, name: 'React', credit: 40 },
-];
-
-function App() {
+const App = () => {
   const [displayDrawer, setDisplayDrawer] = useState(true);
-  const [user, setUser] = useState({
-    email: '',
-    password: '',
-    isLoggedIn: false,
-  });
+  const [user, setUser] = useState(defaultUser);
   const [notifications, setNotifications] = useState(notificationsList);
+  const [courses] = useState([
+    { id: 1, name: 'ES6', credit: 60 },
+    { id: 2, name: 'Webpack', credit: 20 },
+    { id: 3, name: 'React', credit: 40 },
+  ]);
 
   const logIn = useCallback((email, password) => {
     setUser({
@@ -61,13 +61,13 @@ function App() {
 
   const markNotificationAsRead = useCallback((id) => {
     console.log(`Notification ${id} has been marked as read`);
-    setNotifications((prevNotifications) =>
-      prevNotifications.filter((notif) => notif.id !== id),
-    );
-  }, []);
+    setNotifications(notifications.filter(notif => notif.id !== id));
+  }, [notifications]);
 
   return (
-    <newContext.Provider value={{ user, logOut }}>
+    <newContext.Provider
+      value={{ user, logOut }}
+    >
       <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
         <Notifications
           notifications={notifications}
@@ -81,7 +81,7 @@ function App() {
           <div className="flex-1 flex flex-col">
             {user.isLoggedIn ? (
               <BodySectionWithMargin title="Course list">
-                <CourseListWithLogging courses={coursesList} />
+                <CourseListWithLogging courses={courses} />
               </BodySectionWithMargin>
             ) : (
               <BodySectionWithMargin title="Log in to continue">
@@ -105,6 +105,6 @@ function App() {
       </div>
     </newContext.Provider>
   );
-}
+};
 
-export default memo(App);
+export default App;

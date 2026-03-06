@@ -19,6 +19,7 @@ test('isHeader true and textSecondCell null', () => {
   const tableHeader = screen.getByText('Testing');
 
   expect(screen.getAllByRole('columnheader').length).toBe(1);
+  // expect(tableHeader.colSpan).toBe(2)
   expect(tableHeader).toHaveAttribute('colspan', '2');
 });
 

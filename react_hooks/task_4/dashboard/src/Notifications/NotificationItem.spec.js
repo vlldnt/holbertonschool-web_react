@@ -2,6 +2,16 @@ import NotificationItem from './NotificationItem';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 describe('NotificationItem', () => {
+  let consoleLogSpy;
+
+  beforeEach(() => {
+    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleLogSpy.mockRestore();
+  });
+
   test('li has blue color and data-notification-type is default when type is default', () => {
     render(<NotificationItem type="default" value="New course available" />);
     const item = screen.getByRole('listitem');
@@ -33,4 +43,14 @@ describe('NotificationItem', () => {
     expect(markAsReadMock).toHaveBeenCalledWith(testId);
   });
 
+  test('logs correct message to console when notification item is clicked', () => {
+    render(
+      <NotificationItem type="default" value="Test notification" id={1} />,
+    );
+    const item = screen.getByRole('listitem');
+    fireEvent.click(item);
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      'Notification 1 has been marked as read',
+    );
+  });
 });

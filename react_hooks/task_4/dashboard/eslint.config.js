@@ -2,7 +2,6 @@ import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
-import babelParser from '@babel/eslint-parser'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
@@ -16,13 +15,11 @@ export default defineConfig([
     ],
     languageOptions: {
       ecmaVersion: 2020,
-      parser: babelParser,
       globals: globals.browser,
       parserOptions: {
         ecmaVersion: "latest",
         ecmaFeatures: { jsx: true },
         sourceType: "module",
-        requireConfigFile: false,
       },
     },
     rules: {
