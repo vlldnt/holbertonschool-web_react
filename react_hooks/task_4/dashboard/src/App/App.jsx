@@ -24,11 +24,10 @@ function App() {
   const [notifications, setNotifications] = useState([]);
   const [courses, setCourses] = useState([]);
 
-  // Fetch notifications on initial render
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get('/notifications.json');
+        const response = await axios.get('http://localhost:5173/notifications.json');
         const data = response.data.map((notif) => {
           if (notif.html) {
             return { ...notif, html: getLatestNotification() };
@@ -43,11 +42,10 @@ function App() {
     fetchNotifications();
   }, []);
 
-  // Fetch courses when user state changes
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('/courses.json');
+        const response = await axios.get('http://localhost:5173/courses.json');
         setCourses(response.data);
       } catch (error) {
         console.error('Error fetching courses:', error);
