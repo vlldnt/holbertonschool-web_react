@@ -18,7 +18,7 @@ const App = () => {
   const [displayDrawer, setDisplayDrawer] = useState(true);
   const [user, setUser] = useState({ ...defaultUser });
   const [notifications, setNotifications] = useState([]);
-  const [courses] = useState([]);
+  const [courses, setCourses] = useState([]);
 
   const logIn = useCallback((email, password) => {
     setUser({
@@ -54,12 +54,29 @@ const App = () => {
     axios
       .get('/notifications.json')
       .then((res) => {
-        setNotifications(res.data);
+        const data = res.data.map((notif, index) => {
+          if (index === res.data.length - 1) {
+            return { ...notif, html: { __html: getLatestNotification() } };
+          }
+          return notif;
+        });
+        setNotifications(data);
       })
       .catch((err) => {
         console.error(err);
       });
   }, []);
+
+  useEffect(() => {
+    axios
+      .get('/courses.json')
+      .then((res) => {
+        setCourses(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  });
 
   return (
     <newContext.Provider value={{ user, logOut }}>

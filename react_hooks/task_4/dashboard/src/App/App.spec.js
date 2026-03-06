@@ -1,6 +1,27 @@
 import { expect, jest, test } from '@jest/globals';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
+import mockAxios from 'jest-mock-axios';
 import App from './App.jsx';
+
+const mockNotifications = [
+  { id: 1, type: 'default', value: 'New course available' },
+  { id: 2, type: 'urgent', value: 'New resume available' },
+  {
+    id: 3,
+    type: 'urgent',
+    html: { __html: 'Urgent requirement - complete by EOD' },
+  },
+];
+
+const mockCourses = [
+  { id: 1, name: 'ES6', credit: 60 },
+  { id: 2, name: 'Webpack', credit: 20 },
+  { id: 3, name: 'React', credit: 40 },
+];
+
+afterEach(() => {
+  mockAxios.reset();
+});
 
 test('should render title', () => {
   render(<App />);
@@ -104,30 +125,30 @@ test('should display CourseList after logging in via the login form', () => {
 test('should verify user state mutations in logIn and logOut', () => {
   render(<App />);
 
-  // Initially user is not logged in
   expect(
     screen.getByText(/Login to access the full dashboard/i),
   ).toBeInTheDocument();
 
-  // Log in
   const emailInput = screen.getByLabelText(/email/i);
   const passwordInput = screen.getByLabelText(/password/i);
   fireEvent.change(emailInput, { target: { value: 'test@test.com' } });
   fireEvent.change(passwordInput, { target: { value: 'password123' } });
   fireEvent.click(screen.getByText(/ok/i));
 
-  // After login, user should be logged in (Course list should be visible)
   expect(
     screen.getByRole('heading', { name: /Course list/i }),
   ).toBeInTheDocument();
 
-  // Verify login state with logoutSection
   expect(document.getElementById('logoutSection')).toBeInTheDocument();
 });
 
 test('clicking on a notification item should remove it from the notification list and log the correct message', () => {
   const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
   render(<App />);
+
+  act(() => {
+    mockAxios.mockResponse({ data: mockNotifications });
+  });
 
   const notificationTitle = screen.getByText(/Your notifications/i);
   fireEvent.click(notificationTitle);
@@ -151,26 +172,67 @@ test('clicking on a notification item should remove it from the notification lis
 test('markNotificationAsRead function maintains the same reference between re-renders', () => {
   const { rerender } = render(<App />);
 
+  act(() => {
+    mockAxios.mockResponse({ data: mockNotifications });
+  });
+
   const notificationTitle = screen.getByText(/Your notifications/i);
   fireEvent.click(notificationTitle);
 
-  // Get initial notification items
   let items = screen.getAllByRole('listitem');
   expect(items).toHaveLength(3);
 
-  // Re-render App component (simulating parent re-render)
   rerender(<App />);
 
-  // Click on notification title again to show drawer
   fireEvent.click(notificationTitle);
 
-  // Verify notifications are still there (function reference was maintained)
   items = screen.getAllByRole('listitem');
   expect(items).toHaveLength(3);
 
-  // Verify markNotificationAsRead still works correctly after re-render
   fireEvent.click(items[0]);
   fireEvent.click(notificationTitle);
   const remainingItems = screen.queryAllByRole('listitem');
   expect(remainingItems).toHaveLength(2);
+});
+
+test('should fetch and display notifications data on initial load', () => {
+  render(<App />);
+
+  expect(mockAxios.get).toHaveBeenCalledWith('/notifications.json');
+
+  act(() => {
+    mockAxios.mockResponse({ data: mockNotifications });
+  });
+
+  fireEvent.click(screen.getByText(/Your notifications/i));
+
+  const items = screen.getAllByRole('listitem');
+  expect(items).toHaveLength(3);
+});
+
+test('should fetch courses data when user state changes', () => {
+  render(<App />);
+
+  expect(mockAxios.get).toHaveBeenCalledWith('/courses.json');
+
+  act(() => {
+    mockAxios.mockResponse({ data: mockNotifications });
+  });
+  act(() => {
+    mockAxios.mockResponse({ data: mockCourses });
+  });
+
+  const emailInput = screen.getByLabelText(/email/i);
+  const passwordInput = screen.getByLabelText(/password/i);
+  fireEvent.change(emailInput, { target: { value: 'test@test.com' } });
+  fireEvent.change(passwordInput, { target: { value: 'password123' } });
+  fireEvent.click(screen.getByText(/ok/i));
+
+  act(() => {
+    mockAxios.mockResponse({ data: mockCourses });
+  });
+
+  expect(screen.getByText(/ES6/i)).toBeInTheDocument();
+  expect(screen.getByText(/Webpack/i)).toBeInTheDocument();
+  expect(screen.getByText(/React/i)).toBeInTheDocument();
 });
