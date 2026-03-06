@@ -8,7 +8,6 @@ import CourseList from '../CourseList/CourseList.jsx';
 import BodySectionWithMargin from '../BodySection/BodySectionWithMarginBottom.jsx';
 import BodySection from '../BodySection/BodySection.jsx';
 import WithLogging from '../HOC/WithLogging.jsx';
-// eslint-disable-next-line no-unused-vars
 import newContext from '../Context/context.js';
 
 const LoginWithLogging = WithLogging(Login);

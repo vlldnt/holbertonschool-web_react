@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { getLatestNotification } from '../utils/utils.js';
 import Notifications from '../Notifications/Notifications.jsx';
 import Header from '../Header/Header.jsx';
@@ -13,12 +13,6 @@ import newContext from '../Context/context.js';
 const LoginWithLogging = WithLogging(Login);
 const CourseListWithLogging = WithLogging(CourseList);
 
-const defaultUser = {
-  email: '',
-  password: '',
-  isLoggedIn: false,
-};
-
 const notificationsList = [
   { id: 1, type: 'default', value: 'New course available' },
   { id: 2, type: 'urgent', value: 'New resume available' },
@@ -27,7 +21,11 @@ const notificationsList = [
 
 const App = () => {
   const [displayDrawer, setDisplayDrawer] = useState(true);
-  const [user, setUser] = useState(defaultUser);
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+    isLoggedIn: false,
+  });
   const [notifications, setNotifications] = useState(notificationsList);
   const [courses] = useState([
     { id: 1, name: 'ES6', credit: 60 },
@@ -106,4 +104,4 @@ const App = () => {
   );
 };
 
-export default React.memo(App);
+export default App;
