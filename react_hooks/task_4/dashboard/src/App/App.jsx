@@ -20,7 +20,7 @@ const notificationsList = [
   { id: 3, type: 'urgent', html: getLatestNotification() },
 ];
 
-const courseList = [
+const coursesList = [
   { id: 1, name: 'ES6', credit: 60 },
   { id: 2, name: 'Webpack', credit: 20 },
   { id: 3, name: 'React', credit: 40 },
@@ -36,25 +36,6 @@ function App() {
   const [displayDrawer, setDisplayDrawer] = useState(true);
   const [user, setUser] = useState(defaultUser);
   const [notifications, setNotifications] = useState(notificationsList);
-  const [courses, setCourses] = useState(courseList);
-
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.ctrlKey && event.key === 'h') {
-        alert('Logging you out');
-        setUser({
-          email: '',
-          password: '',
-          isLoggedIn: false,
-        });
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
 
   const logIn = React.useCallback((email, password) => {
     setUser({
@@ -75,6 +56,7 @@ function App() {
   const handleDisplayDrawer = React.useCallback(() => {
     setDisplayDrawer(true);
   }, []);
+
   const handleHideDrawer = React.useCallback(() => {
     setDisplayDrawer(false);
   }, []);
@@ -101,7 +83,7 @@ function App() {
           <div className="flex-1 flex flex-col">
             {user.isLoggedIn ? (
               <BodySectionWithMargin title="Course list">
-                <CourseListWithLogging courses={courses} />
+                <CourseListWithLogging courses={coursesList} />
               </BodySectionWithMargin>
             ) : (
               <BodySectionWithMargin title="Log in to continue">
