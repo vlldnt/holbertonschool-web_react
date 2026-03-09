@@ -1,10 +1,10 @@
 export const APP_ACTIONS = {
-  LOGIN: 'LOGIN',
-  LOGOUT: 'LOGOUT',
-  TOGGLE_DRAWER: 'TOGGLE_DRAWER',
-  MARK_NOTIFICATION_READ: 'MARK_NOTIFICATION_READ',
-  SET_NOTIFICATIONS: 'SET_NOTIFICATIONS',
-  SET_COURSES: 'SET_COURSES',
+  LOGIN: 'Handles user authentication',
+  LOGOUT: 'Manages user logout',
+  TOGGLE_DRAWER: 'Controls notification visibility',
+  MARK_NOTIFICATION_READ: 'Updates the notification status',
+  SET_NOTIFICATIONS: 'Updates the notifications list',
+  SET_COURSES: 'Updates the courses list',
 };
 
 export const initialState = {
