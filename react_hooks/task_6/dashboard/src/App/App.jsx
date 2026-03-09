@@ -74,24 +74,6 @@ function App() {
     fetchCourses();
   }, [state.user.isLoggedIn]);
 
-  const handleKeyDown = useCallback(
-    (e) => {
-      if (e.ctrlKey && e.key === 'h') {
-        e.preventDefault();
-        alert('Logging you out');
-        logOut();
-      }
-    },
-    [logOut],
-  );
-
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleKeyDown]);
-
   return (
     <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
       <Notifications
