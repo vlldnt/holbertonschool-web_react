@@ -1,10 +1,6 @@
-import { useContext } from 'react';
-import newContext from '../Context/context.js';
 import { getCurrentYear, getFooterCopy } from '../utils/utils.js';
 
-function Footer({ isIndex }) {
-  const { user } = useContext(newContext);
-
+function Footer({ isIndex, user = { email: '', password: '', isLoggedIn: false } }) {
   return (
     <footer className="App-footer mt-auto relative flex flex-row items-center justify-center border-t-3 border-[var(--main-color)] py-4">
       <p className="italic text-xs tablet:text-sm desktop:text-base">

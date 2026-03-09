@@ -1,7 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import Footer from './Footer';
-// eslint-disable-next-line no-unused-vars
-import newContext from '../Context/context';
 
 describe('Footer component', () => {
   test('should render Copyright with current year and Holberton School', () => {
@@ -11,28 +9,14 @@ describe('Footer component', () => {
   });
 
   test('should not display "Contact us" link when user is logged out', () => {
-    const contextValue = {
-      user: { email: '', password: '', isLoggedIn: false },
-      logOut: () => {},
-    };
-    render(
-      <newContext.Provider value={contextValue}>
-        <Footer />
-      </newContext.Provider>,
-    );
+    const user = { email: '', password: '', isLoggedIn: false };
+    render(<Footer user={user} />);
     expect(screen.queryByText('Contact us')).not.toBeInTheDocument();
   });
 
   test('should display "Contact us" link when user is logged in', () => {
-    const contextValue = {
-      user: { email: 'test@test.com', password: 'password', isLoggedIn: true },
-      logOut: () => {},
-    };
-    render(
-      <newContext.Provider value={contextValue}>
-        <Footer />
-      </newContext.Provider>,
-    );
+    const user = { email: 'test@test.com', password: 'password', isLoggedIn: true };
+    render(<Footer user={user} />);
     const contactLink = screen.getByText('Contact us');
     expect(contactLink).toBeInTheDocument();
     expect(contactLink.closest('a')).toBeInTheDocument();

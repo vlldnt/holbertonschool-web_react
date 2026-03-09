@@ -1,7 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import Header from './Header';
-// eslint-disable-next-line no-unused-vars
-import newContext from '../Context/context';
 
 describe('Header component', () => {
   test('renders without crashing', () => {
@@ -20,23 +18,16 @@ describe('Header component', () => {
     expect(screen.getByAltText(/holberton logo/i)).toBeInTheDocument();
   });
 
-  test('should not render logoutSection with default context', () => {
+  test('should not render logoutSection with default props', () => {
     render(<Header />);
     expect(screen.queryByText(/Welcome/i)).not.toBeInTheDocument();
     expect(document.getElementById('logoutSection')).toBeNull();
   });
 
   test('should render logoutSection when user isLoggedIn is true', () => {
-    const contextValue = {
-      user: { email: 'test@test.com', password: 'password123', isLoggedIn: true },
-      logOut: () => {},
-    };
+    const user = { email: 'test@test.com', password: 'password123', isLoggedIn: true };
 
-    render(
-      <newContext.Provider value={contextValue}>
-        <Header />
-      </newContext.Provider>
-    );
+    render(<Header user={user} logOut={() => {}} />);
 
     expect(document.getElementById('logoutSection')).toBeInTheDocument();
     expect(screen.getByText(/test@test.com/i)).toBeInTheDocument();
@@ -44,16 +35,9 @@ describe('Header component', () => {
 
   test('should call logOut spy when clicking logout link', () => {
     const logOutSpy = jest.fn();
-    const contextValue = {
-      user: { email: 'test@test.com', password: 'password123', isLoggedIn: true },
-      logOut: logOutSpy,
-    };
+    const user = { email: 'test@test.com', password: 'password123', isLoggedIn: true };
 
-    render(
-      <newContext.Provider value={contextValue}>
-        <Header />
-      </newContext.Provider>
-    );
+    render(<Header user={user} logOut={logOutSpy} />);
 
     fireEvent.click(screen.getByText(/\(logout\)/i));
     expect(logOutSpy).toHaveBeenCalled();

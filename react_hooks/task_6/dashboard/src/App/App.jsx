@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useReducer } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import { getLatestNotification } from '../utils/utils.js';
 import Notifications from '../Notifications/Notifications.jsx';
@@ -9,7 +9,6 @@ import CourseList from '../CourseList/CourseList.jsx';
 import BodySectionWithMargin from '../BodySection/BodySectionWithMarginBottom.jsx';
 import BodySection from '../BodySection/BodySection.jsx';
 import WithLogging from '../HOC/WithLogging.jsx';
-import { newContext } from '../Context/context.js';
 import { APP_ACTIONS, initialState, appReducer } from './appReducer.js';
 
 const LoginWithLogging = WithLogging(Login);
@@ -75,14 +74,6 @@ function App() {
     fetchCourses();
   }, [state.user.isLoggedIn]);
 
-  const contextValue = useMemo(
-    () => ({
-      user: state.user,
-      logOut,
-    }),
-    [state.user, logOut],
-  );
-
   const handleKeyDown = useCallback(
     (e) => {
       if (e.ctrlKey && e.key === 'h') {
@@ -102,43 +93,41 @@ function App() {
   }, [handleKeyDown]);
 
   return (
-    <newContext.Provider value={contextValue}>
-      <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
-        <Notifications
-          notifications={state.notifications}
-          markAsRead={markNotificationAsRead}
-          displayDrawer={state.displayDrawer}
-          handleDisplayDrawer={handleDisplayDrawer}
-          handleHideDrawer={handleHideDrawer}
-        />
-        <Header />
-        <main className="flex-1 flex flex-col">
-          <div className="flex-1 flex flex-col">
-            {state.user.isLoggedIn ? (
-              <BodySectionWithMargin title="Course list">
-                <CourseListWithLogging courses={state.courses} />
-              </BodySectionWithMargin>
-            ) : (
-              <BodySectionWithMargin title="Log in to continue">
-                <LoginWithLogging
-                  logIn={logIn}
-                  email={state.user.email}
-                  password={state.user.password}
-                />
-              </BodySectionWithMargin>
-            )}
-          </div>
-          <BodySectionWithMargin>
-            <BodySection title="News from the School">
-              <p className="text-xs tablet:text-sm desktop:text-base">
-                Holberton School News goes here
-              </p>
-            </BodySection>
-          </BodySectionWithMargin>
-        </main>
-        <Footer isIndex={false} />
-      </div>
-    </newContext.Provider>
+    <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
+      <Notifications
+        notifications={state.notifications}
+        markAsRead={markNotificationAsRead}
+        displayDrawer={state.displayDrawer}
+        handleDisplayDrawer={handleDisplayDrawer}
+        handleHideDrawer={handleHideDrawer}
+      />
+      <Header user={state.user} logOut={logOut} />
+      <main className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col">
+          {state.user.isLoggedIn ? (
+            <BodySectionWithMargin title="Course list">
+              <CourseListWithLogging courses={state.courses} />
+            </BodySectionWithMargin>
+          ) : (
+            <BodySectionWithMargin title="Log in to continue">
+              <LoginWithLogging
+                logIn={logIn}
+                email={state.user.email}
+                password={state.user.password}
+              />
+            </BodySectionWithMargin>
+          )}
+        </div>
+        <BodySectionWithMargin>
+          <BodySection title="News from the School">
+            <p className="text-xs tablet:text-sm desktop:text-base">
+              Holberton School News goes here
+            </p>
+          </BodySection>
+        </BodySectionWithMargin>
+      </main>
+      <Footer isIndex={false} user={state.user} />
+    </div>
   );
 }
 
