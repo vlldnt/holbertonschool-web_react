@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --font-family: 'Roboto', sans-serif;
+  --color-table-header: #deb5b5;
+  --color-table-rows: #CDCDCD;
+  --main-color: #e1003c;
+  --default-notification-item: blue;
+  --urgent-notification-item: red;
+  --breakpoint-mobile: 520px;
+  --breakpoint-tablet: 912px;
+  --breakpoint-desktop: 1440px;
+}
+
+:root {
+  --default-notification-item: blue;
+  --urgent-notification-item: red;
+  --main-color: #e1003c;
+}
+
+@layer base {
+  * {
+    font-family: var(--font-family);
+  }
+}
