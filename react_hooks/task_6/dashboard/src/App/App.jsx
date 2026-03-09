@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer } from 'react';
+import { useReducer, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import { getLatestNotification } from '../utils/utils.js';
 import Notifications from '../Notifications/Notifications.jsx';
@@ -9,33 +9,14 @@ import CourseList from '../CourseList/CourseList.jsx';
 import BodySectionWithMargin from '../BodySection/BodySectionWithMarginBottom.jsx';
 import BodySection from '../BodySection/BodySection.jsx';
 import WithLogging from '../HOC/WithLogging.jsx';
-import { APP_ACTIONS, initialState, appReducer } from './appReducer.js';
+import appReducer, { initialState, APP_ACTIONS } from './appReducer.js';
 
 const LoginWithLogging = WithLogging(Login);
 const CourseListWithLogging = WithLogging(CourseList);
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
-
-  const logIn = useCallback((email, password) => {
-    dispatch({ type: APP_ACTIONS.LOGIN, payload: { email, password } });
-  }, []);
-
-  const logOut = useCallback(() => {
-    dispatch({ type: APP_ACTIONS.LOGOUT });
-  }, []);
-
-  const handleDisplayDrawer = useCallback(() => {
-    if (!state.displayDrawer) dispatch({ type: APP_ACTIONS.TOGGLE_DRAWER });
-  }, [state.displayDrawer]);
-
-  const handleHideDrawer = useCallback(() => {
-    if (state.displayDrawer) dispatch({ type: APP_ACTIONS.TOGGLE_DRAWER });
-  }, [state.displayDrawer]);
-
-  const markNotificationAsRead = useCallback((id) => {
-    dispatch({ type: APP_ACTIONS.MARK_NOTIFICATION_READ, payload: id });
-  }, []);
+  const { displayDrawer, user, notifications, courses } = state;
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -72,12 +53,35 @@ function App() {
       }
     };
     fetchCourses();
-  }, [state.user.isLoggedIn]);
+  }, [user.isLoggedIn]);
+
+  const logIn = useCallback((email, password) => {
+    dispatch({ type: APP_ACTIONS.LOGIN, payload: { email, password } });
+  }, []);
+
+  const logOut = useCallback(() => {
+    dispatch({ type: APP_ACTIONS.LOGOUT });
+  }, []);
+
+  const handleDisplayDrawer = useCallback(() => {
+    if (!displayDrawer) {
+      dispatch({ type: APP_ACTIONS.TOGGLE_DRAWER });
+    }
+  }, [displayDrawer]);
+
+  const handleHideDrawer = useCallback(() => {
+    if (displayDrawer) {
+      dispatch({ type: APP_ACTIONS.TOGGLE_DRAWER });
+    }
+  }, [displayDrawer]);
+
+  const markNotificationAsRead = useCallback((id) => {
+    dispatch({ type: APP_ACTIONS.MARK_NOTIFICATION_READ, payload: id });
+  }, []);
 
   const handleKeyDown = useCallback(
-    (e) => {
-      if (e.ctrlKey && e.key === 'h') {
-        e.preventDefault();
+    (event) => {
+      if (event.ctrlKey && event.key === 'h') {
         alert('Logging you out');
         logOut();
       }
@@ -95,25 +99,25 @@ function App() {
   return (
     <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
       <Notifications
-        notifications={state.notifications}
+        notifications={notifications}
         markAsRead={markNotificationAsRead}
-        displayDrawer={state.displayDrawer}
+        displayDrawer={displayDrawer}
         handleDisplayDrawer={handleDisplayDrawer}
         handleHideDrawer={handleHideDrawer}
       />
-      <Header user={state.user} logOut={logOut} />
+      <Header user={user} logOut={logOut} />
       <main className="flex-1 flex flex-col">
         <div className="flex-1 flex flex-col">
-          {state.user.isLoggedIn ? (
+          {user.isLoggedIn ? (
             <BodySectionWithMargin title="Course list">
-              <CourseListWithLogging courses={state.courses} />
+              <CourseListWithLogging courses={courses} />
             </BodySectionWithMargin>
           ) : (
             <BodySectionWithMargin title="Log in to continue">
               <LoginWithLogging
                 logIn={logIn}
-                email={state.user.email}
-                password={state.user.password}
+                email={user.email}
+                password={user.password}
               />
             </BodySectionWithMargin>
           )}
@@ -126,7 +130,7 @@ function App() {
           </BodySection>
         </BodySectionWithMargin>
       </main>
-      <Footer isIndex={false} user={state.user} />
+      <Footer user={user} isIndex={false} />
     </div>
   );
 }

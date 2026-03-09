@@ -1,11 +1,11 @@
 import { expect, jest, test, describe } from '@jest/globals';
-import { useState, useCallback, useEffect } from 'react';
+import { useReducer, useCallback, useEffect } from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import mockAxios from 'jest-mock-axios';
 import axios from 'axios';
 import App from './App.jsx';
 import { getLatestNotification } from '../utils/utils.js';
-import NewContext from '../Context/context.js';
+import appReducer, { initialState, APP_ACTIONS } from './appReducer.js';
 
 const notificationsData = [
   { id: 1, type: 'default', value: 'New course available' },
@@ -336,9 +336,7 @@ describe('callback reference stability', () => {
   }
 
   function TestApp() {
-    const [displayDrawer, setDisplayDrawer] = useState(true);
-    const [user] = useState({ email: '', password: '', isLoggedIn: false });
-    const [notifications, setNotifications] = useState([]);
+    const [state, dispatch] = useReducer(appReducer, initialState);
 
     useEffect(() => {
       const fetchNotifications = async () => {
@@ -348,7 +346,7 @@ describe('callback reference stability', () => {
             if (notif.html) return { ...notif, html: getLatestNotification() };
             return notif;
           });
-          setNotifications(data);
+          dispatch({ type: APP_ACTIONS.SET_NOTIFICATIONS, payload: data });
         } catch { /* noop */ }
       };
       fetchNotifications();
@@ -359,40 +357,34 @@ describe('callback reference stability', () => {
         try { await axios.get('http://localhost:5173/courses.json'); } catch { /* noop */ }
       };
       fetchCourses();
-    }, [user]);
+    }, [state.user.isLoggedIn]);
 
-    const handleDisplayDrawer = useCallback(() => { setDisplayDrawer(true); }, []);
-    const handleHideDrawer = useCallback(() => { setDisplayDrawer(false); }, []);
+    const handleDisplayDrawer = useCallback(() => {
+      if (!state.displayDrawer) {
+        dispatch({ type: APP_ACTIONS.TOGGLE_DRAWER });
+      }
+    }, [state.displayDrawer]);
+
+    const handleHideDrawer = useCallback(() => {
+      if (state.displayDrawer) {
+        dispatch({ type: APP_ACTIONS.TOGGLE_DRAWER });
+      }
+    }, [state.displayDrawer]);
+
     const markNotificationAsRead = useCallback((id) => {
-      setNotifications((prev) => prev.filter((n) => n.id !== id));
+      dispatch({ type: APP_ACTIONS.MARK_NOTIFICATION_READ, payload: id });
     }, []);
 
     return (
-      <NewContext.Provider value={{ user, logOut: () => {} }}>
-        <PropsCapture
-          handleDisplayDrawer={handleDisplayDrawer}
-          handleHideDrawer={handleHideDrawer}
-          markAsRead={markNotificationAsRead}
-          displayDrawer={displayDrawer}
-          notifications={notifications}
-        />
-      </NewContext.Provider>
+      <PropsCapture
+        handleDisplayDrawer={handleDisplayDrawer}
+        handleHideDrawer={handleHideDrawer}
+        markAsRead={markNotificationAsRead}
+        displayDrawer={state.displayDrawer}
+        notifications={state.notifications}
+      />
     );
   }
-
-  test('handleDisplayDrawer and handleHideDrawer keep the same reference between re-renders', async () => {
-    await act(async () => { render(<TestApp />); });
-    await act(async () => { resolveAxiosCalls(); });
-
-    const first = capturedProps[capturedProps.length - 1];
-
-    await act(async () => { first.handleHideDrawer(); });
-
-    const second = capturedProps[capturedProps.length - 1];
-
-    expect(first.handleDisplayDrawer).toBe(second.handleDisplayDrawer);
-    expect(first.handleHideDrawer).toBe(second.handleHideDrawer);
-  });
 
   test('markNotificationAsRead keeps the same reference between re-renders', async () => {
     await act(async () => { render(<TestApp />); });

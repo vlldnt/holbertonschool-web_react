@@ -1,6 +1,6 @@
 import holbertonLogo from '../assets/holberton-logo.jpg';
 
-function Header({ user = { email: '', password: '', isLoggedIn: false }, logOut }) {
+function Header({ user, logOut }) {
   return (
     <>
       <header className="App-header flex flex-col tablet:flex-row items-center gap-2 tablet:gap-4 py-4">
@@ -13,7 +13,7 @@ function Header({ user = { email: '', password: '', isLoggedIn: false }, logOut 
           School dashboard
         </h1>
       </header>
-      {user.isLoggedIn && (
+      {user && user.isLoggedIn && (
         <section id="logoutSection" className="pl-1">
           Welcome <span className="font-bold">{user.email}</span>{' '}
           <a className="italic" href="#" onClick={logOut}>
