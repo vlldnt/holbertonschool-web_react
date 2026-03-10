@@ -9,7 +9,7 @@ import CourseList from '../CourseList/CourseList.jsx';
 import BodySectionWithMargin from '../BodySection/BodySectionWithMarginBottom.jsx';
 import BodySection from '../BodySection/BodySection.jsx';
 import WithLogging from '../HOC/WithLogging.jsx';
-import { newContext, defaultUser } from '../Context/context.js';
+import { newContext as NewContext, defaultUser } from '../Context/context.js';
 
 const LoginWithLogging = WithLogging(Login);
 const CourseListWithLogging = WithLogging(CourseList);
@@ -76,7 +76,6 @@ function App() {
   }, []);
 
   const markNotificationAsRead = useCallback((id) => {
-    console.log(`Notification ${id} has been marked as read`);
     setNotifications((prev) => prev.filter((notif) => notif.id !== id));
   }, []);
 
@@ -100,7 +99,7 @@ function App() {
   }, [handleKeyDown]);
 
   return (
-    <newContext.Provider value={contextValue}>
+    <NewContext.Provider value={contextValue}>
       <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
         <Notifications
           notifications={notifications}
@@ -136,7 +135,7 @@ function App() {
         </main>
         <Footer isIndex={false} />
       </div>
-    </newContext.Provider>
+    </NewContext.Provider>
   );
 }
 
