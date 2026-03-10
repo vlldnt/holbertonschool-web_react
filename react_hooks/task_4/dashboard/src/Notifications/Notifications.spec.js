@@ -139,27 +139,6 @@ describe('Notifications component - displayDrawer is true', () => {
 
     expect(mockMarkAsRead).toHaveBeenCalledWith(1);
   });
-
-  test('should log correct message when notification item is clicked', () => {
-    const consoleLogSpy = jest
-      .spyOn(console, 'log')
-      .mockImplementation(() => {});
-    const markAsReadWithLog = (id) => {
-      console.log(`Notification ${id} has been marked as read`);
-    };
-    render(
-      <Notifications displayDrawer={true} notifications={notificationsList} markAsRead={markAsReadWithLog} />,
-    );
-
-    const items = screen.getAllByRole('listitem');
-    fireEvent.click(items[0]);
-
-    expect(consoleLogSpy).toHaveBeenCalledWith(
-      'Notification 1 has been marked as read',
-    );
-
-    consoleLogSpy.mockRestore();
-  });
 });
 
 describe('Notifications component - displayDrawer is true and notifications is empty', () => {

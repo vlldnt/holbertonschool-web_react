@@ -4,14 +4,13 @@ function WithLogging(WrappedComponent) {
   const componentName =
     WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
-  // eslint-disable-next-line react-hooks/unsupported-syntax
   class WithLoggingComponent extends React.Component {
     componentDidMount() {
-      console.log(`Component ${componentName} is mounted`);
+      // console.log(`Component ${componentName} is mounted`);
     }
 
     componentWillUnmount() {
-      console.log(`Component ${componentName} is going to unmount`);
+      // console.log(`Component ${componentName} is going to unmount`);
     }
 
     render() {

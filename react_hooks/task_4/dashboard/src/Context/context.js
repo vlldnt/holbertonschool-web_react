@@ -13,5 +13,4 @@ const newContext = createContext({
   logOut: defaultLogOut,
 });
 
-export { newContext, defaultUser };
 export default newContext;

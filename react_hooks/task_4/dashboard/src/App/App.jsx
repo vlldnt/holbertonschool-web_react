@@ -1,5 +1,4 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
-import axios from 'axios';
+import { useState, useCallback } from 'react';
 import { getLatestNotification } from '../utils/utils.js';
 import Notifications from '../Notifications/Notifications.jsx';
 import Header from '../Header/Header.jsx';
@@ -9,56 +8,31 @@ import CourseList from '../CourseList/CourseList.jsx';
 import BodySectionWithMargin from '../BodySection/BodySectionWithMarginBottom.jsx';
 import BodySection from '../BodySection/BodySection.jsx';
 import WithLogging from '../HOC/WithLogging.jsx';
-import { newContext as NewContext, defaultUser } from '../Context/context.js';
+import newContext from '../Context/context.js';
 
 const LoginWithLogging = WithLogging(Login);
+const CourseListWithLogging = WithLogging(CourseList);
 
 const notificationsList = [
   { id: 1, type: 'default', value: 'New course available' },
   { id: 2, type: 'urgent', value: 'New resume available' },
-  { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
+  { id: 3, type: 'urgent', html: getLatestNotification() },
+];
+
+const coursesList = [
+  { id: 1, name: 'ES6', credit: 60 },
+  { id: 2, name: 'Webpack', credit: 20 },
+  { id: 3, name: 'React', credit: 40 },
 ];
 
 function App() {
   const [displayDrawer, setDisplayDrawer] = useState(true);
-  const [user, setUser] = useState({ ...defaultUser });
-  const [notifications, setNotifications] = useState([...notificationsList]);
-  const [courses, setCourses] = useState([]);
-
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const response = await axios.get('http://localhost:5173/notifications.json');
-        const rawData = response.data.notifications || response.data;
-        const data = rawData.map((notif) => {
-          if (notif.type === 'urgent' && !notif.value && !notif.html) {
-            return { ...notif, html: { __html: getLatestNotification() } };
-          }
-          if (notif.id === 3) {
-            return { ...notif, html: { __html: getLatestNotification() } };
-          }
-          return notif;
-        });
-        setNotifications(data);
-      } catch (error) {
-        console.error('Error fetching notifications:', error);
-      }
-    };
-    fetchNotifications();
-  }, []);
-
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await axios.get('http://localhost:5173/courses.json');
-        const coursesData = response.data.courses || response.data;
-        setCourses(coursesData);
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-      }
-    };
-    fetchCourses();
-  }, [user.isLoggedIn]);
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+    isLoggedIn: false,
+  });
+  const [notifications, setNotifications] = useState(notificationsList);
 
   const logIn = useCallback((email, password) => {
     setUser({
@@ -69,7 +43,11 @@ function App() {
   }, []);
 
   const logOut = useCallback(() => {
-    setUser({ ...defaultUser });
+    setUser({
+      email: '',
+      password: '',
+      isLoggedIn: false,
+    });
   }, []);
 
   const handleDisplayDrawer = useCallback(() => {
@@ -85,13 +63,8 @@ function App() {
     setNotifications((prev) => prev.filter((notif) => notif.id !== id));
   }, []);
 
-  const contextValue = useMemo(() => ({
-    user,
-    logOut
-  }), [user, logOut]);
-
   return (
-    <NewContext.Provider value={contextValue}>
+    <newContext.Provider value={{ user, logOut }}>
       <div className="flex flex-col min-h-screen relative p-3 tablet:p-0 overflow-x-hidden">
         <Notifications
           notifications={notifications}
@@ -105,7 +78,7 @@ function App() {
           <div className="flex-1 flex flex-col">
             {user.isLoggedIn ? (
               <BodySectionWithMargin title="Course list">
-                <CourseList courses={courses} />
+                <CourseListWithLogging courses={coursesList} />
               </BodySectionWithMargin>
             ) : (
               <BodySectionWithMargin title="Log in to continue">
@@ -127,7 +100,7 @@ function App() {
         </main>
         <Footer isIndex={false} />
       </div>
-    </NewContext.Provider>
+    </newContext.Provider>
   );
 }
 
