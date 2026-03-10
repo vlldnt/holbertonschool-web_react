@@ -12,7 +12,6 @@ import WithLogging from '../HOC/WithLogging.jsx';
 import appReducer, { initialState, APP_ACTIONS } from './appReducer.js';
 
 const LoginWithLogging = WithLogging(Login);
-const CourseListWithLogging = WithLogging(CourseList);
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
@@ -110,7 +109,7 @@ function App() {
         <div className="flex-1 flex flex-col">
           {user.isLoggedIn ? (
             <BodySectionWithMargin title="Course list">
-              <CourseListWithLogging courses={courses} />
+              <CourseList courses={courses} />
             </BodySectionWithMargin>
           ) : (
             <BodySectionWithMargin title="Log in to continue">

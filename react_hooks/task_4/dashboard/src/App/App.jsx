@@ -12,7 +12,6 @@ import WithLogging from '../HOC/WithLogging.jsx';
 import { newContext as NewContext, defaultUser } from '../Context/context.js';
 
 const LoginWithLogging = WithLogging(Login);
-const CourseListWithLogging = WithLogging(CourseList);
 
 function App() {
   const [displayDrawer, setDisplayDrawer] = useState(true);
@@ -114,7 +113,7 @@ function App() {
           <div className="flex-1 flex flex-col">
             {user.isLoggedIn ? (
               <BodySectionWithMargin title="Course list">
-                <CourseListWithLogging courses={courses} />
+                <CourseList courses={courses} />
               </BodySectionWithMargin>
             ) : (
               <BodySectionWithMargin title="Log in to continue">
