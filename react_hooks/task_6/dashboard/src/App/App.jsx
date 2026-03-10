@@ -21,7 +21,7 @@ function App() {
     const fetchNotifications = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:5173/notifications.json',
+          '/notifications.json',
         );
         const rawData = response.data.notifications || response.data;
         const data = rawData.map((notif) => {
@@ -44,7 +44,7 @@ function App() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('http://localhost:5173/courses.json');
+        const response = await axios.get('/courses.json');
         const coursesData = response.data.courses || response.data;
         dispatch({ type: APP_ACTIONS.SET_COURSES, payload: coursesData });
       } catch (error) {
