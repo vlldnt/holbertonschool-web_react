@@ -54,11 +54,11 @@ function App() {
     fetchCourses();
   }, [user.isLoggedIn]);
 
-  const logIn = useCallback((email, password) => {
+  const handleLogIn = useCallback((email, password) => {
     dispatch({ type: APP_ACTIONS.LOGIN, payload: { email, password } });
   }, []);
 
-  const logOut = useCallback(() => {
+  const handleLogOut = useCallback(() => {
     dispatch({ type: APP_ACTIONS.LOGOUT });
   }, []);
 
@@ -82,10 +82,10 @@ function App() {
     (event) => {
       if (event.ctrlKey && event.key === 'h') {
         alert('Logging you out');
-        logOut();
+        handleLogOut();
       }
     },
-    [logOut],
+    [handleLogOut],
   );
 
   useEffect(() => {
@@ -104,7 +104,7 @@ function App() {
         handleDisplayDrawer={handleDisplayDrawer}
         handleHideDrawer={handleHideDrawer}
       />
-      <Header user={user} logOut={logOut} />
+      <Header user={user} logOut={handleLogOut} />
       <main className="flex-1 flex flex-col">
         <div className="flex-1 flex flex-col">
           {user.isLoggedIn ? (
@@ -114,7 +114,7 @@ function App() {
           ) : (
             <BodySectionWithMargin title="Log in to continue">
               <LoginWithLogging
-                logIn={logIn}
+                logIn={handleLogIn}
                 email={user.email}
                 password={user.password}
               />
