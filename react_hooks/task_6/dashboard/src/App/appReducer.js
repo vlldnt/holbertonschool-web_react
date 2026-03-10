@@ -1,4 +1,3 @@
-// Action type constants for the app reducer
 export const APP_ACTIONS = {
   LOGIN: 'LOGIN',
   LOGOUT: 'LOGOUT',
@@ -8,7 +7,6 @@ export const APP_ACTIONS = {
   SET_COURSES: 'SET_COURSES',
 };
 
-// Initial state for the app reducer
 export const initialState = {
   displayDrawer: true,
   user: {
@@ -20,7 +18,6 @@ export const initialState = {
   courses: [],
 };
 
-// Reducer function handling all app state transitions immutably
 export default function appReducer(state = initialState, action) {
   switch (action.type) {
     case APP_ACTIONS.LOGIN:
@@ -56,12 +53,12 @@ export default function appReducer(state = initialState, action) {
     case APP_ACTIONS.SET_NOTIFICATIONS:
       return {
         ...state,
-        notifications: action.payload,
+        notifications: [action.payload,]
       };
     case APP_ACTIONS.SET_COURSES:
       return {
         ...state,
-        courses: action.payload,
+        courses: [action.payload],
       };
     default:
       return state;
