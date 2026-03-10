@@ -13,10 +13,16 @@ import { newContext as NewContext, defaultUser } from '../Context/context.js';
 
 const LoginWithLogging = WithLogging(Login);
 
+const notificationsList = [
+  { id: 1, type: 'default', value: 'New course available' },
+  { id: 2, type: 'urgent', value: 'New resume available' },
+  { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
+];
+
 function App() {
   const [displayDrawer, setDisplayDrawer] = useState(true);
   const [user, setUser] = useState({ ...defaultUser });
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState([...notificationsList]);
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
