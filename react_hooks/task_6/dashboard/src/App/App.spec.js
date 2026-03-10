@@ -195,19 +195,28 @@ test('clicking on a notification item should remove it from the notification lis
 test('handleDisplayDrawer sets displayDrawer to true', async () => {
   await renderApp();
 
-  const closeButton = screen.getByLabelText(/close/i);
-  fireEvent.click(closeButton);
-
+  // Drawer starts closed
   expect(screen.queryByText(/Here is the list of notifications/i)).not.toBeInTheDocument();
 
+  // Open drawer
   fireEvent.click(screen.getByText(/Your notifications/i));
+  expect(screen.getByText(/Here is the list of notifications/i)).toBeInTheDocument();
 
+  // Close drawer
+  const closeButton = screen.getByLabelText(/close/i);
+  fireEvent.click(closeButton);
+  expect(screen.queryByText(/Here is the list of notifications/i)).not.toBeInTheDocument();
+
+  // Re-open drawer
+  fireEvent.click(screen.getByText(/Your notifications/i));
   expect(screen.getByText(/Here is the list of notifications/i)).toBeInTheDocument();
 });
 
 test('handleHideDrawer sets displayDrawer to false', async () => {
   await renderApp();
 
+  // Drawer starts closed, open it first
+  fireEvent.click(screen.getByText(/Your notifications/i));
   expect(screen.getByText(/Here is the list of notifications/i)).toBeInTheDocument();
 
   const closeButton = screen.getByLabelText(/close/i);
