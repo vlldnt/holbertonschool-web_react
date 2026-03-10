@@ -14,7 +14,7 @@ import appReducer, { initialState, APP_ACTIONS } from './appReducer.js';
 const LoginWithLogging = WithLogging(Login);
 
 function App() {
-  const [state, dispatch] = useReducer(appReducer, { ...initialState, displayDrawer: true });
+  const [state, dispatch] = useReducer(appReducer, initialState);
   const { displayDrawer, user, notifications, courses } = state;
 
   useEffect(() => {

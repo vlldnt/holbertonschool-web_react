@@ -8,7 +8,7 @@ export const APP_ACTIONS = {
 };
 
 export const initialState = {
-  displayDrawer: false,
+  displayDrawer: true,
   user: {
     email: '',
     password: '',
@@ -18,7 +18,7 @@ export const initialState = {
   courses: [],
 };
 
-export default function appReducer(state = initialState, action) {
+function appReducer(state = initialState, action) {
   switch (action.type) {
     case APP_ACTIONS.LOGIN:
       return {
@@ -37,6 +37,7 @@ export default function appReducer(state = initialState, action) {
           password: '',
           isLoggedIn: false,
         },
+        courses: [],
       };
     case APP_ACTIONS.TOGGLE_DRAWER:
       return {
@@ -47,7 +48,7 @@ export default function appReducer(state = initialState, action) {
       return {
         ...state,
         notifications: state.notifications.filter(
-          (notif) => notif.id !== action.payload
+          (notif) => notif.id !== action.payload,
         ),
       };
     case APP_ACTIONS.SET_NOTIFICATIONS:
@@ -64,3 +65,5 @@ export default function appReducer(state = initialState, action) {
       return state;
   }
 }
+
+export default appReducer;
