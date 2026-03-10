@@ -53,12 +53,12 @@ export default function appReducer(state = initialState, action) {
     case APP_ACTIONS.SET_NOTIFICATIONS:
       return {
         ...state,
-        notifications: [action.payload],
+        notifications: action.payload,
       };
     case APP_ACTIONS.SET_COURSES:
       return {
         ...state,
-        courses: [action.payload],
+        courses: action.payload,
       };
     default:
       return state;
