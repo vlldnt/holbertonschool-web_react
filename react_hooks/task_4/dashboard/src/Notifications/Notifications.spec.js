@@ -144,8 +144,11 @@ describe('Notifications component - displayDrawer is true', () => {
     const consoleLogSpy = jest
       .spyOn(console, 'log')
       .mockImplementation(() => {});
+    const markAsReadWithLog = (id) => {
+      console.log(`Notification ${id} has been marked as read`);
+    };
     render(
-      <Notifications displayDrawer={true} notifications={notificationsList} />,
+      <Notifications displayDrawer={true} notifications={notificationsList} markAsRead={markAsReadWithLog} />,
     );
 
     const items = screen.getAllByRole('listitem');

@@ -44,8 +44,11 @@ describe('NotificationItem', () => {
   });
 
   test('logs correct message to console when notification item is clicked', () => {
+    const markAsReadWithLog = (id) => {
+      console.log(`Notification ${id} has been marked as read`);
+    };
     render(
-      <NotificationItem type="default" value="Test notification" id={1} />,
+      <NotificationItem type="default" value="Test notification" id={1} markAsRead={markAsReadWithLog} />,
     );
     const item = screen.getByRole('listitem');
     fireEvent.click(item);
