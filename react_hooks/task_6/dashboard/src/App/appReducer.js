@@ -23,7 +23,6 @@ function appReducer(state = initialState, action) {
     case APP_ACTIONS.LOGIN:
       return {
         ...state,
-        displayDrawer: true,
         user: {
           email: action.payload.email,
           password: action.payload.password,
