@@ -79,24 +79,10 @@ function App() {
     setNotifications((prev) => prev.filter((notif) => notif.id !== id));
   }, []);
 
-  const handleKeyDown = useCallback((event) => {
-    if (event.ctrlKey && event.key === 'h') {
-      alert('Logging you out');
-      logOut();
-    }
-  }, [logOut]);
-
   const contextValue = useMemo(() => ({
     user,
     logOut
   }), [user, logOut]);
-
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleKeyDown]);
 
   return (
     <NewContext.Provider value={contextValue}>
