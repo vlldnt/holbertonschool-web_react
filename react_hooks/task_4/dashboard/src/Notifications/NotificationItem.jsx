@@ -1,44 +1,66 @@
-import React from 'react';
+import React, { memo, useRef } from 'react';
+import { StyleSheet, css } from 'aphrodite';
 
-function NotificationItem({
-  id,
-  type = 'default',
-  html = null,
-  value = null,
-  markAsRead,
-}) {
+const styles = StyleSheet.create({
+  default: {
+    color: 'blue',
+    cursor: 'pointer',
+  },
+  urgent: {
+    color: 'red',
+    cursor: 'pointer',
+  }
+});
+
+const NotificationItem = memo(({ type = 'default', html, value, id, markAsRead }) => {
+  const liRef = useRef();
+
   const handleClick = () => {
     if (markAsRead) {
       markAsRead(id);
     }
   };
 
-  const hasHTML =
-    html && (typeof html === 'object' || typeof html === 'string');
+  const containsHTML = (str) => {
+    return typeof str === 'string' && /<\/?[a-z][\s\S]*>/i.test(str);
+  };
 
-  const colorClass =
-    type === 'default'
-      ? 'text-[var(--default-notification-item)]'
-      : 'text-[var(--urgent-notification-item)]';
+  const styleClass = type === 'urgent' ? styles.urgent : styles.default;
+
+  if (html) {
+    return (
+      <li
+        ref={liRef}
+        className={css(styleClass)}
+        data-notification-type={type}
+        dangerouslySetInnerHTML={html}
+        onClick={handleClick}
+      />
+    );
+  }
+
+  if (value && containsHTML(value)) {
+    return (
+      <li
+        ref={liRef}
+        className={css(styleClass)}
+        data-notification-type={type}
+        dangerouslySetInnerHTML={{ __html: value }}
+        onClick={handleClick}
+      />
+    );
+  }
 
   return (
-    <>
-      <li
-        onClick={handleClick}
-        data-notification-type={type}
-        className={`tablet:text-base text-base ${colorClass}`}
-        {...(hasHTML
-          ? {
-              dangerouslySetInnerHTML:
-                typeof html === 'object' ? html : { __html: html },
-            }
-          : {})}
-      >
-        {!hasHTML ? value : null}
-      </li>
-      <span className="block tablet:hidden h-px w-full -ml-1 bg-black mt-2 mb-2"></span>
-    </>
+    <li
+      ref={liRef}
+      className={css(styleClass)}
+      data-notification-type={type}
+      onClick={handleClick}
+    >
+      {value}
+    </li>
   );
-}
+});
 
-export default React.memo(NotificationItem);
+export default NotificationItem;

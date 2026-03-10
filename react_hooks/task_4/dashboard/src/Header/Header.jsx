@@ -1,30 +1,86 @@
-import { useContext } from 'react';
+import React from 'react';
+import { StyleSheet, css } from 'aphrodite';
 import holbertonLogo from '../assets/holberton-logo.jpg';
-import newContext from '../Context/context.js';
+import { newContext } from '../Context/context';
+
+const styles = StyleSheet.create({
+  AppHeader: {
+    display: 'flex',
+    flexDirection: 'column',
+    borderBottom: '0.25rem solid #e1003c',
+    paddingBottom: '1rem',
+  },
+  headerRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: '1rem',
+  },
+  AppHeaderH1: {
+    fontFamily:
+      "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
+    fontWeight: 600,
+    letterSpacing: '0.025rem',
+    color: '#e1003c',
+  },
+  AppLogo: {
+    height: '15rem',
+  },
+  logoutSection: {
+    marginTop: '0.75rem',
+    marginLeft: '2rem',
+    fontFamily:
+      "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
+  },
+  logoutLink: {
+    marginLeft: '0.25rem',
+    cursor: 'pointer',
+  },
+});
 
 function Header() {
-  const { user, logOut } = useContext(newContext);
+  const context = React.useContext(newContext);
+  const { user, logOut } = context || {};
+
+  const handleLogoutClick = (event) => {
+    if (event && event.preventDefault) {
+      event.preventDefault();
+    }
+    if (typeof logOut === 'function') {
+      logOut();
+    }
+  };
+
   return (
-    <>
-      <header className="App-header flex flex-col tablet:flex-row items-center gap-2 tablet:gap-4 py-4">
+    <header className={css(styles.AppHeader)}>
+      <div className={css(styles.headerRow)}>
         <img
-          className="h-32 w-32 tablet:h-40 tablet:w-40 desktop:h-[250px] desktop:w-[250px]"
+          className={css(styles.AppLogo)}
           src={holbertonLogo}
           alt="holberton logo"
         />
-        <h1 className="text-[var(--main-color)] text-2xl tablet:text-3xl desktop:text-5xl font-bold">
-          School dashboard
+
+        <h1
+          className={css(styles.AppHeaderH1)}
+          style={{ color: 'rgba(225, 0, 60, 1)' }}
+        >
+          School Dashboard
         </h1>
-      </header>
-      {user.isLoggedIn && (
-        <section id="logoutSection" className="pl-1">
-          Welcome <span className="font-bold">{user.email}</span>{' '}
-          <a className="italic" href="#" onClick={logOut}>
+      </div>
+
+      {user && user.isLoggedIn && (
+        <div id="logoutSection" className={css(styles.logoutSection)}>
+          Welcome <b>{user.email}</b>
+          <a
+            href="#"
+            className={css(styles.logoutLink)}
+            onClick={handleLogoutClick}
+          >
             (logout)
           </a>
-        </section>
+        </div>
       )}
-    </>
+    </header>
   );
 }
 

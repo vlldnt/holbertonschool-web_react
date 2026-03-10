@@ -1,72 +1,135 @@
-import { useState, useMemo } from 'react';
+import React, { useState, useRef } from 'react';
+import { StyleSheet, css } from 'aphrodite';
 
-function Login(props) {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+const Login = (props) => {
+  // Chercher login (minuscule) au lieu de logIn
+  const loginFunction = props.login || props.logIn || (() => {});
+  const { email = '', password = '' } = props;
+  
+  const [enableSubmit, setEnableSubmit] = useState(false);
+  const [formData, setFormData] = useState({
+    email: email || '',
+    password: password || '',
+  });
 
-  const enableSubmit = useMemo(() => {
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
+  const styles = StyleSheet.create({
+    AppBody: {
+      padding: '2rem',
+      flex: 1,
+    },
+    AppBodyP: {
+      marginBottom: '1rem',
+    },
+    form: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      gap: '1rem',
+      '@media (max-width: 900px)': {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        gap: '0.5rem',
+      },
+    },
+    formInput: {
+      padding: '0 0.25rem',
+    },
+    formButton: {
+      padding: '0 0.25rem',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  });
+
+  const validateEmail = (value) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const emailValid = formData.email.length > 0 && regex.test(formData.email);
-    const passwordValid = formData.password.length >= 8;
-    return emailValid && passwordValid;
-  }, [formData]);
+    return regex.test(value);
+  };
 
-  function handleChangeEmail(e) {
-    const newEmail = e.target.value;
-    setFormData((prevData) => ({
-      ...prevData,
-      email: newEmail,
-    }));
-  }
+  const handleChangeEmail = (e) => {
+    const email = e.target.value;
+    const password = formData.password;
 
-  function handleChangePassword(e) {
-    const newPassword = e.target.value;
-    setFormData((prevData) => ({
-      ...prevData,
-      password: newPassword,
-    }));
-  }
+    setFormData({
+      email,
+      password,
+    });
 
-  function handleLoginSubmit(e) {
+    const emailOk = email.length > 0 && validateEmail(email);
+    const passwordOk = password.length >= 8;
+    setEnableSubmit(emailOk && passwordOk);
+  };
+
+  const handleChangePassword = (e) => {
+    const password = e.target.value;
+    const email = formData.email;
+
+    setFormData({
+      email,
+      password,
+    });
+
+    const emailOk = email.length > 0 && validateEmail(email);
+    const passwordOk = password.length >= 8;
+    setEnableSubmit(emailOk && passwordOk);
+  };
+
+  const handleLoginSubmit = (e) => {
     e.preventDefault();
-    props.logIn(formData.email, formData.password);
-  }
+    if (typeof loginFunction === 'function') {
+      loginFunction(formData.email, formData.password);
+    }
+  };
 
   return (
-    <div className="App-body border-t-2 border-(--main-color) h-full">
-      <p className="mt-5 tablet:ml-10">Login to access the full dashboard</p>
-      <form
-        className="tablet:ml-10 mt-5 flex flex-col justify-between tablet:block"
-        onSubmit={handleLoginSubmit}
-      >
-        <label htmlFor="email">Email</label>
+    <div className={css(styles.AppBody)}>
+      <p className={css(styles.AppBodyP)}>Login to access the full dashboard</p>
+      <form role="form" aria-label="login form" className={css(styles.form)} onSubmit={handleLoginSubmit}>
+        <label
+          htmlFor="email"
+          onClick={() => emailRef.current && emailRef.current.focus()}
+        >
+          Email:
+        </label>
         <input
-          className="w-50 tablet:w-57 border border-black tablet:ml-1.5 rounded p-1 tablet:mt-0 mt-1.5"
-          type="email"
           id="email"
-          autoComplete="email"
+          name="email"
+          type="email"
+          ref={emailRef}
+          className={css(styles.formInput)}
           value={formData.email}
           onChange={handleChangeEmail}
         />
-        <label className="tablet:ml-1.5 tablet:mt-0 mt-1.5" htmlFor="password">
-          Password
+        <label
+          htmlFor="password"
+          onClick={() => passwordRef.current && passwordRef.current.focus()}
+        >
+          Password:
         </label>
         <input
-          className="w-50 tablet:w-57 border border-black tablet:ml-1.5 rounded p-1 tablet:mt-0 mt-1.5"
-          type="password"
           id="password"
-          autoComplete="current-password"
+          name="password"
+          type="password"
+          role="textbox"
+          ref={passwordRef}
+          className={css(styles.formInput)}
           value={formData.password}
           onChange={handleChangePassword}
         />
         <input
           type="submit"
           value="OK"
-          className="tablet:ml-1.5 tablet:mt-0 mt-1.5 w-8 h-8 cursor-pointer border border-black rounded p-1 text-base font-medium text-center disabled:opacity-50 disabled:cursor-not-allowed"
+          className={css(styles.formButton)}
           disabled={!enableSubmit}
         />
       </form>
     </div>
   );
-}
+};
 
 export default Login;

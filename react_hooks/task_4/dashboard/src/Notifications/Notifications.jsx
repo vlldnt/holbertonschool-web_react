@@ -1,67 +1,181 @@
-import React from 'react';
-import closeButton from '../assets/close-button.png';
-import NotificationItem from './NotificationItem.jsx';
+import React, { memo } from 'react';
+import { StyleSheet, css } from 'aphrodite';
+import NotificationItem from './NotificationItem';
+import closeButton from "../assets/close-button.png";
 
-function Notifications({
+const Notifications = memo(({
   notifications = [],
   displayDrawer = false,
-  markAsRead,
-  handleDisplayDrawer,
-  handleHideDrawer,
-}) {
+  handleDisplayDrawer = () => {},
+  handleHideDrawer = () => {},
+  markNotificationAsRead = () => {}
+}) => {
+  const opacityAnimation = {
+    '0%': { opacity: 0.5 },
+    '100%': { opacity: 1 }
+  };
+
+  const bounceAnimation = {
+    '0%': { transform: 'translateY(0px)' },
+    '33%': { transform: 'translateY(-5px)' },
+    '66%': { transform: 'translateY(5px)' },
+    '100%': { transform: 'translateY(0px)' }
+  };
+
+  const styles = StyleSheet.create({
+    notificationContainer: {
+      width: '100%',
+      padding: '1rem',
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-end',
+      alignItems: 'flex-end'
+    },
+    notificationsTitle: {
+      marginBottom: '0.5rem',
+      position: 'relative',
+      float: 'right',
+      backgroundColor: '#fff8f8',
+      cursor: 'pointer',
+      padding: '10px',
+      ':hover': {
+        animationName: [opacityAnimation, bounceAnimation],
+        animationDuration: '1s, 0.5s',
+        animationIterationCount: '3, 3'
+      }
+    },
+    notificationsTitleHidden: {
+      display: 'none'
+    },
+    notifications: {
+      width: '500px',
+      position: 'relative',
+      padding: '0.5rem',
+      border: '1px dashed red',
+      '@media (max-width: 900px)': {
+        width: '100vw',
+        height: '100vh',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        padding: 0,
+        border: 'none',
+        fontSize: '20px',
+        backgroundColor: 'white',
+        zIndex: 1000
+      }
+    },
+    notificationsP: {
+      marginBottom: '1rem'
+    },
+    notificationsUl: {
+      marginLeft: '2rem',
+      '@media (max-width: 900px)': {
+        margin: 0,
+        padding: 0,
+        listStyle: 'none'
+      }
+    },
+    closeButton: {
+      position: 'absolute',
+      top: '0.60rem',
+      right: '1rem',
+      background: 'transparent',
+      border: 'none',
+      cursor: 'pointer'
+    },
+    closeButtonImg: {
+      width: '15px',
+      height: '15px'
+    }
+  });
+
+  let drawerContent = null;
+
+  if (displayDrawer) {
+    let content = "No new notification for now";
+
+    if (notifications.length > 0) {
+      const items = [];
+
+      for (let i = 0; i < notifications.length; i += 1) {
+        const notification = notifications[i];
+        const itemProps = {
+          id: notification.id,
+          type: notification.type,
+          markAsRead: markNotificationAsRead
+        };
+
+        if (notification.html) {
+          items.push(
+            <NotificationItem
+              key={notification.id}
+              {...itemProps}
+              html={notification.html}
+            />
+          );
+        } else {
+          items.push(
+            <NotificationItem
+              key={notification.id}
+              {...itemProps}
+              value={notification.value}
+            />
+          );
+        }
+      }
+
+      content = (
+        <>
+          <p className={css(styles.notificationsP)}>Here is the list of notifications</p>
+          <ul className={css(styles.notificationsUl)}>{items}</ul>
+        </>
+      );
+    }
+
+    drawerContent = (
+      <div className={css(styles.notifications)}>
+        <button
+          className={css(styles.closeButton)}
+          aria-label="Close"
+          onClick={handleHideDrawer}
+        >
+          <img
+            src={closeButton}
+            alt="close"
+            className={css(styles.closeButtonImg)}
+          />
+        </button>
+        {content}
+      </div>
+    );
+  }
+
+  const titleClass = [];
+
+  if (displayDrawer) {
+    titleClass.push(styles.notificationsTitle);
+    titleClass.push(styles.notificationsTitleHidden);
+  } else {
+    titleClass.push(styles.notificationsTitle);
+  }
+
   return (
-    <>
-      <div className="root-notifications absolute left-0 right-0 flex flex-col items-end z-50 pt-2 pr-4">
+    <div className="root-notifications">
+      <div className={css(styles.notificationContainer)}>
         <div
-          className={`notification-title cursor-pointer ${notifications.length > 0 && !displayDrawer ? 'animate-bounce' : ''}`}
+          className={css(...titleClass)}
           onClick={handleDisplayDrawer}
         >
-          <p className="mb-1.5 text-right text-xs tablet:text-base">
-            Your notifications
-          </p>
+          Your notifications
         </div>
-
-        {displayDrawer && (
-          <div className="fixed inset-0 z-50 bg-white tablet:relative tablet:inset-auto tablet:bg-transparent tablet:w-1/4 tablet:border-2 tablet:border-dashed tablet:border-(--main-color) tablet:p-1.5">
-            <div className="w-full h-full p-4 overflow-auto border-2 border-dashed border-(--main-color) tablet:border-0 tablet:p-0">
-              {notifications.length === 0 ? (
-                <p className="mb-4 tablet:mb-0">No new notification for now</p>
-              ) : (
-                <>
-                  <p className="mb-4 tablet:mb-0">
-                    Here is the list of notifications
-                  </p>
-                  <ul className="list-disc p-1 pl-6 tablet:pl-4">
-                    {notifications.map((notif) => (
-                      <NotificationItem
-                        key={notif.id}
-                        id={notif.id}
-                        type={notif.type}
-                        value={notif.value}
-                        html={notif.html}
-                        markAsRead={markAsRead}
-                      />
-                    ))}
-                  </ul>
-                </>
-              )}
-            </div>
-            <button
-              className="close-button fixed top-4 right-4 w-3 h-3 tablet:w-4 tablet:h-4 tablet:top-12 tablet:right-7 border-0 bg-transparent cursor-pointer z-[1000]"
-              aria-label="Close"
-              onClick={handleHideDrawer}
-            >
-              <img
-                className="w-full h-full"
-                src={closeButton}
-                alt="close-button"
-              />
-            </button>
-          </div>
-        )}
+        {drawerContent}
       </div>
-    </>
+    </div>
   );
-}
+});
 
-export default React.memo(Notifications);
+export default Notifications;

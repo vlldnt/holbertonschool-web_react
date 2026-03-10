@@ -1,19 +1,27 @@
-import { expect, test } from "@jest/globals";
-import * as utils from "./utils.js";
+import { getCurrentYear, getFooterCopy, getLatestNotification } from "./utils";
 
-test("should return current year", () => {
-  const date = new Date();
+describe('Utils functions', () => {
+    describe('getCurrentYear', () => {
+        it('should return the current year', () => {
+            const currentYear = new Date().getFullYear();
+            expect(getCurrentYear()).toBe(currentYear);
+        });
+    });
 
-  expect(utils.getCurrentYear()).toBe(date.getFullYear());
-});
+    describe('getFooterCopy', () => {
+        it('Should return "Holberton School" when argument is true', () => {
+            expect(getFooterCopy(true)).toBe('Holberton School');
+        });
 
-test("should return correct output for footer", () => {
-  expect(utils.getFooterCopy(true)).toBe("Holberton School");
-  expect(utils.getFooterCopy(false)).toBe("Holberton School main dashboard");
-});
+        it('Should return "Holberton School main dashboard" when argument is false', () => {
+            expect(getFooterCopy(false)).toBe('Holberton School main dashboard');
+        });
+    });
 
-test("should return correct urgent notification", () => {
-  expect(utils.getLatestNotification()).toBe(
-    "<strong>Urgent requirement</strong> - complete by EOD",
-  );
+    describe('getLatestNotification', () => {
+        it('Should return the correct notification string', () => {
+            const expectedString = '<strong>Urgent requirement</strong> - complete by EOD';
+            expect(getLatestNotification()).toBe(expectedString);
+        });
+    });
 });

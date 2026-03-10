@@ -1,22 +1,34 @@
-import { render, screen } from '@testing-library/react';
+import React from 'react';
+import { render } from '@testing-library/react';
+import { StyleSheetTestUtils } from 'aphrodite';
 import CourseList from './CourseList';
 
-describe('CourseList tests', () => {
-  test('renders 5 different rows when receiving an array of courses', () => {
-    const courses = [
-      { id: 1, name: 'ES6', credit: 60 },
-      { id: 2, name: 'Webpack', credit: 20 },
-      { id: 3, name: 'React', credit: 40 },
-    ];
-    render(<CourseList courses={courses} />);
-    const rows = screen.getAllByRole('row');
-    expect(rows).toHaveLength(5);
-  });
+beforeEach(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+});
 
-  test('renders 1 row when receiving an empty array', () => {
-    render(<CourseList courses={[]} />);
-    const rows = screen.getAllByRole('row');
-    expect(rows).toHaveLength(1);
-    expect(screen.getByText(/No course available yet/i)).toBeInTheDocument();
-  });
+afterEach(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+});
+
+test('renders 5 different rows when it receives an array of courses objects', () => {
+    const courses = [
+        { id: 1, name: "ES6", credit: "60" },
+        { id: 2, name: "Webpack", credit: "20" },
+        { id: 3, name: "React", credit: "40" }
+    ];
+
+    const { container } = render(<CourseList courses={courses} />);
+
+    const allRows = container.querySelectorAll('tr');
+    expect(allRows).toHaveLength(5);
+});
+
+test('renders 1 row whenever it receives an empty array', () => {
+    const { container } = render(<CourseList courses={[]} />);
+
+    const allRows = container.querySelectorAll('tr');
+    expect(allRows).toHaveLength(1);
+
+    expect(container).toHaveTextContent('No course available yet');
 });

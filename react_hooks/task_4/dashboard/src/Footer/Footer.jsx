@@ -1,19 +1,27 @@
-import { useContext } from 'react';
-import newContext from '../Context/context.js';
-import { getCurrentYear, getFooterCopy } from '../utils/utils.js';
+import React from 'react';
+import { getCurrentYear, getFooterCopy } from '../utils/utils';
+import { newContext } from '../Context/context';
 
-function Footer({ isIndex }) {
-  const { user } = useContext(newContext);
+function Footer() {
+  const context = React.useContext(newContext);
+  const { user, logOut } = context || {};
 
   return (
-    <footer className="App-footer mt-auto relative flex flex-row items-center justify-center border-t-3 border-[var(--main-color)] py-4">
-      <p className="italic text-xs tablet:text-sm desktop:text-base">
-        Copyright {getCurrentYear()} - {getFooterCopy(isIndex)}
-      </p>
-      {user.isLoggedIn && (
-        <p className="absolute right-4">
-          <a href="#">Contact us</a>
-        </p>
+    <footer className='App-footer' style={{ textAlign: 'center' }}>
+      <p>Copyright {getCurrentYear()} - {getFooterCopy(true)}</p>
+      {user && user.isLoggedIn && (
+        <div>
+          <p>
+            <a href="#" onClick={(e) => { e.preventDefault(); logOut(); }} aria-label="Logout">
+              Logout
+            </a>
+          </p>
+          <p>
+            <a href="#" onClick={(e) => { e.preventDefault(); logOut(); }} aria-label="Contact us link">
+              Contact us
+            </a>
+          </p>
+        </div>
       )}
     </footer>
   );
