@@ -33,6 +33,7 @@ This repository contains all projects from the **React Web Development** special
 | [**React Styling**](./react_styling) | Styling in React - CSS Modules, inline styles, CSS-in-JS, Aphrodite, and responsive design | React, Aphrodite, CSS |
 | [**React State**](./react_state) | Managing component state and lifecycle, using hooks, controlled forms, and passing data via context | React, Hooks, Forms |
 | [**React Hooks**](./react_hooks) | Mastering React Hooks - useState, useEffect, useContext, custom hooks, and advanced hook patterns for modern React development | React, Hooks, Custom Hooks |
+| [**React Redux - Part 1**](./react_redux-part1) | Introduction to Redux - store, actions, reducers, connecting components to the store with React-Redux | React, Redux, React-Redux, Jest |
 
 ---
 
