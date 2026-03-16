@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import mockAxios from 'jest-mock-axios';
 import notificationsReducer, {
   fetchNotifications,
   markNotificationAsRead,
@@ -6,6 +7,10 @@ import notificationsReducer, {
   hideDrawer,
 } from '../notifications/notificationsSlice';
 import { getLatestNotification } from '../../utils/utils';
+
+afterEach(() => {
+  mockAxios.reset();
+});
 
 describe('notificationsSlice', () => {
   const initialState = {
@@ -28,14 +33,12 @@ describe('notificationsSlice', () => {
       { id: 3, type: 'urgent', html: { __html: '' } },
     ];
 
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        data: { notifications: mockNotifications },
-      }),
-    );
-
     const store = configureStore({ reducer: notificationsReducer });
-    await store.dispatch(fetchNotifications());
+    const promise = store.dispatch(fetchNotifications());
+
+    mockAxios.mockResponse({ data: { notifications: mockNotifications } });
+
+    await promise;
 
     const state = store.getState();
     expect(state.notifications).toHaveLength(3);
@@ -45,8 +48,6 @@ describe('notificationsSlice', () => {
       ...mockNotifications[2],
       html: { __html: getLatestNotification() },
     });
-
-    global.fetch.mockRestore();
   });
 
   it('should remove a notification when markNotificationAsRead is dispatched', () => {
