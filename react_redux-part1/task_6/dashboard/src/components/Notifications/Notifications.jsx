@@ -1,7 +1,13 @@
-import { memo } from "react";
-import { StyleSheet, css } from "aphrodite";
-import closeIcon from "../../assets/close-icon.png";
-import NotificationItem from "../NotificationItem/NotificationItem";
+import { memo, useCallback } from 'react';
+import { StyleSheet, css } from 'aphrodite';
+import closeIcon from '../../assets/close-icon.png';
+import NotificationItem from '../NotificationItem/NotificationItem';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  markNotificationAsRead,
+  showDrawer,
+  hideDrawer,
+} from '../../features/notifications/notificationsSlice';
 
 const opacityKeyframes = {
   from: {
@@ -13,91 +19,105 @@ const opacityKeyframes = {
 };
 
 const bounceKeyframes = {
-  "0%": {
-    transform: "translateY(0px)",
+  '0%': {
+    transform: 'translateY(0px)',
   },
-  "50%": {
-    transform: "translateY(-5px)",
+  '50%': {
+    transform: 'translateY(-5px)',
   },
-  "100%": {
-    transform: "translateY(5px)",
+  '100%': {
+    transform: 'translateY(5px)',
   },
 };
 
 const styles = StyleSheet.create({
   notificationItems: {
-    position: "relative",
-    border: "3px dotted #e1003c",
-    padding: "5px",
-    fontFamily: "Roboto, sans-serif",
-    width: "25%",
-    float: "right",
-    marginTop: "20px",
-    "@media (max-width: 900px)": {
-      position: "fixed",
+    position: 'relative',
+    border: '3px dotted #e1003c',
+    padding: '5px',
+    fontFamily: 'Roboto, sans-serif',
+    width: '25%',
+    float: 'right',
+    marginTop: '20px',
+    '@media (max-width: 900px)': {
+      position: 'fixed',
       top: 0,
       left: 0,
-      width: "100%",
-      height: "100%",
-      border: "none",
+      width: '100%',
+      height: '100%',
+      border: 'none',
       padding: 0,
       margin: 0,
-      fontSize: "20px",
-      backgroundColor: "white",
+      fontSize: '20px',
+      backgroundColor: 'white',
       zIndex: 1000,
     },
   },
   ul: {
-    "@media (max-width: 900px)": {
+    '@media (max-width: 900px)': {
       padding: 0,
     },
   },
   p: {
     margin: 0,
-    "@media (max-width: 900px)": {
-      fontSize: "20px",
+    '@media (max-width: 900px)': {
+      fontSize: '20px',
     },
   },
   button: {
-    position: "absolute",
-    cursor: "pointer",
-    right: "calc(0% - 480px)",
-    top: "calc(0% - 480px)",
-    background: "transparent",
-    transform: "scale(0.012)",
-    WebkitTransform: "scale(0.012)",
-    MozTransform: "scale(0.012)",
-    msTransform: "scale(0.012)",
-    OTransform: "scale(0.012)",
+    position: 'absolute',
+    cursor: 'pointer',
+    right: 'calc(0% - 480px)',
+    top: 'calc(0% - 480px)',
+    background: 'transparent',
+    transform: 'scale(0.012)',
+    WebkitTransform: 'scale(0.012)',
+    MozTransform: 'scale(0.012)',
+    msTransform: 'scale(0.012)',
+    OTransform: 'scale(0.012)',
   },
   menuItem: {
-    float: "right",
-    position: "absolute",
-    right: "10px",
-    top: "-5px",
-    backgroundColor: "#fff8f8",
-    cursor: "pointer",
-    ":hover": {
+    float: 'right',
+    position: 'absolute',
+    right: '10px',
+    top: '-5px',
+    backgroundColor: '#fff8f8',
+    cursor: 'pointer',
+    ':hover': {
       animationName: [opacityKeyframes, bounceKeyframes],
-      animationDuration: "1s, 0.5s",
-      animationIterationCount: "3, 3",
+      animationDuration: '1s, 0.5s',
+      animationIterationCount: '3, 3',
     },
   },
 });
 
-const Notifications = memo(function Notifications({
-  displayDrawer,
-  handleDisplayDrawer,
-  handleHideDrawer,
-  notifications,
-  markNotificationAsRead,
-}) {
+const Notifications = memo(function Notifications() {
+  const dispatch = useDispatch();
+  const displayDrawer = useSelector(
+    (state) => state.notifications.displayDrawer,
+  );
+  const notifications = useSelector(
+    (state) => state.notifications.notifications,
+  );
+
+  const handleDisplayDrawer = useCallback(() => {
+    dispatch(showDrawer());
+  }, [dispatch]);
+
+  const handleHideDrawer = useCallback(() => {
+    dispatch(hideDrawer());
+  }, [dispatch]);
+
+  const handleMarkNotificationAsRead = useCallback(
+    (id) => {
+      dispatch(markNotificationAsRead(id));
+    },
+    [dispatch],
+  );
+
   return (
     <>
-      <div
-        className={css(styles.menuItem)}
-        onClick={() => handleDisplayDrawer()}
-      >
+      <div className={css(styles.menuItem)} onClick={handleDisplayDrawer}>
         Your notifications
       </div>
       {displayDrawer ? (
@@ -106,7 +126,7 @@ const Notifications = memo(function Notifications({
             <>
               <p className={css(styles.p)}>Here is the list of notifications</p>
               <button
-                onClick={() => handleHideDrawer()}
+                onClick={handleHideDrawer}
                 aria-label="Close"
                 className={css(styles.button)}
               >
@@ -120,7 +140,7 @@ const Notifications = memo(function Notifications({
                     type={notification.type}
                     value={notification.value}
                     html={notification.html}
-                    markAsRead={markNotificationAsRead}
+                    markAsRead={handleMarkNotificationAsRead}
                   />
                 ))}
               </ul>
