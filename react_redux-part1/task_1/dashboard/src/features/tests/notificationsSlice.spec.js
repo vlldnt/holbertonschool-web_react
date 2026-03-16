@@ -16,8 +16,6 @@ describe('notificationsSlice', () => {
   const initialState = {
     notifications: [],
     displayDrawer: true,
-    loading: false,
-    error: null,
   };
 
   it('should return the correct initial state by default', () => {
