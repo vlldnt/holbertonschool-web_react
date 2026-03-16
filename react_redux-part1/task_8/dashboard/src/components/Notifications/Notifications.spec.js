@@ -38,7 +38,11 @@ test('Notification items are displayed after fetchNotifications', async () => {
 
   await promise;
 
-  render(<Provider store={store}><Notifications /></Provider>);
+  render(
+    <Provider store={store}>
+      <Notifications />
+    </Provider>,
+  );
 
   expect(screen.getByText('New course available')).toBeInTheDocument();
   expect(screen.getByText('New resume available')).toBeInTheDocument();
@@ -52,14 +56,22 @@ test('Closing the drawer sets displayDrawer to false', () => {
     },
   });
 
-  render(<Provider store={store}><Notifications /></Provider>);
+  render(
+    <Provider store={store}>
+      <Notifications />
+    </Provider>,
+  );
 
-  expect(screen.getByText(/here is the list of notifications/i)).toBeInTheDocument();
+  expect(
+    screen.getByText(/here is the list of notifications/i),
+  ).toBeInTheDocument();
 
   fireEvent.click(screen.getByRole('button', { name: /close/i }));
 
   expect(store.getState().notifications.displayDrawer).toBe(false);
-  expect(screen.queryByText(/here is the list of notifications/i)).not.toBeInTheDocument();
+  expect(
+    screen.queryByText(/here is the list of notifications/i),
+  ).not.toBeInTheDocument();
 });
 
 test('Opening the drawer sets displayDrawer to true', () => {
@@ -70,14 +82,22 @@ test('Opening the drawer sets displayDrawer to true', () => {
     },
   });
 
-  render(<Provider store={store}><Notifications /></Provider>);
+  render(
+    <Provider store={store}>
+      <Notifications />
+    </Provider>,
+  );
 
-  expect(screen.queryByText(/here is the list of notifications/i)).not.toBeInTheDocument();
+  expect(
+    screen.queryByText(/here is the list of notifications/i),
+  ).not.toBeInTheDocument();
 
   fireEvent.click(screen.getByText(/your notifications/i));
 
   expect(store.getState().notifications.displayDrawer).toBe(true);
-  expect(screen.getByText(/here is the list of notifications/i)).toBeInTheDocument();
+  expect(
+    screen.getByText(/here is the list of notifications/i),
+  ).toBeInTheDocument();
 });
 
 test('Marking a notification as read removes it from the list', () => {
@@ -93,7 +113,11 @@ test('Marking a notification as read removes it from the list', () => {
     },
   });
 
-  render(<Provider store={store}><Notifications /></Provider>);
+  render(
+    <Provider store={store}>
+      <Notifications />
+    </Provider>,
+  );
 
   const items = screen.getAllByRole('listitem');
   expect(items).toHaveLength(2);

@@ -14,20 +14,29 @@ function renderWithStore(preloadedState = {}) {
       ...preloadedState,
     },
   });
-  return render(<Provider store={store}><Footer /></Provider>);
+  return render(
+    <Provider store={store}>
+      <Footer />
+    </Provider>,
+  );
 }
 
 test('Footer renders copyright text', () => {
   renderWithStore();
 
   const footerText = screen.getByText(/copyright/i);
-  expect(footerText).toHaveTextContent(new RegExp(`Copyright ${new Date().getFullYear()}`, 'i'));
+  expect(footerText).toHaveTextContent(
+    new RegExp(`Copyright ${new Date().getFullYear()}`, 'i'),
+  );
   expect(footerText).toHaveTextContent(/holberton school/i);
 });
 
 test('Contact us link is displayed when isLoggedIn is true', () => {
   renderWithStore({
-    auth: { user: { email: 'test@test.com', password: 'pass' }, isLoggedIn: true },
+    auth: {
+      user: { email: 'test@test.com', password: 'pass' },
+      isLoggedIn: true,
+    },
   });
 
   expect(screen.getByText(/contact us/i)).toBeInTheDocument();

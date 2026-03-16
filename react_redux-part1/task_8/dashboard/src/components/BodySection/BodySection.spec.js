@@ -5,7 +5,7 @@ test('Renders a heading with the title and children', () => {
   render(
     <BodySection title="Test Title">
       <p>Test child content</p>
-    </BodySection>
+    </BodySection>,
   );
 
   const titleElement = screen.getByRole('heading', { name: /test title/i });

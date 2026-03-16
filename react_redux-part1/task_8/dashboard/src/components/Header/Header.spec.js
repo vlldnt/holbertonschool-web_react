@@ -18,12 +18,19 @@ function createStore(preloadedState = {}) {
 }
 
 function renderWithStore(store) {
-  return render(<Provider store={store}><Header /></Provider>);
+  return render(
+    <Provider store={store}>
+      <Header />
+    </Provider>,
+  );
 }
 
 test('Logout link is displayed when isLoggedIn is true', () => {
   const store = createStore({
-    auth: { user: { email: 'test@test.com', password: 'pass' }, isLoggedIn: true },
+    auth: {
+      user: { email: 'test@test.com', password: 'pass' },
+      isLoggedIn: true,
+    },
   });
   renderWithStore(store);
 
@@ -42,7 +49,10 @@ test('Welcome message with email is displayed after login dispatch', () => {
 
 test('Clicking logout sets isLoggedIn to false', () => {
   const store = createStore({
-    auth: { user: { email: 'test@test.com', password: 'pass' }, isLoggedIn: true },
+    auth: {
+      user: { email: 'test@test.com', password: 'pass' },
+      isLoggedIn: true,
+    },
   });
   renderWithStore(store);
 

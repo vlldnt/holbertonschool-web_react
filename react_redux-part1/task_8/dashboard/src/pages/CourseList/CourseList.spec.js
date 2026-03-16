@@ -28,7 +28,11 @@ test('CourseList displays courses from mock fetchCourses', async () => {
     },
   });
 
-  render(<Provider store={store}><CourseList /></Provider>);
+  render(
+    <Provider store={store}>
+      <CourseList />
+    </Provider>,
+  );
 
   expect(screen.getByText('ES6')).toBeInTheDocument();
   expect(screen.getByText('Webpack')).toBeInTheDocument();
@@ -37,15 +41,20 @@ test('CourseList displays courses from mock fetchCourses', async () => {
 
 test('Dispatching logout resets the courses array', () => {
   const store = createStore({
-    auth: { user: { email: 'test@test.com', password: 'pass' }, isLoggedIn: true },
+    auth: {
+      user: { email: 'test@test.com', password: 'pass' },
+      isLoggedIn: true,
+    },
     courses: {
-      courses: [
-        { id: 1, name: 'ES6', credit: 60 },
-      ],
+      courses: [{ id: 1, name: 'ES6', credit: 60 }],
     },
   });
 
-  const { rerender } = render(<Provider store={store}><CourseList /></Provider>);
+  const { rerender } = render(
+    <Provider store={store}>
+      <CourseList />
+    </Provider>,
+  );
 
   expect(screen.getByText('ES6')).toBeInTheDocument();
 
@@ -53,7 +62,11 @@ test('Dispatching logout resets the courses array', () => {
     store.dispatch(logout());
   });
 
-  rerender(<Provider store={store}><CourseList /></Provider>);
+  rerender(
+    <Provider store={store}>
+      <CourseList />
+    </Provider>,
+  );
 
   expect(screen.queryByText('ES6')).not.toBeInTheDocument();
   expect(screen.getByText(/no course available yet/i)).toBeInTheDocument();

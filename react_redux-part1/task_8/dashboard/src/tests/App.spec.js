@@ -17,7 +17,7 @@ function renderWithStore(preloadedState = {}) {
   return render(
     <Provider store={store}>
       <App />
-    </Provider>
+    </Provider>,
   );
 }
 
@@ -30,17 +30,24 @@ test('App renders Login when isLoggedIn is false', () => {
 
   expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
   expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-  expect(screen.getByRole('heading', { name: /log in to continue/i })).toBeInTheDocument();
+  expect(
+    screen.getByRole('heading', { name: /log in to continue/i }),
+  ).toBeInTheDocument();
 });
 
 test('App renders CourseList when isLoggedIn is true', () => {
   renderWithStore({
-    auth: { user: { email: 'test@test.com', password: 'pass' }, isLoggedIn: true },
+    auth: {
+      user: { email: 'test@test.com', password: 'pass' },
+      isLoggedIn: true,
+    },
     notifications: { notifications: [], displayDrawer: true },
     courses: { courses: [{ id: 1, name: 'ES6', credit: 60 }] },
   });
 
-  expect(screen.getByRole('heading', { name: /course list/i })).toBeInTheDocument();
+  expect(
+    screen.getByRole('heading', { name: /course list/i }),
+  ).toBeInTheDocument();
   expect(screen.queryByLabelText(/email/i)).not.toBeInTheDocument();
 });
 
@@ -51,7 +58,9 @@ test('fetchNotifications is dispatched on mount and notification items are displ
     courses: { courses: [] },
   });
 
-  expect(mockAxios.get).toHaveBeenCalledWith('http://localhost:5173/notifications.json');
+  expect(mockAxios.get).toHaveBeenCalledWith(
+    'http://localhost:5173/notifications.json',
+  );
 
   mockAxios.mockResponse({
     data: {

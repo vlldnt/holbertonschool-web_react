@@ -5,7 +5,7 @@ test('Renders title and children correctly', () => {
   const { container } = render(
     <BodySectionWithMarginBottom title="Hello!">
       <p>This is child content</p>
-    </BodySectionWithMarginBottom>
+    </BodySectionWithMarginBottom>,
   );
 
   expect(screen.getByRole('heading', { name: /hello/i })).toBeInTheDocument();

@@ -13,8 +13,8 @@ import { fetchCourses } from './features/courses/coursesSlice';
 
 const styles = StyleSheet.create({
   app: {
-    position: 'relative'
-  }
+    position: 'relative',
+  },
 });
 
 export default function App() {
@@ -37,11 +37,11 @@ export default function App() {
       <>
         <Header />
         {!isLoggedIn ? (
-          <BodySectionWithMarginBottom title='Log in to continue'>
+          <BodySectionWithMarginBottom title="Log in to continue">
             <Login />
           </BodySectionWithMarginBottom>
         ) : (
-          <BodySectionWithMarginBottom title='Course list'>
+          <BodySectionWithMarginBottom title="Course list">
             <CourseList />
           </BodySectionWithMarginBottom>
         )}

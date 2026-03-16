@@ -5,9 +5,13 @@ test('Renders a header with one cell spanning two columns', () => {
   render(
     <table>
       <tbody>
-        <CourseListRow isHeader={true} textFirstCell="First" textSecondCell={null} />
+        <CourseListRow
+          isHeader={true}
+          textFirstCell="First"
+          textSecondCell={null}
+        />
       </tbody>
-    </table>
+    </table>,
   );
 
   const thElement = screen.getByRole('columnheader');
@@ -18,9 +22,13 @@ test('Renders a header with two cells when textSecondCell is provided', () => {
   render(
     <table>
       <tbody>
-        <CourseListRow isHeader={true} textFirstCell="First" textSecondCell="Second" />
+        <CourseListRow
+          isHeader={true}
+          textFirstCell="First"
+          textSecondCell="Second"
+        />
       </tbody>
-    </table>
+    </table>,
   );
 
   const thElements = screen.getAllByRole('columnheader');
@@ -33,9 +41,13 @@ test('Renders a regular row with two td cells', () => {
   render(
     <table>
       <tbody>
-        <CourseListRow isHeader={false} textFirstCell="Data1" textSecondCell="Data2" />
+        <CourseListRow
+          isHeader={false}
+          textFirstCell="Data1"
+          textSecondCell="Data2"
+        />
       </tbody>
-    </table>
+    </table>,
   );
 
   const trElement = screen.getByRole('row');

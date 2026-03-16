@@ -14,7 +14,14 @@ function renderWithStore(preloadedState = {}) {
       ...preloadedState,
     },
   });
-  return { store, ...render(<Provider store={store}><Login /></Provider>) };
+  return {
+    store,
+    ...render(
+      <Provider store={store}>
+        <Login />
+      </Provider>,
+    ),
+  };
 }
 
 test('Login form displays email, password fields and submit button', () => {
@@ -28,8 +35,12 @@ test('Login form displays email, password fields and submit button', () => {
 test('Submitting valid credentials sets isLoggedIn to true', () => {
   const { store } = renderWithStore();
 
-  fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-  fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password123' } });
+  fireEvent.change(screen.getByLabelText(/email/i), {
+    target: { value: 'test@example.com' },
+  });
+  fireEvent.change(screen.getByLabelText(/password/i), {
+    target: { value: 'password123' },
+  });
   fireEvent.click(screen.getByRole('button', { name: /ok/i }));
 
   expect(store.getState().auth.isLoggedIn).toBe(true);
@@ -38,8 +49,12 @@ test('Submitting valid credentials sets isLoggedIn to true', () => {
 test('Submitting invalid credentials keeps isLoggedIn false', () => {
   const { store } = renderWithStore();
 
-  fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'bad' } });
-  fireEvent.change(screen.getByLabelText(/password/i), { target: { value: '123' } });
+  fireEvent.change(screen.getByLabelText(/email/i), {
+    target: { value: 'bad' },
+  });
+  fireEvent.change(screen.getByLabelText(/password/i), {
+    target: { value: '123' },
+  });
 
   const submitButton = screen.getByRole('button', { name: /ok/i });
   expect(submitButton).toBeDisabled();
