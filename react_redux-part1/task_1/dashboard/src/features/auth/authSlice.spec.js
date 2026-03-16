@@ -1,4 +1,9 @@
+import mockAxios from 'jest-mock-axios';
 import authReducer, { login, logout } from './authSlice';
+
+afterEach(() => {
+  mockAxios.reset();
+});
 
 describe('authSlice', () => {
   const initialState = {
