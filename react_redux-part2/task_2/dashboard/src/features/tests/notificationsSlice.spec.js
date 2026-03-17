@@ -13,6 +13,7 @@ afterEach(() => {
 describe('notificationsSlice', () => {
   const initialState = {
     notifications: [],
+    loading: false,
   };
 
   it('should return the correct initial state by default', () => {

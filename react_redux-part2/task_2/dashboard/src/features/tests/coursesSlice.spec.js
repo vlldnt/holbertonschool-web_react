@@ -34,10 +34,10 @@ describe('CoursesSlice tests', () => {
 
     const state = store.getState();
     expect(state.courses).toHaveLength(4);
-    expect(state.courses[0]).toEqual(mockCourses[0]);
-    expect(state.courses[1]).toEqual(mockCourses[1]);
-    expect(state.courses[2]).toEqual(mockCourses[2]);
-    expect(state.courses[3]).toEqual(mockCourses[3]);
+    expect(state.courses[0]).toEqual({ ...mockCourses[0], isSelected: false });
+    expect(state.courses[1]).toEqual({ ...mockCourses[1], isSelected: false });
+    expect(state.courses[2]).toEqual({ ...mockCourses[2], isSelected: false });
+    expect(state.courses[3]).toEqual({ ...mockCourses[3], isSelected: false });
   });
 
   test('resets the courses array to empty when logout', () => {
