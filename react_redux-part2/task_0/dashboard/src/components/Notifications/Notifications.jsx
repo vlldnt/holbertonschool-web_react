@@ -1,13 +1,9 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useRef } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import closeIcon from '../../assets/close-icon.png';
 import NotificationItem from '../NotificationItem/NotificationItem';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  markNotificationAsRead,
-  showDrawer,
-  hideDrawer,
-} from '../../features/notifications/notificationsSlice';
+import { markNotificationAsRead } from '../../features/notifications/notificationsSlice';
 
 const opacityKeyframes = {
   from: {
@@ -39,6 +35,8 @@ const styles = StyleSheet.create({
     width: '25%',
     float: 'right',
     marginTop: '20px',
+    opacity: 0,
+    visibility: 'hidden',
     '@media (max-width: 900px)': {
       position: 'fixed',
       top: 0,
@@ -52,6 +50,10 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       zIndex: 1000,
     },
+  },
+  visible: {
+    opacity: 1,
+    visibility: 'visible',
   },
   ul: {
     '@media (max-width: 900px)': {
@@ -93,20 +95,21 @@ const styles = StyleSheet.create({
 
 const Notifications = memo(function Notifications() {
   const dispatch = useDispatch();
-  const displayDrawer = useSelector(
-    (state) => state.notifications.displayDrawer,
-  );
   const notifications = useSelector(
     (state) => state.notifications.notifications,
   );
+  const drawerRef = useRef(null);
 
-  const handleDisplayDrawer = useCallback(() => {
-    dispatch(showDrawer());
-  }, [dispatch]);
-
-  const handleHideDrawer = useCallback(() => {
-    dispatch(hideDrawer());
-  }, [dispatch]);
+  const handleToggleDrawer = useCallback(() => {
+    const el = drawerRef.current;
+    if (!el) return;
+    const visibleClass = css(styles.visible);
+    if (el.classList.contains(visibleClass)) {
+      el.classList.remove(visibleClass);
+    } else {
+      el.classList.add(visibleClass);
+    }
+  }, []);
 
   const handleMarkNotificationAsRead = useCallback(
     (id) => {
@@ -117,41 +120,37 @@ const Notifications = memo(function Notifications() {
 
   return (
     <>
-      <div className={css(styles.menuItem)} onClick={handleDisplayDrawer}>
+      <div className={css(styles.menuItem)} onClick={handleToggleDrawer}>
         Your notifications
       </div>
-      {displayDrawer ? (
-        <div className={css(styles.notificationItems)}>
-          {notifications.length > 0 ? (
-            <>
-              <p className={css(styles.p)}>Here is the list of notifications</p>
-              <button
-                onClick={handleHideDrawer}
-                aria-label="Close"
-                className={css(styles.button)}
-              >
-                <img src={closeIcon} alt="close icon" />
-              </button>
-              <ul className={css(styles.ul)}>
-                {notifications.map((notification) => (
-                  <NotificationItem
-                    id={notification.id}
-                    key={notification.id}
-                    type={notification.type}
-                    value={notification.value}
-                    html={notification.html}
-                    markAsRead={handleMarkNotificationAsRead}
-                  />
-                ))}
-              </ul>
-            </>
-          ) : (
-            <p className={css(styles.p)}>No new notifications for now</p>
-          )}
-        </div>
-      ) : (
-        []
-      )}
+      <div ref={drawerRef} className={css(styles.notificationItems)}>
+        {notifications.length > 0 ? (
+          <>
+            <p className={css(styles.p)}>Here is the list of notifications</p>
+            <button
+              onClick={handleToggleDrawer}
+              aria-label="Close"
+              className={css(styles.button)}
+            >
+              <img src={closeIcon} alt="close icon" />
+            </button>
+            <ul className={css(styles.ul)}>
+              {notifications.map((notification) => (
+                <NotificationItem
+                  id={notification.id}
+                  key={notification.id}
+                  type={notification.type}
+                  value={notification.value}
+                  html={notification.html}
+                  markAsRead={handleMarkNotificationAsRead}
+                />
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p className={css(styles.p)}>No new notifications for now</p>
+        )}
+      </div>
     </>
   );
 });

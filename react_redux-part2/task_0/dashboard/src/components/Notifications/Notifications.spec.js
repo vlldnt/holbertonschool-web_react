@@ -5,9 +5,15 @@ import rootReducer from '../../app/rootReducer';
 import Notifications from './Notifications';
 import mockAxios from 'jest-mock-axios';
 import { fetchNotifications } from '../../features/notifications/notificationsSlice';
+import { StyleSheetTestUtils } from 'aphrodite';
+
+beforeEach(() => {
+  StyleSheetTestUtils.suppressStyleInjection();
+});
 
 afterEach(() => {
   mockAxios.reset();
+  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
 });
 
 function createStore(preloadedState = {}) {
@@ -15,7 +21,7 @@ function createStore(preloadedState = {}) {
     reducer: rootReducer,
     preloadedState: {
       auth: { user: { email: '', password: '' }, isLoggedIn: false },
-      notifications: { notifications: [], displayDrawer: true },
+      notifications: { notifications: [] },
       courses: { courses: [] },
       ...preloadedState,
     },
@@ -48,11 +54,10 @@ test('Notification items are displayed after fetchNotifications', async () => {
   expect(screen.getByText('New resume available')).toBeInTheDocument();
 });
 
-test('Closing the drawer sets displayDrawer to false', () => {
+test('Clicking "Your notifications" toggles the visible class on the drawer', () => {
   const store = createStore({
     notifications: {
       notifications: [{ id: 1, type: 'default', value: 'Test notification' }],
-      displayDrawer: true,
     },
   });
 
@@ -62,23 +67,24 @@ test('Closing the drawer sets displayDrawer to false', () => {
     </Provider>,
   );
 
-  expect(
-    screen.getByText(/here is the list of notifications/i),
-  ).toBeInTheDocument();
+  const drawer = screen.getByText(/here is the list of notifications/i).closest('div');
 
-  fireEvent.click(screen.getByRole('button', { name: /close/i }));
+  // Initially hidden (no visible class)
+  expect(drawer.classList.length).toBe(1);
 
-  expect(store.getState().notifications.displayDrawer).toBe(false);
-  expect(
-    screen.queryByText(/here is the list of notifications/i),
-  ).not.toBeInTheDocument();
+  // Click to show
+  fireEvent.click(screen.getByText(/your notifications/i));
+  expect(drawer.classList.length).toBe(2);
+
+  // Click to hide
+  fireEvent.click(screen.getByText(/your notifications/i));
+  expect(drawer.classList.length).toBe(1);
 });
 
-test('Opening the drawer sets displayDrawer to true', () => {
+test('Clicking close button removes the visible class from the drawer', () => {
   const store = createStore({
     notifications: {
       notifications: [{ id: 1, type: 'default', value: 'Test notification' }],
-      displayDrawer: false,
     },
   });
 
@@ -88,16 +94,15 @@ test('Opening the drawer sets displayDrawer to true', () => {
     </Provider>,
   );
 
-  expect(
-    screen.queryByText(/here is the list of notifications/i),
-  ).not.toBeInTheDocument();
-
+  // Open the drawer first
   fireEvent.click(screen.getByText(/your notifications/i));
 
-  expect(store.getState().notifications.displayDrawer).toBe(true);
-  expect(
-    screen.getByText(/here is the list of notifications/i),
-  ).toBeInTheDocument();
+  const drawer = screen.getByText(/here is the list of notifications/i).closest('div');
+  expect(drawer.classList.length).toBe(2);
+
+  // Close it
+  fireEvent.click(screen.getByRole('button', { name: /close/i }));
+  expect(drawer.classList.length).toBe(1);
 });
 
 test('Marking a notification as read removes it from the list', () => {
@@ -109,7 +114,6 @@ test('Marking a notification as read removes it from the list', () => {
         { id: 1, type: 'default', value: 'New course available' },
         { id: 2, type: 'urgent', value: 'New resume available' },
       ],
-      displayDrawer: true,
     },
   });
 

@@ -32,8 +32,6 @@ const NotificationItem = memo(function NotificationItem({
   id,
 }) {
   const itemStyle = type === 'default' ? styles.default : styles.urgent;
-  // this console.log is only for test purposes and not mentionned/required in the student code
-  // console.log(`Rendering NotificationItem with id: ${id}, type: ${type}, value: ${value}`);
   if (html !== undefined) {
     return (
       <li
